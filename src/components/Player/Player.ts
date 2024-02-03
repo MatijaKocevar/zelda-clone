@@ -56,7 +56,10 @@ export class Player {
                 player.setVelocityX(0);
             }
 
-            if (space.isDown && player.body?.blocked.down) {
+            if (
+                space.isDown &&
+                (player.body?.blocked.down || player.body?.touching.down)
+            ) {
                 player.setVelocityY(-400);
             }
         }
