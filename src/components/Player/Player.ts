@@ -1,26 +1,40 @@
 import { Cursors } from './entities/Cursors.interface';
+import { IPlayer } from './entities/IPlayer.interface';
 
 export class Player {
+    props: IPlayer;
     cursors?: Cursors;
     player: Phaser.Physics.Arcade.Sprite | undefined;
+    isJumping = false;
 
-    constructor(scene: Phaser.Scene) {
-        this.createPlayer(scene);
+    constructor(props: IPlayer) {
+        this.props = props;
+        this.createPlayer();
     }
 
-    createPlayer(scene: Phaser.Scene) {
+    createPlayer() {
+        const { scene, position } = this.props;
+
         const gravityY =
             scene.sys.game.config.physics.arcade?.gravity?.y ?? 300;
 
-        this.player = scene.physics.add.sprite(400, 300, 'player');
+        this.player = scene.physics.add.sprite(
+            position.x,
+            position.y,
+            'player'
+        );
+
         this.player.setGravityY(gravityY);
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
-        this.createPlayerControls(scene);
+        this.createPlayerControls();
+        this.createPlayerAnimations();
     }
 
-    createPlayerControls(scene: Phaser.Scene) {
+    createPlayerControls() {
+        const { scene } = this.props;
+
         if (scene.input.keyboard) {
             this.cursors = {
                 up: scene.input.keyboard.addKey(
@@ -42,25 +56,73 @@ export class Player {
         }
     }
 
+    createPlayerAnimations() {
+        const { scene } = this.props;
+
+        scene.anims.create({
+            key: 'walk',
+            frames: scene.anims.generateFrameNumbers('player', {
+                start: 16,
+                end: 23,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'idle',
+            frames: scene.anims.generateFrameNumbers('player', {
+                start: 0,
+                end: 5,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'jump',
+            frames: scene.anims.generateFrameNumbers('player', {
+                start: 24,
+                end: 39,
+            }),
+            frameRate: 10,
+            repeat: 0,
+        });
+    }
+
     update() {
         const { player, cursors } = this;
 
         if (cursors && player) {
             const { left, right, space } = cursors;
 
-            if (left.isDown) {
-                player.setVelocityX(-160);
-            } else if (right.isDown) {
-                player.setVelocityX(160);
-            } else {
-                player.setVelocityX(0);
+            const onGround =
+                player.body?.blocked.down || player.body?.touching.down;
+            const shouldJump = space.isDown && onGround && !this.isJumping;
+
+            if (shouldJump) {
+                player.setVelocityY(-400);
+                player.anims.play('jump', true);
+                this.isJumping = true;
+            } else if (this.isJumping && onGround) {
+                this.isJumping = false;
             }
 
-            if (
-                space.isDown &&
-                (player.body?.blocked.down || player.body?.touching.down)
-            ) {
-                player.setVelocityY(-400);
+            if (!this.isJumping) {
+                if (left.isDown) {
+                    player.setVelocityX(-160);
+                    player.flipX = true;
+                    player.anims.play('walk', true);
+                } else if (right.isDown) {
+                    player.setVelocityX(160);
+                    player.flipX = false;
+                    player.anims.play('walk', true);
+                } else {
+                    player.setVelocityX(0);
+                    if (onGround) {
+                        player.anims.play('idle', true);
+                    }
+                }
             }
         }
     }
