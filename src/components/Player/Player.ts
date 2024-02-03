@@ -5,7 +5,7 @@ export class Player {
     props: IPlayer;
     cursors?: Cursors;
     player: Phaser.Physics.Arcade.Sprite | undefined;
-    isJumping = false;
+    isSlashing = false;
 
     constructor(props: IPlayer) {
         this.props = props;
@@ -21,11 +21,10 @@ export class Player {
         this.player = scene.physics.add.sprite(
             position.x,
             position.y,
-            'player'
+            'player1'
         );
 
         this.player.setGravityY(gravityY);
-        this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
         this.createPlayerControls();
@@ -61,7 +60,7 @@ export class Player {
 
         scene.anims.create({
             key: 'walk',
-            frames: scene.anims.generateFrameNumbers('player', {
+            frames: scene.anims.generateFrameNumbers('player1', {
                 start: 16,
                 end: 23,
             }),
@@ -71,7 +70,7 @@ export class Player {
 
         scene.anims.create({
             key: 'idle',
-            frames: scene.anims.generateFrameNumbers('player', {
+            frames: scene.anims.generateFrameNumbers('player1', {
                 start: 0,
                 end: 5,
             }),
@@ -81,8 +80,18 @@ export class Player {
 
         scene.anims.create({
             key: 'jump',
-            frames: scene.anims.generateFrameNumbers('player', {
+            frames: scene.anims.generateFrameNumbers('player1', {
                 start: 24,
+                end: 39,
+            }),
+            frameRate: 10,
+            repeat: 0,
+        });
+
+        scene.anims.create({
+            key: 'slash',
+            frames: scene.anims.generateFrameNumbers('player2', {
+                start: 32,
                 end: 39,
             }),
             frameRate: 10,
@@ -94,35 +103,44 @@ export class Player {
         const { player, cursors } = this;
 
         if (cursors && player) {
-            const { left, right, space } = cursors;
+            const { left, right, up, space } = cursors;
 
-            const onGround =
+            // Checking for ground contact
+            let onGround =
                 player.body?.blocked.down || player.body?.touching.down;
-            const shouldJump = space.isDown && onGround && !this.isJumping;
 
-            if (shouldJump) {
+            // Jumping
+            if (up.isDown && onGround) {
                 player.setVelocityY(-400);
                 player.anims.play('jump', true);
-                this.isJumping = true;
-            } else if (this.isJumping && onGround) {
-                this.isJumping = false;
+                onGround = false;
             }
 
-            if (!this.isJumping) {
-                if (left.isDown) {
-                    player.setVelocityX(-160);
-                    player.flipX = true;
+            if (left.isDown) {
+                player.setVelocityX(-160);
+                player.flipX = true;
+                if (onGround && !this.isSlashing) {
                     player.anims.play('walk', true);
-                } else if (right.isDown) {
-                    player.setVelocityX(160);
-                    player.flipX = false;
-                    player.anims.play('walk', true);
-                } else {
-                    player.setVelocityX(0);
-                    if (onGround) {
-                        player.anims.play('idle', true);
-                    }
                 }
+            } else if (right.isDown) {
+                player.setVelocityX(160);
+                player.flipX = false;
+                if (onGround && !this.isSlashing) {
+                    player.anims.play('walk', true);
+                }
+            } else {
+                player.setVelocityX(0);
+                if (onGround && !this.isSlashing) {
+                    player.anims.play('idle', true);
+                }
+            }
+
+            if (space.isDown) {
+                player.anims.play('slash', true);
+                this.isSlashing = true;
+                player.once('animationcomplete-slash', () => {
+                    this.isSlashing = false;
+                });
             }
         }
     }
