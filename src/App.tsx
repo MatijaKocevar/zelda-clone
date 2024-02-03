@@ -1,12 +1,14 @@
+import GameComponent from './components/Game/GameComponent';
 import './App.css';
 
 function App() {
-    const test = '';
-
     return (
-        <>
-            <div>A Tie to the past</div>
-        </>
+        <div className="App">
+            <header className="App-header">
+                <p>A Tie to the past</p>
+            </header>
+            <GameComponent />
+        </div>
     );
 }
 
