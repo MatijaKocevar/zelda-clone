@@ -6,6 +6,8 @@ export class Player {
     cursors?: Cursors;
     player: Phaser.Physics.Arcade.Sprite | undefined;
     isSlashing = false;
+    isJumping = false;
+    lastDirection = '';
 
     constructor(props: IPlayer) {
         this.props = props;
@@ -51,8 +53,29 @@ export class Player {
                 space: scene.input.keyboard.addKey(
                     Phaser.Input.Keyboard.KeyCodes.SPACE
                 ),
+                shift: scene.input.keyboard.addKey(
+                    Phaser.Input.Keyboard.KeyCodes.SHIFT
+                ),
             };
         }
+
+        this.cursors?.left.on('down', () => {
+            this.lastDirection = 'LEFT';
+        });
+        this.cursors?.right.on('down', () => {
+            this.lastDirection = 'RIGHT';
+        });
+
+        this.cursors?.left.on('up', () => {
+            if (this.cursors?.right.isDown) {
+                this.lastDirection = 'RIGHT';
+            }
+        });
+        this.cursors?.right.on('up', () => {
+            if (this.cursors?.left.isDown) {
+                this.lastDirection = 'LEFT';
+            }
+        });
     }
 
     createPlayerAnimations() {
@@ -63,6 +86,16 @@ export class Player {
             frames: scene.anims.generateFrameNumbers('player1', {
                 start: 16,
                 end: 23,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'run',
+            frames: scene.anims.generateFrameNumbers('player2', {
+                start: 0,
+                end: 9,
             }),
             frameRate: 10,
             repeat: -1,
@@ -103,44 +136,49 @@ export class Player {
         const { player, cursors } = this;
 
         if (cursors && player) {
-            const { left, right, up, space } = cursors;
+            const { left, right, up, shift } = cursors;
 
-            // Checking for ground contact
-            let onGround =
+            const speed = shift.isDown ? 100 : 160;
+            const onGround =
                 player.body?.blocked.down || player.body?.touching.down;
 
+            // Reset jumping flag if on the ground
+            if (onGround && this.isJumping) {
+                this.isJumping = false;
+            }
+
             // Jumping
-            if (up.isDown && onGround) {
+            if (up.isDown && onGround && !this.isJumping) {
+                player.anims.stop();
                 player.setVelocityY(-400);
                 player.anims.play('jump', true);
-                onGround = false;
+                this.isJumping = true;
             }
 
-            if (left.isDown) {
-                player.setVelocityX(-160);
-                player.flipX = true;
-                if (onGround && !this.isSlashing) {
-                    player.anims.play('walk', true);
+            // Movement handling
+            let moving = false;
+
+            if (left.isDown || right.isDown) {
+                if (this.lastDirection === 'LEFT' && left.isDown) {
+                    player.setVelocityX(-speed);
+                    player.flipX = true;
+                    moving = true;
+                } else if (this.lastDirection === 'RIGHT' && right.isDown) {
+                    player.setVelocityX(speed);
+                    player.flipX = false;
+                    moving = true;
                 }
-            } else if (right.isDown) {
-                player.setVelocityX(160);
-                player.flipX = false;
-                if (onGround && !this.isSlashing) {
-                    player.anims.play('walk', true);
-                }
-            } else {
+            }
+
+            if (!moving) {
                 player.setVelocityX(0);
-                if (onGround && !this.isSlashing) {
-                    player.anims.play('idle', true);
-                }
             }
 
-            if (space.isDown) {
-                player.anims.play('slash', true);
-                this.isSlashing = true;
-                player.once('animationcomplete-slash', () => {
-                    this.isSlashing = false;
-                });
+            // Animation handling based on movement and actions
+            if (moving && !this.isJumping) {
+                player.anims.play(shift.isDown ? 'run' : 'walk', true);
+            } else if (onGround && !this.isJumping && !moving) {
+                player.anims.play('idle', true);
             }
         }
     }
