@@ -123,11 +123,11 @@ export class Player {
 
         scene.anims.create({
             key: 'slash',
-            frames: scene.anims.generateFrameNumbers('player2', {
-                start: 32,
-                end: 39,
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 8,
+                end: 13,
             }),
-            frameRate: 10,
+            frameRate: 15,
             repeat: 0,
         });
     }
