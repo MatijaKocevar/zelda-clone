@@ -18,14 +18,14 @@ const GameComponent = () => {
     useEffect(() => {
         const gameConfig: Phaser.Types.Core.GameConfig = {
             type: Phaser.AUTO,
-            width: 600,
-            height: 400,
+            width: innerWidth,
+            height: innerHeight,
             parent: 'phaser-game-container',
             physics: {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 300 },
-                    debug: false,
+                    debug: true,
                 },
             },
             scene: GameScene,
