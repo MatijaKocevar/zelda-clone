@@ -136,7 +136,7 @@ export class Player {
         const { player, cursors } = this;
 
         if (cursors && player) {
-            const { left, right, up, shift } = cursors;
+            const { left, right, up, shift, space } = cursors;
 
             const speed = shift.isDown ? 100 : 160;
             const onGround =
@@ -147,38 +147,53 @@ export class Player {
                 this.isJumping = false;
             }
 
+            // Handle slashing
+            if (space.isDown && !this.isSlashing) {
+                this.isSlashing = true;
+                player.setVelocityX(0);
+                player.anims.play('slash', true);
+
+                player.once('animationcomplete-slash', () => {
+                    this.isSlashing = false;
+                });
+            }
+
             // Jumping
-            if (up.isDown && onGround && !this.isJumping) {
+            if (up.isDown && onGround && !this.isJumping && !this.isSlashing) {
                 player.anims.stop();
                 player.setVelocityY(-400);
                 player.anims.play('jump', true);
                 this.isJumping = true;
             }
 
-            // Movement handling
-            let moving = false;
+            if (!this.isSlashing || (this.isSlashing && this.isJumping)) {
+                // Movement handling
+                let moving = false;
 
-            if (left.isDown || right.isDown) {
-                if (this.lastDirection === 'LEFT' && left.isDown) {
-                    player.setVelocityX(-speed);
-                    player.flipX = true;
-                    moving = true;
-                } else if (this.lastDirection === 'RIGHT' && right.isDown) {
-                    player.setVelocityX(speed);
-                    player.flipX = false;
-                    moving = true;
+                if (left.isDown || right.isDown) {
+                    if (this.lastDirection === 'LEFT' && left.isDown) {
+                        player.setVelocityX(-speed);
+                        player.flipX = true;
+                        moving = true;
+                    } else if (this.lastDirection === 'RIGHT' && right.isDown) {
+                        player.setVelocityX(speed);
+                        player.flipX = false;
+                        moving = true;
+                    }
                 }
-            }
 
-            if (!moving) {
-                player.setVelocityX(0);
-            }
+                if (!moving) {
+                    if (onGround) {
+                        player.setVelocityX(0);
+                    }
+                }
 
-            // Animation handling based on movement and actions
-            if (moving && !this.isJumping) {
-                player.anims.play(shift.isDown ? 'run' : 'walk', true);
-            } else if (onGround && !this.isJumping && !moving) {
-                player.anims.play('idle', true);
+                // Animation handling based on movement and actions
+                if (moving && !this.isJumping) {
+                    player.anims.play(shift.isDown ? 'run' : 'walk', true);
+                } else if (onGround && !this.isJumping && !moving) {
+                    player.anims.play('idle', true);
+                }
             }
         }
     }
