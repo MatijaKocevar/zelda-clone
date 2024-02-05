@@ -6,7 +6,6 @@ export class Player {
     cursors?: Cursors;
     player: Phaser.Physics.Arcade.Sprite | undefined;
     isSlashing = false;
-    isJumping = false;
     lastDirection = '';
 
     constructor(props: IPlayer) {
@@ -17,16 +16,12 @@ export class Player {
     createPlayer() {
         const { scene, position } = this.props;
 
-        const gravityY =
-            scene.sys.game.config.physics.arcade?.gravity?.y ?? 300;
-
         this.player = scene.physics.add.sprite(
             position.x,
             position.y,
             'player1'
         );
 
-        this.player.setGravityY(gravityY);
         this.player.setCollideWorldBounds(true);
 
         this.createPlayerControls();
@@ -60,21 +55,17 @@ export class Player {
         }
 
         this.cursors?.left.on('down', () => {
-            this.lastDirection = 'LEFT';
+            this.lastDirection = 'left';
         });
         this.cursors?.right.on('down', () => {
-            this.lastDirection = 'RIGHT';
+            this.lastDirection = 'right';
         });
 
-        this.cursors?.left.on('up', () => {
-            if (this.cursors?.right.isDown) {
-                this.lastDirection = 'RIGHT';
-            }
+        this.cursors?.up.on('down', () => {
+            this.lastDirection = 'up';
         });
-        this.cursors?.right.on('up', () => {
-            if (this.cursors?.left.isDown) {
-                this.lastDirection = 'LEFT';
-            }
+        this.cursors?.down.on('down', () => {
+            this.lastDirection = 'down';
         });
     }
 
@@ -82,9 +73,29 @@ export class Player {
         const { scene } = this.props;
 
         scene.anims.create({
-            key: 'walk',
+            key: 'walk-horizontal',
             frames: scene.anims.generateFrameNumbers('player1', {
-                start: 16,
+                start: 6,
+                end: 11,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'walk-up',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 12,
+                end: 17,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'walk-down',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 18,
                 end: 23,
             }),
             frameRate: 10,
@@ -92,10 +103,30 @@ export class Player {
         });
 
         scene.anims.create({
-            key: 'run',
-            frames: scene.anims.generateFrameNumbers('player2', {
-                start: 0,
-                end: 9,
+            key: 'run-horizontal',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 24,
+                end: 29,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'run-up',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 30,
+                end: 35,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'run-down',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 18,
+                end: 23,
             }),
             frameRate: 10,
             repeat: -1,
@@ -122,76 +153,204 @@ export class Player {
         });
 
         scene.anims.create({
-            key: 'slash',
+            key: 'slash-horizontal',
             frames: scene.anims.generateFrameNumbers('player1', {
-                start: 8,
-                end: 13,
+                start: 42,
+                end: 45,
             }),
-            frameRate: 15,
+            frameRate: 10,
+            repeat: 0,
+        });
+
+        scene.anims.create({
+            key: 'slash-up',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 48,
+                end: 51,
+            }),
+            frameRate: 10,
+            repeat: 0,
+        });
+
+        scene.anims.create({
+            key: 'slash-down',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 36,
+                end: 39,
+            }),
+            frameRate: 10,
             repeat: 0,
         });
     }
+
+    // update() {
+    //     const { player, cursors } = this;
+
+    //     if (cursors && player) {
+    //         const { left, right, up, down, shift, space } = cursors;
+
+    //         const speed = shift.isDown ? 100 : 160;
+
+    //         // Reset velocity
+    //         player.setVelocity(0);
+
+    //         // Determine the direction for slashing
+    //         let moving = false;
+    //         const direction = this.lastDirection; // Use the lastDirection property to decide the slashing direction
+
+    //         if (left.isDown || right.isDown || up.isDown || down.isDown) {
+    //             if (this.lastDirection === 'left' && left.isDown) {
+    //                 player.setVelocityX(-speed);
+    //                 player.flipX = true;
+    //                 moving = true;
+    //             } else if (this.lastDirection === 'right' && right.isDown) {
+    //                 player.setVelocityX(speed);
+    //                 player.flipX = false;
+    //                 moving = true;
+    //             } else if (this.lastDirection === 'up' && up.isDown) {
+    //                 player.setVelocityY(-speed);
+    //                 moving = true;
+    //             } else if (this.lastDirection === 'down' && down.isDown) {
+    //                 player.setVelocityY(speed);
+    //                 moving = true;
+    //             }
+    //         }
+
+    //         if (!moving) {
+    //             player.setVelocityX(0);
+    //         }
+
+    //         // Handle slashing
+    //         if (space.isDown && !this.isSlashing) {
+    //             this.isSlashing = true;
+
+    //             // Determine which slash animation to play based on lastDirection
+    //             let slashAnimation = 'slash-horizontal'; // Default slash animation
+    //             if (this.lastDirection === 'up') {
+    //                 slashAnimation = 'slash-up';
+    //             } else if (this.lastDirection === 'down') {
+    //                 slashAnimation = 'slash-down';
+    //             } else if (
+    //                 this.lastDirection === 'left' ||
+    //                 this.lastDirection === 'right'
+    //             ) {
+    //                 slashAnimation = 'slash-horizontal';
+    //             }
+
+    //             player.setVelocity(0); // Stop movement while slashing
+    //             player.anims.play(slashAnimation, true);
+
+    //             player.once(`animationcomplete-${slashAnimation}`, () => {
+    //                 this.isSlashing = false;
+    //             });
+    //             return; // Prevent movement while slashing
+    //         }
+
+    //         if (!this.isSlashing) {
+    //             // Play the appropriate animation based on movement direction
+    //             if (moving) {
+    //                 switch (direction) {
+    //                     case 'up':
+    //                         player.anims.play('walk-up', true);
+    //                         break;
+    //                     case 'down':
+    //                         player.anims.play('walk-down', true);
+    //                         break;
+    //                     case 'left':
+    //                     case 'right':
+    //                         player.anims.play(
+    //                             shift.isDown
+    //                                 ? 'walk-horizontal'
+    //                                 : 'run-horizontal',
+    //                             true
+    //                         );
+    //                         break;
+    //                 }
+    //             } else {
+    //                 // If the player is not moving, play the idle animation
+    //                 player.anims.play('idle', true);
+    //             }
+    //         }
+    //     }
+    // }
 
     update() {
         const { player, cursors } = this;
 
         if (cursors && player) {
-            const { left, right, up, shift, space } = cursors;
+            const { left, right, up, down, shift, space } = cursors;
 
             const speed = shift.isDown ? 100 : 160;
-            const onGround =
-                player.body?.blocked.down || player.body?.touching.down;
 
-            // Reset jumping flag if on the ground
-            if (onGround && this.isJumping) {
-                this.isJumping = false;
-            }
+            // Reset velocity
+            player.setVelocity(0);
 
             // Handle slashing
             if (space.isDown && !this.isSlashing) {
                 this.isSlashing = true;
-                player.setVelocityX(0);
-                player.anims.play('slash', true);
+                let slashAnimation = 'slash-horizontal'; // Default slash animation
+                if (this.lastDirection === 'up') {
+                    slashAnimation = 'slash-up';
+                } else if (this.lastDirection === 'down') {
+                    slashAnimation = 'slash-down';
+                }
+                player.setVelocity(0); // Stop movement while slashing
+                player.anims.play(slashAnimation, true);
 
-                player.once('animationcomplete-slash', () => {
+                player.once(`animationcomplete-${slashAnimation}`, () => {
                     this.isSlashing = false;
                 });
+                return; // Prevent movement while slashing
             }
 
-            // Jumping
-            if (up.isDown && onGround && !this.isJumping && !this.isSlashing) {
-                player.anims.stop();
-                player.setVelocityY(-400);
-                player.anims.play('jump', true);
-                this.isJumping = true;
-            }
-
-            if (!this.isSlashing || (this.isSlashing && this.isJumping)) {
-                // Movement handling
+            if (!this.isSlashing) {
+                // Determine movement direction
                 let moving = false;
 
-                if (left.isDown || right.isDown) {
-                    if (this.lastDirection === 'LEFT' && left.isDown) {
-                        player.setVelocityX(-speed);
-                        player.flipX = true;
-                        moving = true;
-                    } else if (this.lastDirection === 'RIGHT' && right.isDown) {
-                        player.setVelocityX(speed);
-                        player.flipX = false;
-                        moving = true;
-                    }
+                // Update direction based on the most recent key press
+                if (right.isDown) {
+                    player.setVelocityX(speed);
+                    player.flipX = false;
+                    moving = true;
+                    this.lastDirection = 'right';
+                }
+                if (left.isDown) {
+                    player.setVelocityX(-speed);
+                    player.flipX = true;
+                    moving = true;
+                    this.lastDirection = 'left';
+                }
+                if (up.isDown) {
+                    player.setVelocityY(-speed);
+                    moving = true;
+                    this.lastDirection = 'up';
+                }
+                if (down.isDown) {
+                    player.setVelocityY(speed);
+                    moving = true;
+                    this.lastDirection = 'down';
                 }
 
-                if (!moving) {
-                    if (onGround) {
-                        player.setVelocityX(0);
+                // Play the appropriate animation based on movement direction
+                if (moving) {
+                    let anim = 'walk-horizontal';
+                    switch (this.lastDirection) {
+                        case 'up':
+                            anim = 'walk-up';
+                            break;
+                        case 'down':
+                            anim = 'walk-down';
+                            break;
+                        case 'left':
+                        case 'right':
+                            anim = shift.isDown
+                                ? 'run-horizontal'
+                                : 'walk-horizontal';
+                            break;
                     }
-                }
-
-                // Animation handling based on movement and actions
-                if (moving && !this.isJumping) {
-                    player.anims.play(shift.isDown ? 'run' : 'walk', true);
-                } else if (onGround && !this.isJumping && !moving) {
+                    player.anims.play(anim, true);
+                } else {
+                    // If the player is not moving, play the idle animation
                     player.anims.play('idle', true);
                 }
             }

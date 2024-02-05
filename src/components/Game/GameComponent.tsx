@@ -24,8 +24,8 @@ const GameComponent = () => {
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 300 },
-                    debug: true,
+                    gravity: { y: 0 },
+                    debug: false,
                 },
             },
             scene: GameScene,
