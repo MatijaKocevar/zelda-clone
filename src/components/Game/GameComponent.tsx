@@ -1,6 +1,7 @@
 import { createRef, useEffect } from 'react';
 import Phaser from 'phaser';
 import { GameScene } from './GameScene/GameScene';
+import './GameComponent.scss';
 
 const preventDefaults = (event: KeyboardEvent) => {};
 
@@ -18,8 +19,8 @@ const GameComponent = () => {
     useEffect(() => {
         const gameConfig: Phaser.Types.Core.GameConfig = {
             type: Phaser.AUTO,
-            width: innerWidth,
-            height: innerHeight,
+            width: 1280,
+            height: 720,
             parent: 'phaser-game-container',
             physics: {
                 default: 'arcade',
