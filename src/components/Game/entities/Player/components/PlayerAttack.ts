@@ -6,13 +6,8 @@ import {
     SPACE,
     UP,
 } from '../../../mechanics/Input/Input';
+import { IPlayerAttack } from './entities/IPlayerAttack.interface';
 import { PlayerMovement } from './PlayerMovement';
-
-interface IPlayerAttack {
-    player: Phaser.Physics.Arcade.Sprite;
-    scene: Phaser.Scene;
-    playerMovement: PlayerMovement;
-}
 
 export class PlayerAttack {
     private player: Phaser.Physics.Arcade.Sprite;
