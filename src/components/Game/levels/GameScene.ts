@@ -1,6 +1,6 @@
 import playerSprite1 from '../../../assets/characters/player.png';
 import tieHome from '../../../assets/map/TieHome.png';
-import { Player } from '../../Player/Player';
+import { Player } from '../entities/Player/Player';
 
 export class GameScene extends Phaser.Scene {
     player: Player | undefined;

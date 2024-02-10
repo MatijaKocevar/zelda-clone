@@ -2,8 +2,8 @@ export const createPlayerAnimations = (scene: Phaser.Scene) => {
     scene.anims.create({
         key: 'walk-horizontal',
         frames: scene.anims.generateFrameNumbers('player1', {
-            start: 6,
-            end: 11,
+            start: 24,
+            end: 29,
         }),
         frameRate: 10,
         repeat: -1,
@@ -12,8 +12,8 @@ export const createPlayerAnimations = (scene: Phaser.Scene) => {
     scene.anims.create({
         key: 'walk-up',
         frames: scene.anims.generateFrameNumbers('player1', {
-            start: 12,
-            end: 17,
+            start: 30,
+            end: 35,
         }),
         frameRate: 10,
         repeat: -1,
