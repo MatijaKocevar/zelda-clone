@@ -11,7 +11,6 @@ export class Input {
     private scene: Phaser.Scene;
     cursors?: Cursors;
     keysPressed: string[] = [];
-    lastDirection = '';
     attackInterval = 0;
 
     constructor(scene: Phaser.Scene) {
@@ -48,7 +47,7 @@ export class Input {
                 shift: scene.input.keyboard.addKey(
                     Phaser.Input.Keyboard.KeyCodes.SHIFT
                 ),
-                lastDirection: '',
+                lastKey: RIGHT,
             };
 
             this.cursors = cursors;
@@ -61,6 +60,7 @@ export class Input {
         if (cursors) {
             cursors?.up.on('down', () => {
                 this.onKeyPressed(UP);
+                cursors.lastKey = UP;
             });
             cursors?.up.on('up', () => {
                 this.onKeyReleased(UP);
@@ -68,6 +68,7 @@ export class Input {
 
             cursors?.down.on('down', () => {
                 this.onKeyPressed(DOWN);
+                cursors.lastKey = DOWN;
             });
             cursors?.down.on('up', () => {
                 this.onKeyReleased(DOWN);
@@ -75,6 +76,7 @@ export class Input {
 
             cursors?.left.on('down', () => {
                 this.onKeyPressed(LEFT);
+                cursors.lastKey = LEFT;
             });
             cursors?.left.on('up', () => {
                 this.onKeyReleased(LEFT);
@@ -82,13 +84,15 @@ export class Input {
 
             cursors?.right.on('down', () => {
                 this.onKeyPressed(RIGHT);
+                cursors.lastKey = RIGHT;
             });
             cursors?.right.on('up', () => {
                 this.onKeyReleased(RIGHT);
             });
 
             cursors?.space.on('down', () => {
-                this.onKeyPressed(SPACE);
+                // this.onKeyPressed(SPACE);
+                this.keysPressed.push(SPACE);
             });
             cursors?.space.on('up', () => {
                 this.onKeyReleased(SPACE);
