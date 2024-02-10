@@ -1,7 +1,7 @@
 import { createRef, useEffect } from 'react';
 import Phaser from 'phaser';
-import { GameScene } from './GameScene/GameScene';
-import './GameComponent.scss';
+import { GameScene } from './levels/GameScene';
+import './Game.scss';
 
 const preventDefaults = (event: KeyboardEvent) => {};
 
