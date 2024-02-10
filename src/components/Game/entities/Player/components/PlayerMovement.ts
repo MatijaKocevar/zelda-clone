@@ -36,10 +36,10 @@ export class PlayerMovement {
 
             const latestHorizontalKey = keysPressed
                 .filter((key) => key === LEFT || key === RIGHT)
-                .pop();
+                .shift();
             const latestVerticalKey = keysPressed
                 .filter((key) => key === UP || key === DOWN)
-                .pop();
+                .shift();
 
             if (latestHorizontalKey === LEFT) {
                 player.setVelocityX(-160);
