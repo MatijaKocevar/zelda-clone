@@ -1,4 +1,4 @@
-import GameComponent from './components/Game/GameComponent';
+import GameComponent from './components/Game/Game';
 import './App.scss';
 import { GameUi } from './components/GameUi/GameUi';
 
