@@ -48,7 +48,7 @@ export class PlayerAttack {
 
     handleAttackAnimation() {
         const { player } = this;
-        const { keysPressed } = this.input;
+        const { keysPressed, cursors } = this.input;
 
         const direction = keysPressed.find((key) =>
             [LEFT, RIGHT, UP, DOWN].includes(key)
@@ -64,12 +64,30 @@ export class PlayerAttack {
         ) {
             player.flipX = false;
             player.anims.play('slash-horizontal', true);
-        } else if (direction === UP) {
+        }
+
+        if (direction === UP) {
             player.anims.play('slash-up', true);
         } else if (direction === DOWN) {
             player.anims.play('slash-down', true);
         } else {
             player.anims.play('slash-horizontal', true);
+        }
+
+        if (!direction) {
+            if (cursors?.lastKey === LEFT) {
+                player.flipX = true;
+                player.anims.play('slash-horizontal', true);
+            } else if (cursors?.lastKey === RIGHT) {
+                player.flipX = false;
+                player.anims.play('slash-horizontal', true);
+            }
+
+            if (cursors?.lastKey === UP) {
+                player.anims.play('slash-up', true);
+            } else if (cursors?.lastKey === DOWN) {
+                player.anims.play('slash-down', true);
+            }
         }
 
         player.once('animationcomplete-slash-horizontal', () => {
