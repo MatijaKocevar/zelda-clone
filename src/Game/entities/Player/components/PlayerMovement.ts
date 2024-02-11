@@ -26,6 +26,7 @@ export class PlayerMovement {
     handleMovement() {
         const { player } = this;
         const { keysPressed } = this.input;
+        const movingVelocity = keysPressed.length > 1 ? 200 : 250;
 
         if (this.isSlashing) {
             player.setVelocityX(0);
@@ -42,15 +43,15 @@ export class PlayerMovement {
                 .shift();
 
             if (latestHorizontalKey === LEFT) {
-                player.setVelocityX(-250);
+                player.setVelocityX(-movingVelocity);
             } else if (latestHorizontalKey === RIGHT) {
-                player.setVelocityX(250);
+                player.setVelocityX(movingVelocity);
             }
 
             if (latestVerticalKey === UP) {
-                player.setVelocityY(-250);
+                player.setVelocityY(-movingVelocity);
             } else if (latestVerticalKey === DOWN) {
-                player.setVelocityY(250);
+                player.setVelocityY(movingVelocity);
             }
         }
     }
