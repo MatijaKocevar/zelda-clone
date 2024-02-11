@@ -1,5 +1,4 @@
 import { Position } from '../../../../types/Position.interface';
-import { PlayerAnimations } from './components/PlayerAnimations';
 import { Input } from '../../mechanics/Input/Input';
 import { IPlayer } from './IPlayer.interface';
 import { PlayerMovement } from './components/PlayerMovement';
@@ -16,8 +15,8 @@ export class Player {
     constructor({ position, scene }: IPlayer) {
         this.scene = scene;
         this.position = position;
-        new PlayerAnimations(scene);
         this.input = new Input(scene);
+
         this.player = scene.physics.add.sprite(
             position.x,
             position.y,
