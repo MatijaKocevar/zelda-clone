@@ -6,7 +6,7 @@ export class GameScene extends Phaser.Scene {
     constructor() {
         super('GameScene');
 
-        this.level1 = new HomeScene();
+        this.level1 = new HomeScene(this);
     }
 
     preload() {
