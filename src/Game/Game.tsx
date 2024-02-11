@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { GameScene } from './scenes/GameScene';
 import './Game.scss';
 
-const GameComponent = () => {
+const Game = () => {
     const gameComponentRef = createRef<HTMLDivElement>();
 
     useEffect(() => {
@@ -32,4 +32,4 @@ const GameComponent = () => {
     return <div ref={gameComponentRef} id="phaser-game-container"></div>;
 };
 
-export default GameComponent;
+export default Game;
