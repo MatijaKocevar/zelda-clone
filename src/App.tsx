@@ -1,13 +1,13 @@
 import './App.scss';
-import GameComponent from './Game/Game';
-import { GameUi } from './GameUi/GameUi';
+import Game from './Game/Game';
+import { GameUI } from './GameUI/GameUI';
 
 function App() {
     return (
         <div className="app">
-            <GameUi>
-                <GameComponent />
-            </GameUi>
+            <GameUI>
+                <Game />
+            </GameUI>
         </div>
     );
 }
