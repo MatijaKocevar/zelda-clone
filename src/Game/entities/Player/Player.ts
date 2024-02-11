@@ -1,8 +1,8 @@
-import { Position } from '../../../../types/Position.interface';
 import { Input } from '../../mechanics/Input/Input';
 import { IPlayer } from './IPlayer.interface';
 import { PlayerMovement } from './components/PlayerMovement';
 import { PlayerAttack } from './components/PlayerAttack';
+import { Position } from '../../../types/Position.interface';
 
 export class Player {
     scene: Phaser.Scene;

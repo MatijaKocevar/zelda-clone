@@ -1,4 +1,4 @@
-import { Cursors } from '../../../../types/Cursors.interface';
+import { Cursors } from '../../../types/Cursors.interface';
 
 export const LEFT = 'LEFT';
 export const RIGHT = 'RIGHT';
