@@ -1,5 +1,6 @@
 import playerSprite1 from '../../../assets/characters/player.png';
 import tieHome from '../../../assets/map/TieHome.png';
+import tieHomeForeground from '../../../assets/map/TieHomeForeground.png';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
 
@@ -21,6 +22,7 @@ export class HomeScene {
         });
 
         load.image('tie-home', tieHome);
+        load.image('tie-home-foreground', tieHomeForeground);
     }
 
     create() {
@@ -40,6 +42,8 @@ export class HomeScene {
 
         cameras.main.startFollow(sprite, true, 0.05, 0.05);
         cameras.main.setBounds(0, 0, 5120, 2880);
+
+        add.image(0, 0, 'tie-home-foreground').setOrigin(0, 0);
     }
 
     update() {
