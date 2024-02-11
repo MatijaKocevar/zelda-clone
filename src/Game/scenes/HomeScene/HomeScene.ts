@@ -1,5 +1,5 @@
-import playerSprite1 from '../../../../assets/characters/player.png';
-import tieHome from '../../../../assets/map/TieHome.png';
+import playerSprite1 from '../../../assets/characters/player.png';
+import tieHome from '../../../assets/map/TieHome.png';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
 
