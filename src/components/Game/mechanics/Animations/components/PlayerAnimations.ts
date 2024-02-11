@@ -3,8 +3,6 @@ export class PlayerAnimations {
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
-
-        this.init();
     }
 
     init() {
