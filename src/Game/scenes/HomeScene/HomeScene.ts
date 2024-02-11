@@ -1,6 +1,12 @@
-import playerSprite1 from '../../../assets/characters/player.png';
-import tieHome from '../../../assets/map/TieHome.png';
-import tieHomeForeground from '../../../assets/map/TieHomeForeground.png';
+import playerSprite from '../../../assets/characters/player.png';
+import backgroundTopLeft from '../../../assets/map/background/topLeft.png';
+import backgroundTopRight from '../../../assets/map/background/topRight.png';
+import backgroundBottomLeft from '../../../assets/map/background/bottomLeft.png';
+import backgroundBottomRight from '../../../assets/map/background/bottomRight.png';
+import ForegroundTopLeft from '../../../assets/map/foreground/topLeft.png';
+import ForegroundTopRight from '../../../assets/map/foreground/topRight.png';
+import ForegroundBottomLeft from '../../../assets/map/foreground/bottomLeft.png';
+import ForegroundBottomRight from '../../../assets/map/foreground/bottomRight.png';
 import { Collisions } from '../../entities/Collisions/Collisions';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
@@ -40,7 +46,7 @@ export class HomeScene {
 
     private preloadSprites() {
         const { load } = this.scene;
-        load.spritesheet('player1', playerSprite1, {
+        load.spritesheet('player1', playerSprite, {
             frameWidth: FRAME_WIDTH,
             frameHeight: FRAME_HEIGHT,
         });
@@ -48,18 +54,34 @@ export class HomeScene {
 
     private preloadImages() {
         const { load } = this.scene;
-        load.image('tie-home', tieHome);
-        load.image('tie-home-foreground', tieHomeForeground);
+
+        load.image('background-top-left', backgroundTopLeft);
+        load.image('background-top-right', backgroundTopRight);
+        load.image('background-bottom-left', backgroundBottomLeft);
+        load.image('background-bottom-right', backgroundBottomRight);
+
+        load.image('foreground-top-left', ForegroundTopLeft);
+        load.image('foreground-top-right', ForegroundTopRight);
+        load.image('foreground-bottom-left', ForegroundBottomLeft);
+        load.image('foreground-bottom-right', ForegroundBottomRight);
     }
 
     private setupBackgroudImages() {
         const { add } = this.scene;
-        add.image(0, 0, 'tie-home').setOrigin(0, 0);
+
+        add.image(0, 0, 'background-top-left').setOrigin(0, 0);
+        add.image(2560, 0, 'background-top-right').setOrigin(0, 0);
+        add.image(0, 1440, 'background-bottom-left').setOrigin(0, 0);
+        add.image(2560, 1440, 'background-bottom-right').setOrigin(0, 0);
     }
 
     private setupForegroundImages() {
         const { add } = this.scene;
-        add.image(0, 0, 'tie-home-foreground').setOrigin(0, 0);
+
+        add.image(0, 0, 'foreground-top-left').setOrigin(0, 0);
+        add.image(2560, 0, 'foreground-top-right').setOrigin(0, 0);
+        add.image(0, 1440, 'foreground-bottom-left').setOrigin(0, 0);
+        add.image(2560, 1440, 'foreground-bottom-right').setOrigin(0, 0);
     }
 
     private setupPlayerAndCamera() {
