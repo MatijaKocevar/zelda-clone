@@ -32,7 +32,7 @@ export class Player {
             playerMovement: this.playerMovement,
         });
 
-        this.sprite.body?.setSize(20, 30);
+        this.sprite.body?.setSize(25, 30);
         this.sprite.body?.setOffset(62, 100);
     }
 

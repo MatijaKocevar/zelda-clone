@@ -1,4 +1,5 @@
 import playerSprite from '../../../assets/characters/player.png';
+import slimeSprite from '../../../assets/characters/slime.png';
 import backgroundTopLeft from '../../../assets/map/background/topLeft.png';
 import backgroundTopRight from '../../../assets/map/background/topRight.png';
 import backgroundBottomLeft from '../../../assets/map/background/bottomLeft.png';
@@ -11,15 +12,19 @@ import { Collisions } from '../../entities/Collisions/Collisions';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
 import { getHomeCollisions2dArray } from './data/homeCollisions2dArray';
+import { Enemy } from '../../entities/Enemy/Enemy';
 
-export const FRAME_WIDTH = 144;
-export const FRAME_HEIGHT = 144;
+export const PLAYER_WIDTH = 144;
+export const PLAYER_HEIGHT = 144;
+export const ENEMY_WIDTH = 96;
+export const ENEMY_HEIGHT = 96;
 export const WORLD_WIDTH = 5120;
 export const WORLD_HEIGHT = 2880;
 export const TILE_SIZE = 16;
 
 export class HomeScene {
     player: Player | undefined;
+    enemy: Enemy | undefined;
     animations: Animations | undefined;
     collisions: Collisions | undefined;
     scene: Phaser.Scene;
@@ -35,20 +40,28 @@ export class HomeScene {
 
     create() {
         this.setupBackgroudImages();
+
+        this.setupEnemies();
         this.setupPlayerAndCamera();
         this.createCollisions();
+
         this.setupForegroundImages();
     }
 
     update() {
         this.player?.update();
+        this.enemy?.update();
     }
 
     private preloadSprites() {
         const { load } = this.scene;
         load.spritesheet('player1', playerSprite, {
-            frameWidth: FRAME_WIDTH,
-            frameHeight: FRAME_HEIGHT,
+            frameWidth: PLAYER_WIDTH,
+            frameHeight: PLAYER_HEIGHT,
+        });
+        load.spritesheet('slime', slimeSprite, {
+            frameWidth: ENEMY_WIDTH,
+            frameHeight: ENEMY_HEIGHT,
         });
     }
 
@@ -108,5 +121,12 @@ export class HomeScene {
                 scene: this.scene,
             });
         }
+    }
+
+    private setupEnemies() {
+        this.enemy = new Enemy({
+            position: { x: 2200, y: 1350 },
+            scene: this.scene,
+        });
     }
 }
