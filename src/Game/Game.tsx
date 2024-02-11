@@ -3,18 +3,8 @@ import Phaser from 'phaser';
 import { GameScene } from './scenes/GameScene';
 import './Game.scss';
 
-const preventDefaults = (event: KeyboardEvent) => {};
-
 const GameComponent = () => {
     const gameComponentRef = createRef<HTMLDivElement>();
-
-    useEffect(() => {
-        document.addEventListener('keydown', preventDefaults);
-
-        return () => {
-            document.removeEventListener('keydown', preventDefaults);
-        };
-    }, []);
 
     useEffect(() => {
         const gameConfig: Phaser.Types.Core.GameConfig = {
