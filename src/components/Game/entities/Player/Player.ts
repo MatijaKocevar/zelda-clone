@@ -8,7 +8,7 @@ export class Player {
     scene: Phaser.Scene;
     position: Position;
     input: Input;
-    player: Phaser.Physics.Arcade.Sprite;
+    sprite: Phaser.Physics.Arcade.Sprite;
     playerMovement: PlayerMovement;
     playerAttack: PlayerAttack;
 
@@ -17,17 +17,17 @@ export class Player {
         this.position = position;
         this.input = new Input(scene);
 
-        this.player = scene.physics.add.sprite(
+        this.sprite = scene.physics.add.sprite(
             position.x,
             position.y,
             'player1'
         );
         this.playerMovement = new PlayerMovement({
-            player: this.player,
+            player: this.sprite,
             scene,
         });
         this.playerAttack = new PlayerAttack({
-            player: this.player,
+            player: this.sprite,
             scene,
             playerMovement: this.playerMovement,
         });
@@ -36,7 +36,7 @@ export class Player {
     }
 
     setPlayerOptions() {
-        this.player.setCollideWorldBounds(true);
+        this.sprite.setCollideWorldBounds(true);
     }
 
     update() {

@@ -24,15 +24,22 @@ export class HomeScene {
     }
 
     create() {
-        const { add } = this.scene;
+        const { add, cameras, physics } = this.scene;
 
-        add.image(-1200, -600, 'tie-home').setOrigin(0, 0);
+        add.image(0, 0, 'tie-home').setOrigin(0, 0);
 
         this.animations = new Animations(this.scene);
         this.player = new Player({
-            position: { x: 100, y: 500 },
+            position: { x: 2400, y: 1200 },
             scene: this.scene,
         });
+
+        physics.world.setBounds(0, 0, 5120, 2880);
+
+        const { sprite } = this.player;
+
+        cameras.main.startFollow(sprite, true, 0.05, 0.05);
+        cameras.main.setBounds(0, 0, 5120, 2880);
     }
 
     update() {
