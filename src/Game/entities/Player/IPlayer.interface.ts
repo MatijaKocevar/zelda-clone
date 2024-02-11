@@ -1,4 +1,4 @@
-import { Position } from '../../../../types/Position.interface';
+import { Position } from '../../../types/Position.interface';
 
 export interface IPlayer {
     scene: Phaser.Scene;
