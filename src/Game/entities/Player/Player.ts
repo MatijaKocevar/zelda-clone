@@ -32,11 +32,8 @@ export class Player {
             playerMovement: this.playerMovement,
         });
 
-        this.setPlayerOptions();
-    }
-
-    setPlayerOptions() {
-        this.sprite.setCollideWorldBounds(true);
+        this.sprite.body?.setSize(20, 30);
+        this.sprite.body?.setOffset(62, 100);
     }
 
     update() {
