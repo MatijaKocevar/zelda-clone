@@ -28,9 +28,10 @@ export class HomeScene {
     }
 
     create() {
-        this.setupImages();
+        this.setupBackgroudImages();
         this.setupPlayerAndCamera();
         this.createCollisions();
+        this.setupForegroundImages();
     }
 
     update() {
@@ -51,9 +52,13 @@ export class HomeScene {
         load.image('tie-home-foreground', tieHomeForeground);
     }
 
-    private setupImages() {
+    private setupBackgroudImages() {
         const { add } = this.scene;
         add.image(0, 0, 'tie-home').setOrigin(0, 0);
+    }
+
+    private setupForegroundImages() {
+        const { add } = this.scene;
         add.image(0, 0, 'tie-home-foreground').setOrigin(0, 0);
     }
 
