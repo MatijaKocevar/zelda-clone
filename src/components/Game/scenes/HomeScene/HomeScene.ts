@@ -1,9 +1,11 @@
 import playerSprite1 from '../../../assets/characters/player.png';
 import tieHome from '../../../assets/map/TieHome.png';
-import { Player } from '../entities/Player/Player';
+import { Player } from '../../entities/Player/Player';
+import { Animations } from '../../mechanics/Animations/Animations';
 
-export class GameScene extends Phaser.Scene {
+export class HomeScene extends Phaser.Scene {
     player: Player | undefined;
+    animations: Animations | undefined;
 
     preload() {
         this.load.spritesheet('player1', playerSprite1, {
@@ -17,6 +19,7 @@ export class GameScene extends Phaser.Scene {
     create() {
         this.add.image(-1200, -600, 'tie-home').setOrigin(0, 0);
 
+        this.animations = new Animations(this);
         this.player = new Player({ position: { x: 100, y: 500 }, scene: this });
     }
 
