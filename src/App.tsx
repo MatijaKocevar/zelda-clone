@@ -1,6 +1,6 @@
-import GameComponent from './components/Game/Game';
 import './App.scss';
-import { GameUi } from './components/GameUi/GameUi';
+import GameComponent from './Game/Game';
+import { GameUi } from './GameUi/GameUi';
 
 function App() {
     return (

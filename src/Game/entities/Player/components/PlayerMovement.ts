@@ -42,15 +42,15 @@ export class PlayerMovement {
                 .shift();
 
             if (latestHorizontalKey === LEFT) {
-                player.setVelocityX(-300);
+                player.setVelocityX(-250);
             } else if (latestHorizontalKey === RIGHT) {
-                player.setVelocityX(300);
+                player.setVelocityX(250);
             }
 
             if (latestVerticalKey === UP) {
-                player.setVelocityY(-300);
+                player.setVelocityY(-250);
             } else if (latestVerticalKey === DOWN) {
-                player.setVelocityY(300);
+                player.setVelocityY(250);
             }
         }
     }
