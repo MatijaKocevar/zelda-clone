@@ -8,10 +8,6 @@ export class PlayerAnimations {
     }
 
     init() {
-        this.create();
-    }
-
-    create() {
         const { scene } = this;
 
         scene.anims.create({
