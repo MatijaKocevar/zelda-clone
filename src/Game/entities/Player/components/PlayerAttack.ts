@@ -6,7 +6,7 @@ import {
     SPACE,
     UP,
 } from '../../../mechanics/Input/Input';
-import { IPlayerAttack } from './entities/IPlayerAttack.interface';
+import { IPlayerAttack } from '../entities/IPlayerAttack.interface';
 import { PlayerMovement } from './PlayerMovement';
 
 export class PlayerAttack {
