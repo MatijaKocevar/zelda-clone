@@ -11,7 +11,7 @@ import ForegroundBottomRight from '../../../assets/map/foreground/bottomRight.pn
 import { Collisions } from '../../entities/Collisions/Collisions';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
-import { getHomeCollisions2dArray } from './data/homeCollisions2dArray';
+import { getHomeCollisions2dArray } from './data/homeCollisions';
 import { Enemy } from '../../entities/Enemy/Enemy';
 
 export const PLAYER_WIDTH = 144;
@@ -22,7 +22,7 @@ export const WORLD_WIDTH = 5120;
 export const WORLD_HEIGHT = 2880;
 export const TILE_SIZE = 16;
 
-export class HomeScene {
+export class HomeLevel {
     player: Player | undefined;
     enemy: Enemy | undefined;
     animations: Animations | undefined;

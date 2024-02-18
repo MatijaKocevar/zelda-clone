@@ -1,12 +1,12 @@
-import { HomeScene } from './HomeScene/HomeScene';
+import { HomeLevel } from './HomeLevel/HomeLevel';
 
 export class GameScene extends Phaser.Scene {
-    level1: HomeScene;
+    level1: HomeLevel;
 
     constructor() {
         super('GameScene');
 
-        this.level1 = new HomeScene(this);
+        this.level1 = new HomeLevel(this);
     }
 
     preload() {
