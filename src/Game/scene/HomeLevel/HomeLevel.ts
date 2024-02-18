@@ -1,5 +1,6 @@
 import playerSprite from '../../../assets/characters/player.png';
 import slimeSprite from '../../../assets/characters/slime.png';
+import heartSprite from '../../../assets/lifebar/heart_animated_2.png';
 import backgroundTopLeft from '../../../assets/map/background/topLeft.png';
 import backgroundTopRight from '../../../assets/map/background/topRight.png';
 import backgroundBottomLeft from '../../../assets/map/background/bottomLeft.png';
@@ -63,6 +64,10 @@ export class HomeLevel {
             frameWidth: ENEMY_WIDTH,
             frameHeight: ENEMY_HEIGHT,
         });
+        load.spritesheet('heart', heartSprite, {
+            frameWidth: 17,
+            frameHeight: 17,
+        });
     }
 
     private preloadImages() {
@@ -108,7 +113,7 @@ export class HomeLevel {
         physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
         if (this.player.sprite) {
-            cameras.main.startFollow(this.player.sprite, true, 0.05, 0.05);
+            cameras.main.startFollow(this.player.sprite, true, 1, 1);
             cameras.main.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
         }
     }
