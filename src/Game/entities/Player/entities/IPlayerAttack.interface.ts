@@ -1,4 +1,4 @@
-import { PlayerMovement } from '../PlayerMovement';
+import { PlayerMovement } from '../components/PlayerMovement';
 
 export interface IPlayerAttack {
     player: Phaser.Physics.Arcade.Sprite;

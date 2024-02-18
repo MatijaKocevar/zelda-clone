@@ -1,6 +1,6 @@
 import { createRef, useEffect } from 'react';
 import Phaser from 'phaser';
-import { GameScene } from './scenes/GameScene';
+import { GameScene } from './scene/GameScene';
 import './Game.scss';
 
 const Game = () => {
