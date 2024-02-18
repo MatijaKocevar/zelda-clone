@@ -12,6 +12,10 @@ const Game = () => {
             width: 1280,
             height: 720,
             parent: 'phaser-game-container',
+            render: {
+                pixelArt: true,
+                roundPixels: true,
+            },
             physics: {
                 default: 'arcade',
                 arcade: {
