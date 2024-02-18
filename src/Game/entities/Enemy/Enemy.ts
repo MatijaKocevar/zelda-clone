@@ -1,5 +1,5 @@
 import { Position } from '../../../types/Position.interface';
-import { IEnemy } from './IEnemy.interface';
+import { IEnemy } from './entities/IEnemy.interface';
 
 export class Enemy {
     scene: Phaser.Scene;
