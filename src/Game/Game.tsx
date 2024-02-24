@@ -9,8 +9,8 @@ const Game = () => {
     useEffect(() => {
         const gameConfig: Phaser.Types.Core.GameConfig = {
             type: Phaser.AUTO,
-            width: 1280,
-            height: 720,
+            width: window.innerWidth,
+            height: window.innerHeight,
             parent: 'phaser-game-container',
             render: {
                 pixelArt: true,
