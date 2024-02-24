@@ -13,11 +13,9 @@ export class PlayerMovement {
     private player: Phaser.Physics.Arcade.Sprite;
     isSlashing = false;
     private input: Input;
-    private scene: Phaser.Scene;
 
     constructor({ player, scene }: IPlayerMovement) {
         this.player = player;
-        this.scene = scene;
         this.input = new Input(scene);
     }
 
