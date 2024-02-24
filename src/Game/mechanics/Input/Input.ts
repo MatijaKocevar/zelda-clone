@@ -99,7 +99,8 @@ export class Input {
             });
 
             cursors?.shift.on('down', () => {
-                this.onKeyPressed(SHIFT);
+                // this.onKeyPressed(SHIFT);
+                this.keysPressed.push(SHIFT);
             });
             cursors?.shift.on('up', () => {
                 this.onKeyReleased(SHIFT);

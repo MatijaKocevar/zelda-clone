@@ -8,13 +8,14 @@ export class PlayerAnimations {
     init() {
         const { scene } = this;
 
+        //WALKING ANIMATIONS
         scene.anims.create({
             key: 'walk-horizontal',
             frames: scene.anims.generateFrameNumbers('player1', {
                 start: 24,
                 end: 29,
             }),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1,
         });
 
@@ -24,7 +25,7 @@ export class PlayerAnimations {
                 start: 30,
                 end: 35,
             }),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1,
         });
 
@@ -34,10 +35,11 @@ export class PlayerAnimations {
                 start: 18,
                 end: 23,
             }),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1,
         });
 
+        //RUNNING ANIMATIONS
         scene.anims.create({
             key: 'run-horizontal',
             frames: scene.anims.generateFrameNumbers('player1', {
@@ -68,6 +70,7 @@ export class PlayerAnimations {
             repeat: -1,
         });
 
+        //IDLE ANIMATIONS
         scene.anims.create({
             key: 'idle-down',
             frames: scene.anims.generateFrameNumbers('player1', {
@@ -98,6 +101,7 @@ export class PlayerAnimations {
             repeat: 0,
         });
 
+        //JUMP ANIMATION
         scene.anims.create({
             key: 'jump',
             frames: scene.anims.generateFrameNumbers('player1', {
@@ -108,6 +112,7 @@ export class PlayerAnimations {
             repeat: 0,
         });
 
+        //SLASH ANIMATIONS
         scene.anims.create({
             key: 'slash-horizontal',
             frames: scene.anims.generateFrameNumbers('player1', {

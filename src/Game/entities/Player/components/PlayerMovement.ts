@@ -3,6 +3,7 @@ import {
     Input,
     LEFT,
     RIGHT,
+    SHIFT,
     SPACE,
     UP,
 } from '../../../mechanics/Input/Input';
@@ -12,9 +13,11 @@ export class PlayerMovement {
     private player: Phaser.Physics.Arcade.Sprite;
     isSlashing = false;
     private input: Input;
+    private scene: Phaser.Scene;
 
     constructor({ player, scene }: IPlayerMovement) {
         this.player = player;
+        this.scene = scene;
         this.input = new Input(scene);
     }
 
@@ -26,7 +29,11 @@ export class PlayerMovement {
     handleMovement() {
         const { player } = this;
         const { keysPressed } = this.input;
-        const movingVelocity = keysPressed.length > 1 ? 200 : 250;
+        let movingVelocity = 250;
+
+        if (keysPressed.includes(SHIFT)) {
+            movingVelocity = 150;
+        }
 
         if (this.isSlashing) {
             player.setVelocityX(0);
@@ -41,6 +48,10 @@ export class PlayerMovement {
             const latestVerticalKey = keysPressed
                 .filter((key) => key === UP || key === DOWN)
                 .shift();
+
+            if (latestHorizontalKey && latestVerticalKey) {
+                movingVelocity = keysPressed.includes(SHIFT) ? 130 : 180;
+            }
 
             if (latestHorizontalKey === LEFT) {
                 player.setVelocityX(-movingVelocity);
@@ -61,20 +72,34 @@ export class PlayerMovement {
         const { keysPressed } = this.input;
 
         if (!this.isSlashing) {
-            if (keysPressed[0] === LEFT) {
-                player.flipX = true;
-                player.anims.play('run-horizontal', true);
-            }
-            if (keysPressed[0] === RIGHT) {
-                player.flipX = false;
-                player.anims.play('run-horizontal', true);
-            }
+            if (!keysPressed.includes(SHIFT)) {
+                if (keysPressed[0] === LEFT) {
+                    player.flipX = true;
+                    player.anims.play('run-horizontal', true);
+                } else if (keysPressed[0] === RIGHT) {
+                    player.flipX = false;
+                    player.anims.play('run-horizontal', true);
+                }
 
-            if (keysPressed[0] === UP) {
-                player.anims.play('run-up', true);
-            }
-            if (keysPressed[0] === DOWN) {
-                player.anims.play('run-down', true);
+                if (keysPressed[0] === UP) {
+                    player.anims.play('run-up', true);
+                } else if (keysPressed[0] === DOWN) {
+                    player.anims.play('run-down', true);
+                }
+            } else {
+                if (keysPressed[0] === LEFT) {
+                    player.flipX = true;
+                    player.anims.play('walk-horizontal', true);
+                } else if (keysPressed[0] === RIGHT) {
+                    player.flipX = false;
+                    player.anims.play('walk-horizontal', true);
+                }
+
+                if (keysPressed[0] === UP) {
+                    player.anims.play('walk-up', true);
+                } else if (keysPressed[0] === DOWN) {
+                    player.anims.play('walk-down', true);
+                }
             }
 
             this.handleIdleAnimations();
@@ -104,7 +129,7 @@ export class PlayerMovement {
 
         if (
             keysPressed.length === 1 &&
-            keysPressed[0] === SPACE &&
+            (keysPressed[0] === SPACE || keysPressed[0] === SHIFT) &&
             !this.isSlashing
         ) {
             if (cursors?.lastKey === LEFT) {
