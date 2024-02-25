@@ -1,6 +1,5 @@
-import { PlayerStats } from '../components/PlayerStats';
+import { Player } from '../Player';
 
 export interface IPlayerLifeBar {
-    scene: Phaser.Scene;
-    playerStats: PlayerStats;
+    player: Player;
 }

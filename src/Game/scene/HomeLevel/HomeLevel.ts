@@ -1,5 +1,5 @@
-import playerSprite from '../../../assets/characters/player.png';
-import slimeSprite from '../../../assets/characters/slime.png';
+import playerSprite from '../../../assets/characters/player/player.png';
+import pinkazoidSprite from '../../..//assets/characters/enemies/Pinkazoid.png';
 import heartSprite from '../../../assets/lifebar/heart_animated_2.png';
 import backgroundTopLeft from '../../../assets/map/background/topLeft.png';
 import backgroundTopRight from '../../../assets/map/background/topRight.png';
@@ -60,7 +60,7 @@ export class HomeLevel {
             frameWidth: PLAYER_WIDTH,
             frameHeight: PLAYER_HEIGHT,
         });
-        load.spritesheet('slime', slimeSprite, {
+        load.spritesheet('pinkazoid', pinkazoidSprite, {
             frameWidth: ENEMY_WIDTH,
             frameHeight: ENEMY_HEIGHT,
         });
@@ -119,10 +119,11 @@ export class HomeLevel {
     }
 
     private createCollisions() {
-        if (this.player) {
+        if (this.player && this.enemy) {
             this.collisions = new Collisions({
                 collisions2dArray: getHomeCollisions2dArray(),
                 player: this.player,
+                enemy: this.enemy,
                 scene: this.scene,
             });
         }

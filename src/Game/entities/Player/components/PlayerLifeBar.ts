@@ -8,9 +8,9 @@ export class PlayerLifeBar {
     maxHeartsVisible: number;
     backgroundBox!: Phaser.GameObjects.Graphics;
 
-    constructor({ scene, playerStats }: IPlayerLifeBar) {
-        this.scene = scene;
-        this.playerStats = playerStats;
+    constructor({ player }: IPlayerLifeBar) {
+        this.scene = player.scene;
+        this.playerStats = player.playerStats;
         this.maxHeartsVisible = 20;
 
         this.createBackgroundBox();

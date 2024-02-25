@@ -1,11 +1,4 @@
-import {
-    DOWN,
-    Input,
-    LEFT,
-    RIGHT,
-    SPACE,
-    UP,
-} from '../../../mechanics/Input/Input';
+import { DOWN, LEFT, RIGHT, SPACE, UP } from '../../../mechanics/Input/Input';
 import { IPlayerAttack } from '../entities/IPlayerAttack.interface';
 import { PlayerMovement } from './PlayerMovement';
 
@@ -14,12 +7,10 @@ export class PlayerAttack {
     private playerMovement: PlayerMovement;
     private lastSlashTime = 0;
     private slashCooldown = 500;
-    private input: Input;
 
-    constructor({ player, scene, playerMovement }: IPlayerAttack) {
-        this.player = player;
-        this.playerMovement = playerMovement;
-        this.input = new Input(scene);
+    constructor({ player }: IPlayerAttack) {
+        this.player = player.sprite;
+        this.playerMovement = player.playerMovement;
     }
 
     update() {
@@ -27,7 +18,7 @@ export class PlayerAttack {
     }
 
     handleAttack() {
-        const { keysPressed } = this.input;
+        const { keysPressed } = this.playerMovement.input;
         const currentTime = this.player.scene.time.now;
 
         if (keysPressed.includes(SPACE)) {
@@ -48,7 +39,7 @@ export class PlayerAttack {
 
     handleAttackAnimation() {
         const { player } = this;
-        const { keysPressed, cursors } = this.input;
+        const { keysPressed, cursors } = this.playerMovement.input;
 
         const direction = keysPressed.find((key) =>
             [LEFT, RIGHT, UP, DOWN].includes(key)
