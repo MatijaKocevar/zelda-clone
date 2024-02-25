@@ -1,15 +1,18 @@
 import { TILE_SIZE } from '../../scene/HomeLevel/HomeLevel';
+import { Enemy } from '../Enemy/Enemy';
 import { Player } from '../Player/Player';
 import { ICollisionBlock } from './entities/ICollisions.interface';
 
 export class Collisions {
     private scene: Phaser.Scene;
     private player: Player;
+    private enemy: Enemy;
     private collisions2dArray: number[][];
 
-    constructor({ scene, player, collisions2dArray }: ICollisionBlock) {
+    constructor({ scene, player, enemy, collisions2dArray }: ICollisionBlock) {
         this.scene = scene;
         this.player = player;
+        this.enemy = enemy;
         this.collisions2dArray = collisions2dArray;
 
         this.setupCollisions();
@@ -29,7 +32,6 @@ export class Collisions {
 
     private createCollisionBlock(x: number, y: number) {
         const { physics } = this.scene;
-        const { sprite } = this.player;
 
         const block = physics.add
             .staticImage(x * TILE_SIZE * 4 + 32, y * TILE_SIZE * 4 + 32, '')
@@ -38,8 +40,13 @@ export class Collisions {
             .setVisible(false);
 
         block.body.setSize(TILE_SIZE * 4, TILE_SIZE * 4);
-        block.setImmovable(true);
 
-        physics.add.collider(sprite, block);
+        block.setImmovable(true);
+        // this.player.sprite.setImmovable(true);
+        this.enemy.sprite.setImmovable(true);
+
+        physics.add.collider(this.player.sprite, this.enemy.sprite);
+        physics.add.collider(this.player.sprite, block);
+        physics.add.collider(this.enemy.sprite, block);
     }
 }
