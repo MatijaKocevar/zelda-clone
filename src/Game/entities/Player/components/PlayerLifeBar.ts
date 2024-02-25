@@ -38,7 +38,7 @@ export class PlayerLifeBar {
                 heartY,
                 'heart'
             );
-            heart.setDepth(1);
+            heart.setDepth(100);
             heart.setScrollFactor(0);
             this.hearts.push(heart);
         }
@@ -66,7 +66,7 @@ export class PlayerLifeBar {
             cornerRadius
         );
         this.backgroundBox.setScrollFactor(0);
-        this.backgroundBox.setDepth(1);
+        this.backgroundBox.setDepth(99);
     }
 
     update() {
