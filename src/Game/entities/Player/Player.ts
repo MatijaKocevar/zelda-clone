@@ -21,8 +21,8 @@ export class Player {
             'player1'
         );
         this.playerStats = new PlayerStats({
-            health: 2000,
-            maxHealth: 2000,
+            health: 300,
+            maxHealth: 300,
             damage: 10,
         });
         this.playerLifeBar = new PlayerLifeBar({ player: this });
