@@ -1,4 +1,3 @@
-import { Input } from '../../mechanics/Input/Input';
 import { IPlayer } from './entities/IPlayer.interface';
 import { PlayerMovement } from './components/PlayerMovement';
 import { PlayerAttack } from './components/PlayerAttack';
