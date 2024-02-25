@@ -15,17 +15,17 @@ export class Player {
     constructor({ position, scene }: IPlayer) {
         this.scene = scene;
 
+        this.sprite = scene.physics.add.sprite(
+            position.x,
+            position.y,
+            'player1'
+        );
         this.playerStats = new PlayerStats({
             health: 2000,
             maxHealth: 2000,
             damage: 10,
         });
         this.playerLifeBar = new PlayerLifeBar({ player: this });
-        this.sprite = scene.physics.add.sprite(
-            position.x,
-            position.y,
-            'player1'
-        );
         this.playerMovement = new PlayerMovement({
             player: this,
         });
@@ -33,8 +33,8 @@ export class Player {
             player: this,
         });
 
-        this.sprite.body?.setSize(20, 45);
-        this.sprite.body?.setOffset(65, 84);
+        this.sprite.body?.setSize(20, 40, true);
+        this.sprite.body?.setOffset(65, 90);
     }
 
     update() {
