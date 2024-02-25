@@ -2,9 +2,11 @@ import { HomeLevel } from './HomeLevel/HomeLevel';
 
 export class GameScene extends Phaser.Scene {
     level1: HomeLevel;
+    keysPressedRef: React.MutableRefObject<string[]>;
 
-    constructor() {
+    constructor(keysPressedRef: React.MutableRefObject<string[]>) {
         super('GameScene');
+        this.keysPressedRef = keysPressedRef;
 
         this.level1 = new HomeLevel(this);
     }
