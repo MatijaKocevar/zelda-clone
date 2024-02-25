@@ -29,7 +29,7 @@ export class PlayerMovement {
         const { keysPressed } = this.input;
         let movingVelocity = 250;
 
-        if (keysPressed.includes(SHIFT)) {
+        if (keysPressed.current.includes(SHIFT)) {
             movingVelocity = 150;
         }
 
@@ -40,15 +40,17 @@ export class PlayerMovement {
             player.setVelocityX(0);
             player.setVelocityY(0);
 
-            const latestHorizontalKey = keysPressed
+            const latestHorizontalKey = keysPressed.current
                 .filter((key) => key === LEFT || key === RIGHT)
                 .shift();
-            const latestVerticalKey = keysPressed
+            const latestVerticalKey = keysPressed.current
                 .filter((key) => key === UP || key === DOWN)
                 .shift();
 
             if (latestHorizontalKey && latestVerticalKey) {
-                movingVelocity = keysPressed.includes(SHIFT) ? 130 : 180;
+                movingVelocity = keysPressed.current.includes(SHIFT)
+                    ? 130
+                    : 180;
             }
 
             if (latestHorizontalKey === LEFT) {
@@ -70,32 +72,32 @@ export class PlayerMovement {
         const { keysPressed } = this.input;
 
         if (!this.isSlashing) {
-            if (!keysPressed.includes(SHIFT)) {
-                if (keysPressed[0] === LEFT) {
+            if (!keysPressed.current.includes(SHIFT)) {
+                if (keysPressed.current[0] === LEFT) {
                     player.flipX = true;
                     player.anims.play('run-horizontal', true);
-                } else if (keysPressed[0] === RIGHT) {
+                } else if (keysPressed.current[0] === RIGHT) {
                     player.flipX = false;
                     player.anims.play('run-horizontal', true);
                 }
 
-                if (keysPressed[0] === UP) {
+                if (keysPressed.current[0] === UP) {
                     player.anims.play('run-up', true);
-                } else if (keysPressed[0] === DOWN) {
+                } else if (keysPressed.current[0] === DOWN) {
                     player.anims.play('run-down', true);
                 }
             } else {
-                if (keysPressed[0] === LEFT) {
+                if (keysPressed.current[0] === LEFT) {
                     player.flipX = true;
                     player.anims.play('walk-horizontal', true);
-                } else if (keysPressed[0] === RIGHT) {
+                } else if (keysPressed.current[0] === RIGHT) {
                     player.flipX = false;
                     player.anims.play('walk-horizontal', true);
                 }
 
-                if (keysPressed[0] === UP) {
+                if (keysPressed.current[0] === UP) {
                     player.anims.play('walk-up', true);
-                } else if (keysPressed[0] === DOWN) {
+                } else if (keysPressed.current[0] === DOWN) {
                     player.anims.play('walk-down', true);
                 }
             }
@@ -106,42 +108,43 @@ export class PlayerMovement {
 
     handleIdleAnimations() {
         const { player } = this;
-        const { keysPressed, cursors } = this.input;
+        const { keysPressed, lastKey } = this.input;
 
-        if (keysPressed.length === 0) {
-            if (cursors?.lastKey === LEFT) {
+        if (keysPressed.current.length === 0) {
+            if (lastKey.current === LEFT) {
                 player.flipX = true;
                 player.anims.play('idle-horizontal', true);
             }
-            if (cursors?.lastKey === RIGHT) {
+            if (lastKey.current === RIGHT) {
                 player.flipX = false;
                 player.anims.play('idle-horizontal', true);
             }
-            if (cursors?.lastKey === UP) {
+            if (lastKey.current === UP) {
                 player.anims.play('idle-up', true);
             }
-            if (cursors?.lastKey === DOWN) {
+            if (lastKey.current === DOWN) {
                 player.anims.play('idle-down', true);
             }
         }
 
         if (
-            keysPressed.length === 1 &&
-            (keysPressed[0] === SPACE || keysPressed[0] === SHIFT) &&
+            keysPressed.current.length === 1 &&
+            (keysPressed.current[0] === SPACE ||
+                keysPressed.current[0] === SHIFT) &&
             !this.isSlashing
         ) {
-            if (cursors?.lastKey === LEFT) {
+            if (lastKey.current === LEFT) {
                 player.flipX = true;
                 player.anims.play('idle-horizontal', true);
             }
-            if (cursors?.lastKey === RIGHT) {
+            if (lastKey.current === RIGHT) {
                 player.flipX = false;
                 player.anims.play('idle-horizontal', true);
             }
-            if (cursors?.lastKey === UP) {
+            if (lastKey.current === UP) {
                 player.anims.play('idle-up', true);
             }
-            if (cursors?.lastKey === DOWN) {
+            if (lastKey.current === DOWN) {
                 player.anims.play('idle-down', true);
             }
         }

@@ -5,5 +5,4 @@ export interface Cursors {
     right: Phaser.Input.Keyboard.Key;
     space: Phaser.Input.Keyboard.Key;
     shift: Phaser.Input.Keyboard.Key;
-    lastKey: string;
 }

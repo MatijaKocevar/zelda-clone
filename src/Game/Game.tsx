@@ -12,6 +12,7 @@ const Game: React.FC = () => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const gameref = useRef<Phaser.Game>();
     const keysPressedref = useRef<string[]>([]);
+    const lastKeyRef = useRef<string>('RIGHT');
 
     useEffect(() => {
         const checkMobileDevice = () => {
@@ -28,7 +29,7 @@ const Game: React.FC = () => {
 
         document.addEventListener('fullscreenchange', updateFullScreenStatus);
 
-        const gamescene = new GameScene(keysPressedref);
+        const gamescene = new GameScene(keysPressedref, lastKeyRef);
 
         const gameConfig: Phaser.Types.Core.GameConfig = {
             mode: Phaser.Scale.FIT,
@@ -108,7 +109,10 @@ const Game: React.FC = () => {
                     <FontAwesomeIcon icon={faExpandAlt} />
                 </button>
             )}
-            <MobileControls keysPressedref={keysPressedref} />
+            <MobileControls
+                keysPressedref={keysPressedref}
+                lastKeyRef={lastKeyRef}
+            />
             <div ref={gameComponentRef} id="phaser-game-container"></div>
         </>
     );
