@@ -15,6 +15,9 @@ export class Input {
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
 
+        //@ts-expect-error - keysPressedRef is not a valid property of scene
+        this.keysPressed = scene.keysPressedRef.current;
+
         this.init();
     }
 
