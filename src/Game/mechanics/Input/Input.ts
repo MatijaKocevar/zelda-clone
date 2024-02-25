@@ -11,7 +11,6 @@ export class Input {
     private scene: Phaser.Scene;
     cursors?: Cursors;
     keysPressed: string[] = [];
-    attackInterval = 0;
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
