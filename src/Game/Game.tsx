@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { GameScene } from './scene/GameScene';
 import './Game.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExpand, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
+import { faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Game: React.FC = () => {
     const gameComponentRef = useRef<HTMLDivElement>(null);
