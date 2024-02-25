@@ -22,8 +22,8 @@ export class Enemy {
             enemy: this,
         });
 
-        this.sprite.body?.setSize(27, 50);
-        this.sprite.body?.setOffset(35, 20);
+        this.sprite.body?.setSize(27, 35);
+        this.sprite.body?.setOffset(35, 35);
     }
 
     public update() {
