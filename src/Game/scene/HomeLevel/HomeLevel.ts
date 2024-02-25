@@ -1,5 +1,6 @@
 import playerSprite from '../../../assets/characters/player/player.png';
-import pinkazoidSprite from '../../..//assets/characters/enemies/Pinkazoid.png';
+import pinkazoidSprite from '../../..//assets/characters/enemies/pinkazoid.png';
+import zomboiSprite from '../../..//assets/characters/enemies/zomboi.png';
 import heartSprite from '../../../assets/lifebar/heart_animated_2.png';
 import backgroundTopLeft from '../../../assets/map/background/topLeft.png';
 import backgroundTopRight from '../../../assets/map/background/topRight.png';
@@ -25,7 +26,7 @@ export const TILE_SIZE = 16;
 
 export class HomeLevel {
     player: Player | undefined;
-    enemy: Enemy | undefined;
+    enemies: Enemy[] = [];
     animations: Animations | undefined;
     collisions: Collisions | undefined;
     scene: Phaser.Scene;
@@ -40,6 +41,8 @@ export class HomeLevel {
     }
 
     create() {
+        this.animations = new Animations(this.scene);
+
         this.setupBackgroudImages();
 
         this.setupEnemies();
@@ -50,48 +53,49 @@ export class HomeLevel {
     }
 
     update() {
-        const { player, enemy } = this;
+        const { player, enemies } = this;
+        this.updateEntityDepth();
 
         player?.update();
-        enemy?.update();
-
-        this.updateEntityDepth();
+        enemies.forEach((enemy) => enemy.update());
     }
 
-    private updateEntityDepth() {
-        const { player, enemy } = this;
-        const camera = this.scene.cameras.main;
-        const viewport = camera.worldView;
+    updateEntityDepth() {
+        const { player, enemies } = this;
 
-        if (player && enemy) {
-            {
-                const playerInView = viewport.contains(
-                    player.sprite.x,
-                    player.sprite.y
-                );
-                const enemyInView = viewport.contains(
-                    enemy.sprite.x,
-                    enemy.sprite.y
-                );
+        const areaWidth = 200;
+        const areaHeight = 200;
 
-                const playerCenterY = player.sprite.getCenter().y;
-                const enemyCenterY = enemy.sprite.getCenter().y;
+        if (player) {
+            const playerX = player.sprite.getCenter()?.x ?? 0;
+            const playerY = player.sprite.getCenter()?.y ?? 0;
 
-                if (
-                    playerCenterY &&
-                    enemyCenterY &&
-                    playerInView &&
-                    enemyInView
-                ) {
-                    if (playerCenterY > enemyCenterY) {
-                        player.sprite.setDepth(10);
-                        enemy.sprite.setDepth(5);
-                    } else {
-                        player.sprite.setDepth(5);
-                        enemy.sprite.setDepth(10);
-                    }
+            const leftBound = playerX - areaWidth / 2;
+            const rightBound = playerX + areaWidth / 2;
+            const topBound = playerY - areaHeight / 2;
+            const bottomBound = playerY + areaHeight / 2;
+
+            enemies.forEach((enemy) => {
+                const enemyX = enemy.sprite.getCenter()?.x ?? 0;
+                const enemyY = enemy.sprite.getCenter()?.y ?? 0;
+
+                const enemyInView =
+                    enemyX >= leftBound &&
+                    enemyX <= rightBound &&
+                    enemyY >= topBound &&
+                    enemyY <= bottomBound;
+
+                if (enemyInView) {
+                    const playerCenterY = player.sprite.getCenter()?.y ?? 0;
+                    const enemyCenterY = enemy.sprite.getCenter()?.y ?? 0;
+
+                    const playerDepth = playerCenterY > enemyCenterY ? 10 : 5;
+                    const enemyDepth = playerDepth === 10 ? 5 : 10;
+
+                    player.sprite.setDepth(playerDepth);
+                    enemy.sprite.setDepth(enemyDepth);
                 }
-            }
+            });
         }
     }
 
@@ -102,6 +106,10 @@ export class HomeLevel {
             frameHeight: PLAYER_HEIGHT,
         });
         load.spritesheet('pinkazoid', pinkazoidSprite, {
+            frameWidth: ENEMY_WIDTH,
+            frameHeight: ENEMY_HEIGHT,
+        });
+        load.spritesheet('zomboi', zomboiSprite, {
             frameWidth: ENEMY_WIDTH,
             frameHeight: ENEMY_HEIGHT,
         });
@@ -149,7 +157,7 @@ export class HomeLevel {
 
     private setupPlayerAndCamera() {
         const { cameras, physics } = this.scene;
-        this.animations = new Animations(this.scene);
+
         this.player = new Player({
             position: { x: 2400, y: 1250 },
             scene: this.scene,
@@ -164,20 +172,54 @@ export class HomeLevel {
     }
 
     private createCollisions() {
-        if (this.player && this.enemy) {
+        if (this.player) {
             this.collisions = new Collisions({
                 collisions2dArray: getHomeCollisions2dArray(),
                 player: this.player,
-                enemy: this.enemy,
+                enemies: this.enemies,
                 scene: this.scene,
             });
         }
     }
 
     private setupEnemies() {
-        this.enemy = new Enemy({
-            position: { x: 2200, y: 1350 },
-            scene: this.scene,
-        });
+        this.enemies = [
+            new Enemy({
+                position: { x: 2200, y: 1350 },
+                scene: this.scene,
+                moveDirection: 'horizontal',
+                spriteName: 'pinkazoid',
+            }),
+            new Enemy({
+                position: { x: 2400, y: 825 },
+                scene: this.scene,
+                moveDirection: 'horizontal',
+                spriteName: 'zomboi',
+            }),
+            new Enemy({
+                position: { x: 2000, y: 1750 },
+                scene: this.scene,
+                moveDirection: 'horizontal',
+                spriteName: 'pinkazoid',
+            }),
+            new Enemy({
+                position: { x: 2700, y: 950 },
+                scene: this.scene,
+                moveDirection: 'vertical',
+                spriteName: 'zomboi',
+            }),
+            new Enemy({
+                position: { x: 1850, y: 1100 },
+                scene: this.scene,
+                moveDirection: 'vertical',
+                spriteName: 'pinkazoid',
+            }),
+            new Enemy({
+                position: { x: 2700, y: 1500 },
+                scene: this.scene,
+                moveDirection: 'vertical',
+                spriteName: 'zomboi',
+            }),
+        ];
     }
 }
