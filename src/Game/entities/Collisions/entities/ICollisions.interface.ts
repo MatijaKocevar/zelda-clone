@@ -4,6 +4,6 @@ import { Player } from '../../Player/Player';
 export interface ICollisionBlock {
     scene: Phaser.Scene;
     player: Player;
-    enemy: Enemy;
+    enemies: Enemy[];
     collisions2dArray: number[][];
 }
