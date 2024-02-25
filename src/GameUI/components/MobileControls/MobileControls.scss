@@ -91,3 +91,10 @@
         }
     }
 }
+
+/* Hide mobile controls on screens smaller than 655px width or 292px height */
+@media (max-width: 300px), (max-height: 292px) {
+    .mobile-controls {
+        display: none;
+    }
+}
