@@ -2,3 +2,9 @@
     canvas {
     }
 }
+
+@media (max-width: 300px), (max-height: 292px) {
+    .fullscreen-button {
+        display: none;
+    }
+}
