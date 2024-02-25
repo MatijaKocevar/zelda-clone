@@ -1,13 +1,11 @@
 import { IPlayer } from './entities/IPlayer.interface';
 import { PlayerMovement } from './components/PlayerMovement';
 import { PlayerAttack } from './components/PlayerAttack';
-import { Position } from '../../../types/Position.interface';
 import { PlayerStats } from './components/PlayerStats';
 import { PlayerLifeBar } from './components/PlayerLifeBar';
 
 export class Player {
     scene: Phaser.Scene;
-    position: Position;
     sprite: Phaser.Physics.Arcade.Sprite;
     playerMovement: PlayerMovement;
     playerAttack: PlayerAttack;
@@ -16,7 +14,6 @@ export class Player {
 
     constructor({ position, scene }: IPlayer) {
         this.scene = scene;
-        this.position = position;
 
         this.playerStats = new PlayerStats({
             health: 2000,
@@ -36,8 +33,8 @@ export class Player {
             player: this,
         });
 
-        this.sprite.body?.setSize(25, 50);
-        this.sprite.body?.setOffset(62, 70);
+        this.sprite.body?.setSize(20, 45);
+        this.sprite.body?.setOffset(65, 84);
     }
 
     update() {

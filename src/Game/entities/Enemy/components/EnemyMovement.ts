@@ -3,14 +3,16 @@ import { IEnemyMovement } from '../entities/IEnemyMovement.interface';
 
 export class EnemyMovement {
     private enemy: Enemy;
-    isSlashing = false;
-
+    private spriteName: string;
+    private moveDirection: 'horizontal' | 'vertical';
     private moveDistance = 300;
     private currentMoveDistance = 0;
-    private movingRight = true;
+    private movingPositive = true;
 
-    constructor({ enemy }: IEnemyMovement) {
+    constructor({ enemy, moveDirection, spriteName }: IEnemyMovement) {
         this.enemy = enemy;
+        this.spriteName = spriteName;
+        this.moveDirection = moveDirection;
     }
 
     public update() {
@@ -19,24 +21,25 @@ export class EnemyMovement {
 
     private handleAutomaticMovement() {
         const { sprite } = this.enemy;
-        if (this.isSlashing) {
-            sprite.setVelocityX(0);
-            sprite.anims.play('pinkazoid-idle-horizontal', true);
-            return;
+
+        const velocity = this.movingPositive ? 100 : -100;
+        if (this.moveDirection === 'horizontal') {
+            sprite.setVelocityX(velocity);
+            sprite.anims.play(`${this.spriteName}-walk-horizontal`, true);
+            sprite.flipX = !this.movingPositive;
+        } else {
+            sprite.setVelocityY(velocity);
+            const animationName = this.movingPositive
+                ? `${this.spriteName}-walk-down`
+                : `${this.spriteName}-walk-up`;
+            sprite.anims.play(animationName, true);
         }
-
-        const velocity = this.movingRight ? 100 : -100;
-        sprite.setVelocityX(velocity);
-
-        sprite.anims.play('pinkazoid-walk-horizontal', true);
-        sprite.flipX = !this.movingRight;
 
         this.currentMoveDistance +=
             (Math.abs(velocity) * this.enemy.scene.game.loop.delta) / 1000;
-
         if (this.currentMoveDistance >= this.moveDistance) {
-            this.currentMoveDistance = 0; // Reset the distance counter
-            this.movingRight = !this.movingRight; // Change direction
+            this.currentMoveDistance = 0;
+            this.movingPositive = !this.movingPositive;
         }
     }
 }

@@ -6,16 +6,26 @@ import { ICollisionBlock } from './entities/ICollisions.interface';
 export class Collisions {
     private scene: Phaser.Scene;
     private player: Player;
-    private enemy: Enemy;
+    private enemies: Enemy[];
     private collisions2dArray: number[][];
 
-    constructor({ scene, player, enemy, collisions2dArray }: ICollisionBlock) {
+    constructor({
+        scene,
+        player,
+        enemies,
+        collisions2dArray,
+    }: ICollisionBlock) {
         this.scene = scene;
         this.player = player;
-        this.enemy = enemy;
+        this.enemies = enemies;
         this.collisions2dArray = collisions2dArray;
 
+        this.init();
+    }
+
+    private init() {
         this.setupCollisions();
+        this.addColliders();
     }
 
     private setupCollisions() {
@@ -37,16 +47,27 @@ export class Collisions {
             .staticImage(x * TILE_SIZE * 4 + 32, y * TILE_SIZE * 4 + 32, '')
             .setOrigin(0, 0)
             .setDisplayOrigin(32, 32)
-            .setVisible(false);
+            .setVisible(false)
+            .setSize(TILE_SIZE * 4, TILE_SIZE * 4)
+            .setImmovable(true);
 
-        block.body.setSize(TILE_SIZE * 4, TILE_SIZE * 4);
-
-        block.setImmovable(true);
-        // this.player.sprite.setImmovable(true);
-        this.enemy.sprite.setImmovable(true);
-
-        physics.add.collider(this.player.sprite, this.enemy.sprite);
         physics.add.collider(this.player.sprite, block);
-        physics.add.collider(this.enemy.sprite, block);
+
+        this.enemies.forEach((enemy) => {
+            physics.add.collider(enemy.sprite, block);
+        });
+    }
+
+    private addColliders() {
+        const { physics } = this.scene;
+        const { player, enemies } = this;
+
+        player.sprite.setPushable(true);
+
+        enemies.forEach((enemy) => {
+            enemy.sprite.setPushable(false);
+
+            physics.add.collider(player.sprite, enemy.sprite);
+        });
     }
 }
