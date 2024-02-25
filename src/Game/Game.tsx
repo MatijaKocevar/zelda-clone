@@ -104,6 +104,7 @@ const Game: React.FC = () => {
                         color: 'white',
                         fontSize: '25px',
                     }}
+                    className="fullscreen-button"
                     aria-label="Toggle Fullscreen"
                 >
                     <FontAwesomeIcon icon={faExpandAlt} />
