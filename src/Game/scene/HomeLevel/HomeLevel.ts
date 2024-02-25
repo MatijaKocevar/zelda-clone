@@ -50,8 +50,49 @@ export class HomeLevel {
     }
 
     update() {
-        this.player?.update();
-        this.enemy?.update();
+        const { player, enemy } = this;
+
+        player?.update();
+        enemy?.update();
+
+        this.updateEntityDepth();
+    }
+
+    private updateEntityDepth() {
+        const { player, enemy } = this;
+        const camera = this.scene.cameras.main;
+        const viewport = camera.worldView;
+
+        if (player && enemy) {
+            {
+                const playerInView = viewport.contains(
+                    player.sprite.x,
+                    player.sprite.y
+                );
+                const enemyInView = viewport.contains(
+                    enemy.sprite.x,
+                    enemy.sprite.y
+                );
+
+                const playerCenterY = player.sprite.getCenter().y;
+                const enemyCenterY = enemy.sprite.getCenter().y;
+
+                if (
+                    playerCenterY &&
+                    enemyCenterY &&
+                    playerInView &&
+                    enemyInView
+                ) {
+                    if (playerCenterY > enemyCenterY) {
+                        player.sprite.setDepth(10);
+                        enemy.sprite.setDepth(5);
+                    } else {
+                        player.sprite.setDepth(5);
+                        enemy.sprite.setDepth(10);
+                    }
+                }
+            }
+        }
     }
 
     private preloadSprites() {
@@ -96,10 +137,14 @@ export class HomeLevel {
     private setupForegroundImages() {
         const { add } = this.scene;
 
-        add.image(0, 0, 'foreground-top-left').setOrigin(0, 0);
-        add.image(2560, 0, 'foreground-top-right').setOrigin(0, 0);
-        add.image(0, 1440, 'foreground-bottom-left').setOrigin(0, 0);
-        add.image(2560, 1440, 'foreground-bottom-right').setOrigin(0, 0);
+        add.image(0, 0, 'foreground-top-left').setOrigin(0, 0).setDepth(50);
+        add.image(2560, 0, 'foreground-top-right').setOrigin(0, 0).setDepth(50);
+        add.image(0, 1440, 'foreground-bottom-left')
+            .setOrigin(0, 0)
+            .setDepth(50);
+        add.image(2560, 1440, 'foreground-bottom-right')
+            .setOrigin(0, 0)
+            .setDepth(50);
     }
 
     private setupPlayerAndCamera() {
