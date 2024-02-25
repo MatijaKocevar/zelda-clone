@@ -1,26 +1,19 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { MobileInput } from '../../../Game/mechanics/MobileInput/MobileInputs';
 import './MobileControls.scss';
 
 export interface MobileControlsProps {
-    gameRef: React.MutableRefObject<Phaser.Game | undefined>;
+    keysPressedref: React.MutableRefObject<string[]>;
 }
 
 export const MobileControls = (props: MobileControlsProps) => {
     const mobileInputRef = useRef<MobileInput>();
 
-    if (props.gameRef.current) {
-        const game = props.gameRef.current;
-
-        const input =
-            //@ts-expect-error - Property 'config' does not exist on type 'Game'.ts(2339)
-            game.config.sceneConfig?.level1?.player?.playerMovement?.input;
-
-        console.log(input);
-        mobileInputRef.current = new MobileInput(input);
-    }
-
-    console.log(props.gameRef);
+    useEffect(() => {
+        if (props.keysPressedref.current) {
+            mobileInputRef.current = new MobileInput(props.keysPressedref);
+        }
+    }, [props.keysPressedref]);
 
     return (
         <div className="mobile-controls">

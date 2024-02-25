@@ -1,12 +1,11 @@
-import { UP, DOWN, LEFT, RIGHT, Input } from '../Input/Input';
+import { UP, DOWN, LEFT, RIGHT } from '../Input/Input';
 import { SPACE, SHIFT } from '../Input/Input';
 
 export class MobileInput {
     keysPressed: string[] = [];
-    input: Input;
 
-    constructor(input: Input) {
-        this.input = input;
+    constructor(keysPressedRef: React.MutableRefObject<string[]>) {
+        this.keysPressed = keysPressedRef.current;
     }
 
     onTouchStartUp = () => this.onKeyPressed(UP);
@@ -25,26 +24,28 @@ export class MobileInput {
 
     onTouchEndRight = () => this.onKeyReleased(RIGHT);
 
-    onTouchStartA = () => this.input.keysPressed.push(SPACE);
+    onTouchStartA = () => this.keysPressed.push(SPACE);
 
     onTouchEndA = () => this.onKeyReleased(SPACE);
 
-    onTouchStartB = () => this.input.keysPressed.push(SHIFT);
+    onTouchStartB = () => this.keysPressed.push(SHIFT);
 
     onTouchEndB = () => this.onKeyReleased(SHIFT);
 
     onKeyPressed(key: string) {
-        if (this.input.keysPressed.indexOf(key) === -1) {
-            this.input.keysPressed.unshift(key);
+        console.log('key pressed', key);
+        if (this.keysPressed.indexOf(key) === -1) {
+            this.keysPressed.unshift(key);
         }
     }
 
     onKeyReleased(key: string) {
-        const index = this.input.keysPressed.indexOf(key);
+        console.log('key released', key);
+        const index = this.keysPressed.indexOf(key);
         if (index === -1) {
             return;
         }
 
-        this.input.keysPressed.splice(index, 1);
+        this.keysPressed.splice(index, 1);
     }
 }
