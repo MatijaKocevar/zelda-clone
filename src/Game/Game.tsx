@@ -4,11 +4,13 @@ import { GameScene } from './scene/GameScene';
 import './Game.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpandAlt } from '@fortawesome/free-solid-svg-icons';
+import { MobileControls } from '../GameUI/components/MobileControls/MobileControls';
 
 const Game: React.FC = () => {
     const gameComponentRef = useRef<HTMLDivElement>(null);
     const [showFullScreenButton, setShowFullScreenButton] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
+    const gameref = useRef<Phaser.Game>();
 
     useEffect(() => {
         const checkMobileDevice = () => {
@@ -24,6 +26,8 @@ const Game: React.FC = () => {
         window.addEventListener('resize', checkMobileDevice);
 
         document.addEventListener('fullscreenchange', updateFullScreenStatus);
+
+        const gamescene = new GameScene();
 
         const gameConfig: Phaser.Types.Core.GameConfig = {
             type: Phaser.AUTO,
@@ -41,21 +45,21 @@ const Game: React.FC = () => {
                     debug: false,
                 },
             },
-            scene: GameScene,
+            scene: gamescene,
         };
 
-        const game = new Phaser.Game(gameConfig);
+        gameref.current = new Phaser.Game(gameConfig);
 
         const resizeGame = () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            game.scale.resize(width, height);
+            gameref.current?.scale.resize(width, height);
         };
 
         window.addEventListener('resize', resizeGame);
 
         return () => {
-            game.destroy(true);
+            gameref.current?.destroy(true);
             window.removeEventListener('resize', resizeGame);
             window.removeEventListener('resize', checkMobileDevice);
             document.removeEventListener(
@@ -86,7 +90,7 @@ const Game: React.FC = () => {
                     onClick={toggleFullScreen}
                     style={{
                         position: 'absolute',
-                        bottom: '20px',
+                        top: '25px',
                         right: '20px',
                         zIndex: 1000,
                         padding: '10px',
@@ -102,6 +106,7 @@ const Game: React.FC = () => {
                     <FontAwesomeIcon icon={faExpandAlt} />
                 </button>
             )}
+            <MobileControls gameRef={gameref} />
             <div ref={gameComponentRef} id="phaser-game-container"></div>
         </>
     );
