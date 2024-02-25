@@ -4,6 +4,7 @@ import './MobileControls.scss';
 
 export interface MobileControlsProps {
     keysPressedref: React.MutableRefObject<string[]>;
+    lastKeyRef: React.MutableRefObject<string>;
 }
 
 export const MobileControls = (props: MobileControlsProps) => {
@@ -11,9 +12,12 @@ export const MobileControls = (props: MobileControlsProps) => {
 
     useEffect(() => {
         if (props.keysPressedref.current) {
-            mobileInputRef.current = new MobileInput(props.keysPressedref);
+            mobileInputRef.current = new MobileInput(
+                props.keysPressedref,
+                props.lastKeyRef
+            );
         }
-    }, [props.keysPressedref]);
+    }, [props.keysPressedref, props.lastKeyRef]);
 
     return (
         <div className="mobile-controls">

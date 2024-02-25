@@ -21,7 +21,7 @@ export class PlayerAttack {
         const { keysPressed } = this.playerMovement.input;
         const currentTime = this.player.scene.time.now;
 
-        if (keysPressed.includes(SPACE)) {
+        if (keysPressed.current.includes(SPACE)) {
             if (
                 !this.playerMovement.isSlashing ||
                 (this.playerMovement.isSlashing &&
@@ -39,9 +39,9 @@ export class PlayerAttack {
 
     handleAttackAnimation() {
         const { player } = this;
-        const { keysPressed, cursors } = this.playerMovement.input;
+        const { keysPressed, lastKey } = this.playerMovement.input;
 
-        const direction = keysPressed.find((key) =>
+        const direction = keysPressed.current.find((key) =>
             [LEFT, RIGHT, UP, DOWN].includes(key)
         );
         const defaultDirection = this.player?.flipX ? LEFT : RIGHT;
@@ -66,17 +66,17 @@ export class PlayerAttack {
         }
 
         if (!direction) {
-            if (cursors?.lastKey === LEFT) {
+            if (lastKey.current === LEFT) {
                 player.flipX = true;
                 player.anims.play('slash-horizontal', true);
-            } else if (cursors?.lastKey === RIGHT) {
+            } else if (lastKey.current === RIGHT) {
                 player.flipX = false;
                 player.anims.play('slash-horizontal', true);
             }
 
-            if (cursors?.lastKey === UP) {
+            if (lastKey.current === UP) {
                 player.anims.play('slash-up', true);
-            } else if (cursors?.lastKey === DOWN) {
+            } else if (lastKey.current === DOWN) {
                 player.anims.play('slash-down', true);
             }
         }
