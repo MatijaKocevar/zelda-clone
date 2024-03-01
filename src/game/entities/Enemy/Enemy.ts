@@ -1,4 +1,4 @@
-import { Position } from '../../../types/Position.interface';
+import { Position } from '../../types/Position.interface';
 import { IEnemy } from './Enemy.types';
 import { EnemyMovement } from './components/EnemyMovement';
 
