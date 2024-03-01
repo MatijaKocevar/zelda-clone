@@ -1,7 +1,7 @@
-import { HomeLevel } from './HomeLevel/HomeLevel';
+import { HomeScene } from './HomeScene/HomeScene';
 
 export class GameScene extends Phaser.Scene {
-    level1: HomeLevel;
+    homeScene: HomeScene;
     keysPressedRef: React.MutableRefObject<string[]>;
     lastKeyRef: React.MutableRefObject<string>;
 
@@ -13,18 +13,18 @@ export class GameScene extends Phaser.Scene {
         this.keysPressedRef = keysPressedRef;
         this.lastKeyRef = lastKeyRef;
 
-        this.level1 = new HomeLevel(this);
+        this.homeScene = new HomeScene(this);
     }
 
     preload() {
-        this.level1.preload();
+        this.homeScene.preload();
     }
 
     create() {
-        this.level1.create();
+        this.homeScene.create();
     }
 
     update() {
-        this.level1.update();
+        this.homeScene.update();
     }
 }

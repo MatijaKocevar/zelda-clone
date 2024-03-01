@@ -1,5 +1,5 @@
 import { Enemy } from '../Enemy';
-import { IEnemyMovement } from '../entities/IEnemyMovement.interface';
+import { IEnemyMovement } from '../Enemy.types';
 
 export class EnemyMovement {
     private enemy: Enemy;

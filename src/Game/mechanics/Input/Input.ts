@@ -1,4 +1,5 @@
 import { Cursors } from '../../../types/Cursors.interface';
+import { CustomScene } from './Input.types';
 
 export const LEFT = 'LEFT';
 export const RIGHT = 'RIGHT';
@@ -13,12 +14,10 @@ export class Input {
     keysPressed: React.MutableRefObject<string[]>;
     lastKey: React.MutableRefObject<string>;
 
-    constructor(scene: Phaser.Scene) {
+    constructor(scene: CustomScene) {
         this.scene = scene;
 
-        //@ts-expect-error - keysPressedRef is not a valid property of scene
         this.keysPressed = scene.keysPressedRef;
-        //@ts-expect-error - lastKeyRef is not a valid property of scene
         this.lastKey = scene.lastKeyRef;
 
         this.init();
@@ -95,7 +94,6 @@ export class Input {
             });
 
             cursors?.space.on('down', () => {
-                // this.onKeyPressed(SPACE);
                 this.keysPressed.current?.push(SPACE);
             });
             cursors?.space.on('up', () => {
@@ -103,7 +101,6 @@ export class Input {
             });
 
             cursors?.shift.on('down', () => {
-                // this.onKeyPressed(SHIFT);
                 this.keysPressed.current?.push(SHIFT);
             });
             cursors?.shift.on('up', () => {

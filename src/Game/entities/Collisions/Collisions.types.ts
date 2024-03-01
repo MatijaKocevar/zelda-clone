@@ -1,5 +1,5 @@
-import { Enemy } from '../../Enemy/Enemy';
-import { Player } from '../../Player/Player';
+import { Enemy } from '../Enemy/Enemy';
+import { Player } from '../Player/Player';
 
 export interface ICollisionBlock {
     scene: Phaser.Scene;

@@ -1,23 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { MobileInput } from '../../../Game/mechanics/MobileInput/MobileInputs';
 import './MobileControls.scss';
-
-export interface MobileControlsProps {
-    keysPressedref: React.MutableRefObject<string[]>;
-    lastKeyRef: React.MutableRefObject<string>;
-}
+import { MobileControlsProps } from './MobileControls.types';
 
 export const MobileControls = (props: MobileControlsProps) => {
     const mobileInputRef = useRef<MobileInput>();
 
     useEffect(() => {
-        if (props.keysPressedref.current) {
+        if (props.keysPressedRef.current) {
             mobileInputRef.current = new MobileInput(
-                props.keysPressedref,
+                props.keysPressedRef,
                 props.lastKeyRef
             );
         }
-    }, [props.keysPressedref, props.lastKeyRef]);
+    }, [props.keysPressedRef, props.lastKeyRef]);
 
     return (
         <div className="mobile-controls">
