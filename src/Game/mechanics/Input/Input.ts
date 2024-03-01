@@ -9,16 +9,16 @@ export const SPACE = 'SPACE';
 export const SHIFT = 'SHIFT';
 
 export class Input {
-    private scene: Phaser.Scene;
+    private scene: CustomScene;
     cursors?: Cursors;
     keysPressed: React.MutableRefObject<string[]>;
     lastKey: React.MutableRefObject<string>;
 
-    constructor(scene: CustomScene) {
-        this.scene = scene;
+    constructor(scene: Phaser.Scene) {
+        this.scene = scene as CustomScene;
 
-        this.keysPressed = scene.keysPressedRef;
-        this.lastKey = scene.lastKeyRef;
+        this.keysPressed = this.scene.keysPressedRef;
+        this.lastKey = this.scene.lastKeyRef;
 
         this.init();
     }
