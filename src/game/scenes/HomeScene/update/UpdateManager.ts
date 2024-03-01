@@ -17,7 +17,11 @@ export class UpdateManager {
 
     private updateEntities(): void {
         this.player.update();
-        this.enemies.forEach((enemy) => enemy.update());
+        this.enemies.forEach((enemy) => {
+            enemy.update();
+        });
+
+        this.enemies = this.enemies.filter((enemy) => !enemy.isDestroyed);
     }
 
     private updateEntityDepth(): void {

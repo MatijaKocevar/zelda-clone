@@ -7,6 +7,7 @@ export class PlayerAttack {
     private playerMovement: PlayerMovement;
     private lastSlashTime = 0;
     private slashCooldown = 500;
+    isSlashing = false;
 
     constructor(player: Player) {
         this.player = player.sprite;
@@ -23,12 +24,12 @@ export class PlayerAttack {
 
         if (keysPressed.current.includes(SPACE)) {
             if (
-                !this.playerMovement.isSlashing ||
-                (this.playerMovement.isSlashing &&
+                !this.isSlashing ||
+                (this.isSlashing &&
                     currentTime - this.lastSlashTime > this.slashCooldown)
             ) {
                 if (currentTime - this.lastSlashTime > this.slashCooldown) {
-                    this.playerMovement.isSlashing = true;
+                    this.isSlashing = true;
                     this.lastSlashTime = currentTime;
 
                     this.handleAttackAnimation();
@@ -82,15 +83,15 @@ export class PlayerAttack {
         }
 
         player.once('animationcomplete-slash-horizontal', () => {
-            this.playerMovement.isSlashing = false;
+            this.isSlashing = false;
             this.playerMovement.handleMovementAnimations();
         });
         player.once('animationcomplete-slash-up', () => {
-            this.playerMovement.isSlashing = false;
+            this.isSlashing = false;
             this.playerMovement.handleMovementAnimations();
         });
         player.once('animationcomplete-slash-down', () => {
-            this.playerMovement.isSlashing = false;
+            this.isSlashing = false;
             this.playerMovement.handleMovementAnimations();
         });
     }
