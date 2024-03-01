@@ -1,5 +1,5 @@
 import { DOWN, LEFT, RIGHT, SPACE, UP } from '../../../mechanics/Input/Input';
-import { IPlayerAttack } from '../entities/IPlayerAttack.interface';
+import { Player } from '../Player';
 import { PlayerMovement } from './PlayerMovement';
 
 export class PlayerAttack {
@@ -8,7 +8,7 @@ export class PlayerAttack {
     private lastSlashTime = 0;
     private slashCooldown = 500;
 
-    constructor({ player }: IPlayerAttack) {
+    constructor(player: Player) {
         this.player = player.sprite;
         this.playerMovement = player.playerMovement;
     }
