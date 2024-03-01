@@ -1,8 +1,8 @@
-import { IPlayer } from './entities/IPlayer.interface';
 import { PlayerMovement } from './components/PlayerMovement';
 import { PlayerAttack } from './components/PlayerAttack';
 import { PlayerStats } from './components/PlayerStats';
 import { PlayerLifeBar } from './components/PlayerLifeBar';
+import { IPlayer } from './Player.types';
 
 export class Player {
     scene: Phaser.Scene;
@@ -25,13 +25,9 @@ export class Player {
             maxHealth: 300,
             damage: 10,
         });
-        this.playerLifeBar = new PlayerLifeBar({ player: this });
-        this.playerMovement = new PlayerMovement({
-            player: this,
-        });
-        this.playerAttack = new PlayerAttack({
-            player: this,
-        });
+        this.playerLifeBar = new PlayerLifeBar(this);
+        this.playerMovement = new PlayerMovement(this);
+        this.playerAttack = new PlayerAttack(this);
 
         this.sprite.body?.setSize(20, 40, true);
         this.sprite.body?.setOffset(65, 90);

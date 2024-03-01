@@ -1,90 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Phaser from 'phaser';
-import { GameScene } from './scene/GameScene';
+// Game.tsx
+import React, { useRef } from 'react';
 import './Game.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 import { MobileControls } from '../GameUI/components/MobileControls/MobileControls';
+import { useFullScreen } from './hooks/useFullscreen';
+import { usePhaserGame } from './hooks/usePhaserGame';
+import { useMobileScreen } from './hooks/useMobileScreen';
 
 const Game: React.FC = () => {
     const gameComponentRef = useRef<HTMLDivElement>(null);
-    const [showFullScreenButton, setShowFullScreenButton] = useState(false);
-    const [isFullScreen, setIsFullScreen] = useState(false);
-    const gameref = useRef<Phaser.Game>();
-    const keysPressedref = useRef<string[]>([]);
+    const keysPressedRef = useRef<string[]>([]);
     const lastKeyRef = useRef<string>('RIGHT');
 
-    useEffect(() => {
-        const checkMobileDevice = () => {
-            const screenWidth = window.innerWidth;
-            setShowFullScreenButton(screenWidth <= 991 && !isFullScreen);
-        };
-
-        const updateFullScreenStatus = () => {
-            setIsFullScreen(!!document.fullscreenElement);
-        };
-
-        checkMobileDevice();
-        window.addEventListener('resize', checkMobileDevice);
-
-        document.addEventListener('fullscreenchange', updateFullScreenStatus);
-
-        const gamescene = new GameScene(keysPressedref, lastKeyRef);
-
-        const gameConfig: Phaser.Types.Core.GameConfig = {
-            mode: Phaser.Scale.FIT,
-            type: Phaser.AUTO,
-            width: window.innerWidth,
-            height: window.innerHeight,
-            parent: 'phaser-game-container',
-            render: {
-                pixelArt: true,
-                roundPixels: true,
-            },
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 0 },
-                    debug: false,
-                },
-            },
-            scene: gamescene,
-        };
-
-        gameref.current = new Phaser.Game(gameConfig);
-
-        const resizeGame = () => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            gameref.current?.scale.resize(width, height);
-        };
-
-        window.addEventListener('resize', resizeGame);
-
-        return () => {
-            gameref.current?.destroy(true);
-            window.removeEventListener('resize', resizeGame);
-            window.removeEventListener('resize', checkMobileDevice);
-            document.removeEventListener(
-                'fullscreenchange',
-                updateFullScreenStatus
-            );
-        };
-    }, [isFullScreen]);
-
-    const toggleFullScreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch((err) => {
-                console.error(
-                    `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-                );
-            });
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
-        }
-    };
+    const { isFullScreen, toggleFullScreen } = useFullScreen();
+    const showFullScreenButton = useMobileScreen(isFullScreen);
+    usePhaserGame({
+        gameContainerId: 'phaser-game-container',
+        keysPressedRef,
+        lastKeyRef,
+    });
 
     return (
         <>
@@ -111,7 +46,7 @@ const Game: React.FC = () => {
                 </button>
             )}
             <MobileControls
-                keysPressedref={keysPressedref}
+                keysPressedRef={keysPressedRef}
                 lastKeyRef={lastKeyRef}
             />
             <div ref={gameComponentRef} id="phaser-game-container"></div>

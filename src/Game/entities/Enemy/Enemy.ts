@@ -1,6 +1,6 @@
 import { Position } from '../../../types/Position.interface';
+import { IEnemy } from './Enemy.types';
 import { EnemyMovement } from './components/EnemyMovement';
-import { IEnemy } from './entities/IEnemy.interface';
 
 export class Enemy {
     scene: Phaser.Scene;

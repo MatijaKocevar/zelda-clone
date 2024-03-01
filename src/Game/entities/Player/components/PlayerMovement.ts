@@ -7,14 +7,14 @@ import {
     SPACE,
     UP,
 } from '../../../mechanics/Input/Input';
-import { IPlayerMovement } from '../entities/IPlayerMovement.interface';
+import { Player } from '../Player';
 
 export class PlayerMovement {
     private player: Phaser.Physics.Arcade.Sprite;
     isSlashing = false;
     input: Input;
 
-    constructor({ player }: IPlayerMovement) {
+    constructor(player: Player) {
         this.player = player.sprite;
         this.input = new Input(player.scene);
     }
