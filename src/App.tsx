@@ -1,13 +1,10 @@
 import './App.scss';
-import Game from './Game/Game';
-import { GameUI } from './GameUI/GameUI';
+import Game from './game/Game';
 
 function App() {
     return (
         <div className="app">
-            <GameUI>
-                <Game />
-            </GameUI>
+            <Game />
         </div>
     );
 }
