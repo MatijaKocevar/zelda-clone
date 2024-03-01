@@ -3,10 +3,10 @@ import React, { useRef } from 'react';
 import './Game.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpandAlt } from '@fortawesome/free-solid-svg-icons';
-import { MobileControls } from '../GameUI/components/MobileControls/MobileControls';
 import { useFullScreen } from './hooks/useFullscreen';
 import { usePhaserGame } from './hooks/usePhaserGame';
 import { useMobileScreen } from './hooks/useMobileScreen';
+import { MobileControls } from '../ui/MobileControls/MobileControls';
 
 const Game: React.FC = () => {
     const gameComponentRef = useRef<HTMLDivElement>(null);
