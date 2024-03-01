@@ -1,20 +1,10 @@
-import playerSprite from '../../../assets/characters/player/player.png';
-import pinkazoidSprite from '../../..//assets/characters/enemies/pinkazoid.png';
-import zomboiSprite from '../../..//assets/characters/enemies/zomboi.png';
-import heartSprite from '../../../assets/lifebar/heart_animated_2.png';
-import backgroundTopLeft from '../../../assets/map/background/topLeft.png';
-import backgroundTopRight from '../../../assets/map/background/topRight.png';
-import backgroundBottomLeft from '../../../assets/map/background/bottomLeft.png';
-import backgroundBottomRight from '../../../assets/map/background/bottomRight.png';
-import ForegroundTopLeft from '../../../assets/map/foreground/topLeft.png';
-import ForegroundTopRight from '../../../assets/map/foreground/topRight.png';
-import ForegroundBottomLeft from '../../../assets/map/foreground/bottomLeft.png';
-import ForegroundBottomRight from '../../../assets/map/foreground/bottomRight.png';
 import { Collisions } from '../../entities/Collisions/Collisions';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
 import { getHomeCollisions2dArray } from './data/homeCollisions';
 import { Enemy } from '../../entities/Enemy/Enemy';
+import { AssetLoader } from '../AssetLoader/AssetLoader';
+import { imageAssets, spriteSheetAssets } from './assets/GameAssets';
 
 export const PLAYER_WIDTH = 144;
 export const PLAYER_HEIGHT = 144;
@@ -36,8 +26,8 @@ export class HomeLevel {
     }
 
     preload() {
-        this.preloadSprites();
-        this.preloadImages();
+        AssetLoader.loadImages(this.scene, imageAssets);
+        AssetLoader.loadSpriteSheets(this.scene, spriteSheetAssets);
     }
 
     create() {
@@ -97,40 +87,6 @@ export class HomeLevel {
                 }
             });
         }
-    }
-
-    private preloadSprites() {
-        const { load } = this.scene;
-        load.spritesheet('player1', playerSprite, {
-            frameWidth: PLAYER_WIDTH,
-            frameHeight: PLAYER_HEIGHT,
-        });
-        load.spritesheet('pinkazoid', pinkazoidSprite, {
-            frameWidth: ENEMY_WIDTH,
-            frameHeight: ENEMY_HEIGHT,
-        });
-        load.spritesheet('zomboi', zomboiSprite, {
-            frameWidth: ENEMY_WIDTH,
-            frameHeight: ENEMY_HEIGHT,
-        });
-        load.spritesheet('heart', heartSprite, {
-            frameWidth: 17,
-            frameHeight: 17,
-        });
-    }
-
-    private preloadImages() {
-        const { load } = this.scene;
-
-        load.image('background-top-left', backgroundTopLeft);
-        load.image('background-top-right', backgroundTopRight);
-        load.image('background-bottom-left', backgroundBottomLeft);
-        load.image('background-bottom-right', backgroundBottomRight);
-
-        load.image('foreground-top-left', ForegroundTopLeft);
-        load.image('foreground-top-right', ForegroundTopRight);
-        load.image('foreground-bottom-left', ForegroundBottomLeft);
-        load.image('foreground-bottom-right', ForegroundBottomRight);
     }
 
     private setupBackgroudImages() {
