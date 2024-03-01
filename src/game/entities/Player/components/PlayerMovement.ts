@@ -10,12 +10,11 @@ import {
 import { Player } from '../Player';
 
 export class PlayerMovement {
-    private player: Phaser.Physics.Arcade.Sprite;
-    isSlashing = false;
+    private player: Player;
     input: Input;
 
     constructor(player: Player) {
-        this.player = player.sprite;
+        this.player = player;
         this.input = new Input(player.scene);
     }
 
@@ -33,12 +32,12 @@ export class PlayerMovement {
             movingVelocity = 150;
         }
 
-        if (this.isSlashing) {
-            player.setVelocityX(0);
-            player.setVelocityY(0);
+        if (player.playerAttack.isSlashing) {
+            player.sprite.setVelocityX(0);
+            player.sprite.setVelocityY(0);
         } else {
-            player.setVelocityX(0);
-            player.setVelocityY(0);
+            player.sprite.setVelocityX(0);
+            player.sprite.setVelocityY(0);
 
             const latestHorizontalKey = keysPressed.current
                 .filter((key) => key === LEFT || key === RIGHT)
@@ -54,15 +53,15 @@ export class PlayerMovement {
             }
 
             if (latestHorizontalKey === LEFT) {
-                player.setVelocityX(-movingVelocity);
+                player.sprite.setVelocityX(-movingVelocity);
             } else if (latestHorizontalKey === RIGHT) {
-                player.setVelocityX(movingVelocity);
+                player.sprite.setVelocityX(movingVelocity);
             }
 
             if (latestVerticalKey === UP) {
-                player.setVelocityY(-movingVelocity);
+                player.sprite.setVelocityY(-movingVelocity);
             } else if (latestVerticalKey === DOWN) {
-                player.setVelocityY(movingVelocity);
+                player.sprite.setVelocityY(movingVelocity);
             }
         }
     }
@@ -71,34 +70,34 @@ export class PlayerMovement {
         const { player } = this;
         const { keysPressed } = this.input;
 
-        if (!this.isSlashing) {
+        if (!player.playerAttack.isSlashing) {
             if (!keysPressed.current.includes(SHIFT)) {
                 if (keysPressed.current[0] === LEFT) {
-                    player.flipX = true;
-                    player.anims.play('run-horizontal', true);
+                    player.sprite.flipX = true;
+                    player.sprite.anims.play('run-horizontal', true);
                 } else if (keysPressed.current[0] === RIGHT) {
-                    player.flipX = false;
-                    player.anims.play('run-horizontal', true);
+                    player.sprite.flipX = false;
+                    player.sprite.anims.play('run-horizontal', true);
                 }
 
                 if (keysPressed.current[0] === UP) {
-                    player.anims.play('run-up', true);
+                    player.sprite.anims.play('run-up', true);
                 } else if (keysPressed.current[0] === DOWN) {
-                    player.anims.play('run-down', true);
+                    player.sprite.anims.play('run-down', true);
                 }
             } else {
                 if (keysPressed.current[0] === LEFT) {
-                    player.flipX = true;
-                    player.anims.play('walk-horizontal', true);
+                    player.sprite.flipX = true;
+                    player.sprite.anims.play('walk-horizontal', true);
                 } else if (keysPressed.current[0] === RIGHT) {
-                    player.flipX = false;
-                    player.anims.play('walk-horizontal', true);
+                    player.sprite.flipX = false;
+                    player.sprite.anims.play('walk-horizontal', true);
                 }
 
                 if (keysPressed.current[0] === UP) {
-                    player.anims.play('walk-up', true);
+                    player.sprite.anims.play('walk-up', true);
                 } else if (keysPressed.current[0] === DOWN) {
-                    player.anims.play('walk-down', true);
+                    player.sprite.anims.play('walk-down', true);
                 }
             }
 
@@ -112,18 +111,18 @@ export class PlayerMovement {
 
         if (keysPressed.current.length === 0) {
             if (lastKey.current === LEFT) {
-                player.flipX = true;
-                player.anims.play('idle-horizontal', true);
+                player.sprite.flipX = true;
+                player.sprite.anims.play('idle-horizontal', true);
             }
             if (lastKey.current === RIGHT) {
-                player.flipX = false;
-                player.anims.play('idle-horizontal', true);
+                player.sprite.flipX = false;
+                player.sprite.anims.play('idle-horizontal', true);
             }
             if (lastKey.current === UP) {
-                player.anims.play('idle-up', true);
+                player.sprite.anims.play('idle-up', true);
             }
             if (lastKey.current === DOWN) {
-                player.anims.play('idle-down', true);
+                player.sprite.anims.play('idle-down', true);
             }
         }
 
@@ -131,21 +130,21 @@ export class PlayerMovement {
             keysPressed.current.length === 1 &&
             (keysPressed.current[0] === SPACE ||
                 keysPressed.current[0] === SHIFT) &&
-            !this.isSlashing
+            !player.playerAttack.isSlashing
         ) {
             if (lastKey.current === LEFT) {
-                player.flipX = true;
-                player.anims.play('idle-horizontal', true);
+                player.sprite.flipX = true;
+                player.sprite.anims.play('idle-horizontal', true);
             }
             if (lastKey.current === RIGHT) {
-                player.flipX = false;
-                player.anims.play('idle-horizontal', true);
+                player.sprite.flipX = false;
+                player.sprite.anims.play('idle-horizontal', true);
             }
             if (lastKey.current === UP) {
-                player.anims.play('idle-up', true);
+                player.sprite.anims.play('idle-up', true);
             }
             if (lastKey.current === DOWN) {
-                player.anims.play('idle-down', true);
+                player.sprite.anims.play('idle-down', true);
             }
         }
     }
