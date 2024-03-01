@@ -1,4 +1,4 @@
-import { Cursors } from '../../../types/Cursors.interface';
+import { Cursors } from '../../types/Cursors.interface';
 import { CustomScene } from './Input.types';
 
 export const LEFT = 'LEFT';

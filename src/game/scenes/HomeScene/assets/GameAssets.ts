@@ -1,7 +1,3 @@
-import {
-    ImageAsset,
-    SpriteSheetAsset,
-} from '../../../utils/AssetLoader/AssetLoader.types';
 import playerSprite from '../../../../assets/characters/player/player.png';
 import pinkazoidSprite from '../../../../assets/characters/enemies/pinkazoid.png';
 import zomboiSprite from '../../../../assets/characters/enemies/zomboi.png';
@@ -14,6 +10,10 @@ import foregroundTopLeft from '../../../../assets/map/foreground/topLeft.png';
 import foregroundTopRight from '../../../../assets/map/foreground/topRight.png';
 import foregroundBottomLeft from '../../../../assets/map/foreground/bottomLeft.png';
 import foregroundBottomRight from '../../../../assets/map/foreground/bottomRight.png';
+import {
+    ImageAsset,
+    SpriteSheetAsset,
+} from '../../../utils/AssetLoader/AssetLoader.types';
 
 export const imageAssets: ImageAsset[] = [
     {

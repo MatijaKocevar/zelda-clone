@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { MobileInput } from '../../../Game/mechanics/MobileInput/MobileInputs';
 import './MobileControls.scss';
 import { MobileControlsProps } from './MobileControls.types';
+import { MobileInput } from '../../game/mechanics/MobileInput/MobileInputs';
 
 export const MobileControls = (props: MobileControlsProps) => {
     const mobileInputRef = useRef<MobileInput>();
