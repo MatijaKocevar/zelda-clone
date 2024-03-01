@@ -1,4 +1,4 @@
-import { IPlayerLifeBar } from '../entities/IPlayerLifeBar.interface';
+import { Player } from '../Player';
 import { PlayerStats } from './PlayerStats';
 
 export class PlayerLifeBar {
@@ -8,7 +8,7 @@ export class PlayerLifeBar {
     maxHeartsVisible: number;
     backgroundBox!: Phaser.GameObjects.Graphics;
 
-    constructor({ player }: IPlayerLifeBar) {
+    constructor(player: Player) {
         this.scene = player.scene;
         this.playerStats = player.playerStats;
         this.maxHeartsVisible = 20;

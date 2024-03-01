@@ -1,4 +1,4 @@
-import { IPlayerStats } from '../entities/IPlayerStats.interface';
+import { IPlayerStats } from '../Player.types';
 
 export class PlayerStats {
     health: number;

@@ -1,7 +1,7 @@
 import { TILE_SIZE } from '../../scene/HomeLevel/HomeLevel';
 import { Enemy } from '../Enemy/Enemy';
 import { Player } from '../Player/Player';
-import { ICollisionBlock } from './entities/ICollisions.interface';
+import { ICollisionBlock } from './Collisions.types';
 
 export class Collisions {
     private scene: Phaser.Scene;
