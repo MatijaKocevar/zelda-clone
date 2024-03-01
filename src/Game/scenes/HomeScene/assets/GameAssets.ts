@@ -1,7 +1,7 @@
 import {
     ImageAsset,
     SpriteSheetAsset,
-} from '../../AssetLoader/AssetLoader.types';
+} from '../../../utils/AssetLoader/AssetLoader.types';
 import playerSprite from '../../../../assets/characters/player/player.png';
 import pinkazoidSprite from '../../../../assets/characters/enemies/pinkazoid.png';
 import zomboiSprite from '../../../../assets/characters/enemies/zomboi.png';

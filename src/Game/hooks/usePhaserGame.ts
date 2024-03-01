@@ -1,7 +1,6 @@
-// usePhaserGame.ts
 import { useRef, useEffect } from 'react';
 import Phaser from 'phaser';
-import { GameScene } from '../scene/GameScene';
+import { GameScene } from '../scenes/GameScene';
 
 type UsePhaserGameProps = {
     gameContainerId: string;
@@ -9,7 +8,11 @@ type UsePhaserGameProps = {
     lastKeyRef: React.MutableRefObject<string>;
 };
 
-export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: UsePhaserGameProps) => {
+export const usePhaserGame = ({
+    gameContainerId,
+    keysPressedRef,
+    lastKeyRef,
+}: UsePhaserGameProps) => {
     const gameRef = useRef<Phaser.Game | null>(null);
 
     useEffect(() => {
@@ -43,5 +46,5 @@ export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: U
         };
     }, [gameContainerId, keysPressedRef, lastKeyRef]);
 
-    return {gameRef};
+    return { gameRef };
 };
