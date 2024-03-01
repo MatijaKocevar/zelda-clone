@@ -2,7 +2,7 @@ import { Collisions } from '../../entities/Collisions/Collisions';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
 import { Enemy } from '../../entities/Enemy/Enemy';
-import { AssetLoader } from '../AssetLoader/AssetLoader';
+import { AssetLoader } from '../../utils/AssetLoader/AssetLoader';
 import { imageAssets, spriteSheetAssets } from './assets/GameAssets';
 import { UpdateManager } from './update/UpdateManager';
 import { SetupManager } from './setup/SetupManager';
