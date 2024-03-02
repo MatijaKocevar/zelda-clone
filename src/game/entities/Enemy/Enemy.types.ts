@@ -1,5 +1,4 @@
 import { Position } from '../../types/Position.interface';
-import { Player } from '../Player/Player';
 import { Enemy } from './Enemy';
 
 export interface IEnemy {
