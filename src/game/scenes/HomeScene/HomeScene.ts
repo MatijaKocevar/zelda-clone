@@ -2,7 +2,7 @@ import { Collisions } from '../../entities/Collisions/Collisions';
 import { Player } from '../../entities/Player/Player';
 import { Animations } from '../../mechanics/Animations/Animations';
 import { Enemy } from '../../entities/Enemy/Enemy';
-import { imageAssets, spriteSheetAssets } from './assets/GameAssets';
+import { homeImageAssets, homeSpriteSheetAssets } from './assets/HomeAssets';
 import { UpdateManager } from './update/UpdateManager';
 import { SetupManager } from './setup/SetupManager';
 import { AssetLoader } from '../../utils/AssetLoader/AssetLoader';
@@ -21,8 +21,8 @@ export class HomeScene {
     }
 
     preload() {
-        AssetLoader.loadImages(this.scene, imageAssets);
-        AssetLoader.loadSpriteSheets(this.scene, spriteSheetAssets);
+        AssetLoader.loadImages(this.scene, homeImageAssets);
+        AssetLoader.loadSpriteSheets(this.scene, homeSpriteSheetAssets);
     }
 
     create() {
