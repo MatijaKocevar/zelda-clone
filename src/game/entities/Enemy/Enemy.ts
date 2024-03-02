@@ -7,9 +7,9 @@ export class Enemy {
     position: Position;
     sprite: Phaser.Physics.Arcade.Sprite;
     enemyMovement: EnemyMovement;
-    isDestroyed: boolean = false;
+    isDestroyed = false;
 
-    health: number = 100;
+    health = 100;
 
     constructor({ position, scene, moveDirection, spriteName }: IEnemy) {
         this.position = position;
@@ -38,13 +38,14 @@ export class Enemy {
     public takeDamage(damage: number) {
         this.health -= damage;
 
-        if (this.health <= 0) {
-            this.destroy();
-        }
+        console.log('Enemy took damage', this.health);
+
+        if (this.health <= 0) this.destroy();
     }
 
     public destroy() {
         this.isDestroyed = true;
-        this.sprite.setVisible(false);
+        this.sprite.setVisible(false).setActive(false);
+        this.sprite.destroy();
     }
 }
