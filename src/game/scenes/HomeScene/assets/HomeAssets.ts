@@ -15,7 +15,7 @@ import {
     SpriteSheetAsset,
 } from '../../../utils/AssetLoader/AssetLoader.types';
 
-export const imageAssets: ImageAsset[] = [
+export const homeImageAssets: ImageAsset[] = [
     {
         key: 'background-top-left',
         path: backgroundTopLeft,
@@ -50,7 +50,7 @@ export const imageAssets: ImageAsset[] = [
     },
 ];
 
-export const spriteSheetAssets: SpriteSheetAsset[] = [
+export const homeSpriteSheetAssets: SpriteSheetAsset[] = [
     {
         key: 'player1',
         path: playerSprite,
