@@ -54,26 +54,20 @@ export class Collisions {
 
         physics.add.collider(this.player.sprite, block);
 
-        this.enemies.forEach((enemy) => {
-            physics.add.collider(enemy.sprite, block, () => {});
-        });
+        this.enemies.forEach((enemy) =>
+            physics.add.collider(enemy.sprite, block)
+        );
     }
 
     private addColliders() {
         const { physics, time } = this.scene;
         const { player, enemies } = this;
 
-        player.sprite.setPushable(true);
-
         enemies.forEach((enemy) => {
-            enemy.sprite.setPushable(true);
-
             physics.add.collider(player.sprite, enemy.sprite, () => {
-                if (player.playerAttack.isSlashing) {
-                    enemy.takeDamage(25);
-                }
-
                 time.delayedCall(100, () => {
+                    if (enemy.isDestroyed) return;
+
                     enemy.sprite.setVelocity(0, 0);
                 });
             });
