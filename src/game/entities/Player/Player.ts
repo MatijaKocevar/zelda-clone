@@ -12,7 +12,7 @@ export class Player {
     playerStats: PlayerStats;
     playerLifeBar: PlayerLifeBar;
 
-    constructor({ position, scene }: IPlayer) {
+    constructor({ position, scene, enemies }: IPlayer) {
         this.scene = scene;
 
         this.sprite = scene.physics.add.sprite(
@@ -27,7 +27,7 @@ export class Player {
         });
         this.playerLifeBar = new PlayerLifeBar(this);
         this.playerMovement = new PlayerMovement(this);
-        this.playerAttack = new PlayerAttack(this);
+        this.playerAttack = new PlayerAttack(this, enemies);
 
         this.sprite.body?.setSize(20, 40, true);
         this.sprite.body?.setOffset(65, 90);
@@ -37,5 +37,7 @@ export class Player {
         this.playerAttack.update();
         this.playerMovement.update();
         this.playerLifeBar.update();
+
+        console.log('Player updated position: ', this.sprite.x, this.sprite.y);
     }
 }

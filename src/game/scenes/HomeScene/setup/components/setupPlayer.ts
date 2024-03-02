@@ -1,12 +1,14 @@
+import { Enemy } from '../../../../entities/Enemy/Enemy';
 import { Player } from '../../../../entities/Player/Player';
 
 export const WORLD_WIDTH = 5120;
 export const WORLD_HEIGHT = 2880;
 
-export function setupPlayer(scene: Phaser.Scene): Player {
+export function setupPlayer(scene: Phaser.Scene, enemies: Enemy[]): Player {
     const player = new Player({
         position: { x: 2400, y: 1250 },
-        scene: scene,
+        scene,
+        enemies,
     });
 
     scene.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);

@@ -26,8 +26,11 @@ export class SetupManager {
     init() {
         this.animations = setupAnimations(this.scene);
         setupBackgroundImages(this.scene);
-        this.player = setupPlayer(this.scene);
         this.enemies = setupEnemies(this.scene);
+        this.player = setupPlayer(this.scene, this.enemies);
+        this.enemies.forEach((enemy) =>
+            enemy.enemyMovement.setPlayer(this.player)
+        );
         this.collisions = setupCollisions(
             this.scene,
             this.player,
