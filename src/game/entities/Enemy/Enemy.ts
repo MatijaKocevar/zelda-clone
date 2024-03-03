@@ -11,7 +11,7 @@ export class Enemy {
 
     health = 100;
 
-    constructor({ position, scene, moveDirection, spriteName }: IEnemy) {
+    constructor({ position, scene, spriteName, patrolPath }: IEnemy) {
         this.position = position;
         this.scene = scene;
 
@@ -23,8 +23,8 @@ export class Enemy {
 
         this.enemyMovement = new EnemyMovement({
             enemy: this,
-            moveDirection: moveDirection,
             spriteName,
+            patrolPath: patrolPath,
         });
 
         this.sprite.body?.setSize(27, 35);
