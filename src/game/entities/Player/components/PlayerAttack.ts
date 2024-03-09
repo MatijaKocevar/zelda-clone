@@ -10,6 +10,7 @@ export class PlayerAttack {
     private slashCooldown = 500;
     private enemies: Enemy[];
     isSlashing = false;
+    attackDirection = '';
 
     private attackHitbox!: Phaser.Physics.Arcade.Sprite;
     private hitEnemies: Set<Enemy>;
@@ -31,12 +32,17 @@ export class PlayerAttack {
                 if (this.attackHitbox.active === false) return;
                 if (this.hitEnemies.has(enemy)) return;
 
-                console.log('hit', this.player.playerStats.damage);
-
-                enemy.takeDamage(this.player.playerStats.damage);
+                const closeContact = this.isInCloseContact(enemy);
+                enemy.takeDamage(this.player.playerStats.damage, this.attackDirection, closeContact);
                 this.hitEnemies.add(enemy);
             });
         });
+    }
+
+    private isInCloseContact(enemy: Enemy) {
+        return (
+            Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.attackHitbox.x, this.attackHitbox.y) < 15
+        );
     }
 
     update() {
@@ -59,19 +65,19 @@ export class PlayerAttack {
     }
 
     private handleAttackAnimation(): void {
-        const direction = this.determineAttackDirection();
-        this.triggerAttackAnimation(direction);
-        this.positionHitbox(direction);
+        this.determineAttackDirection();
+        this.triggerAttackAnimation();
+        this.positionHitbox();
     }
 
-    private determineAttackDirection(): string {
+    private determineAttackDirection() {
         const { keysPressed, lastKey } = this.playerMovement.input;
-        const direction = keysPressed.current.find((key) => [LEFT, RIGHT, UP, DOWN].includes(key)) || lastKey.current;
-        return direction;
+        this.attackDirection =
+            keysPressed.current.find((key) => [LEFT, RIGHT, UP, DOWN].includes(key)) || lastKey.current;
     }
 
-    private triggerAttackAnimation(direction: string): void {
-        switch (direction) {
+    private triggerAttackAnimation() {
+        switch (this.attackDirection) {
             case UP:
                 this.player.sprite.anims.play('slash-up', true);
                 break;
@@ -94,16 +100,16 @@ export class PlayerAttack {
         this.player.sprite.once('animationcomplete', () => this.onAttackAnimationComplete());
     }
 
-    private positionHitbox(direction: string): void {
-        const offsets = this.calculateHitboxOffset(direction);
-        const size = this.calculateHitboxSize(direction);
+    private positionHitbox() {
+        const offsets = this.calculateHitboxOffset();
+        const size = this.calculateHitboxSize();
 
         this.attackHitbox.setPosition(this.player.sprite.x + offsets.x, this.player.sprite.y + offsets.y);
         this.attackHitbox.setSize(size.width, size.height).setActive(true);
     }
 
-    private calculateHitboxSize(direction: string) {
-        switch (direction) {
+    private calculateHitboxSize() {
+        switch (this.attackDirection) {
             case UP:
                 return { width: 50, height: 30 };
             case DOWN:
@@ -117,8 +123,8 @@ export class PlayerAttack {
         }
     }
 
-    private calculateHitboxOffset(direction: string): { x: number; y: number } {
-        switch (direction) {
+    private calculateHitboxOffset(): { x: number; y: number } {
+        switch (this.attackDirection) {
             case UP:
                 return { x: 3, y: 5 };
             case DOWN:

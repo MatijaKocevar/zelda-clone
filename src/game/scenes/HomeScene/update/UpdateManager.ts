@@ -24,7 +24,7 @@ export class UpdateManager {
             }
         }
 
-        // this.enemies.forEach((enemy) => enemy.update());
+        this.enemies.forEach((enemy) => enemy.update());
     }
 
     private updateEntityDepth(): void {
