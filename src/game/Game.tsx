@@ -45,10 +45,7 @@ const Game: React.FC = () => {
                     <FontAwesomeIcon icon={faExpandAlt} />
                 </button>
             )}
-            <MobileControls
-                keysPressedRef={keysPressedRef}
-                lastKeyRef={lastKeyRef}
-            />
+            <MobileControls keysPressedRef={keysPressedRef} lastKeyRef={lastKeyRef} />
             <div ref={gameComponentRef} id="phaser-game-container"></div>
         </>
     );

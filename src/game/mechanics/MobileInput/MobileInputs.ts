@@ -5,10 +5,7 @@ export class MobileInput {
     keysPressed: React.MutableRefObject<string[]>;
     lastKey: React.MutableRefObject<string>;
 
-    constructor(
-        keysPressedRef: React.MutableRefObject<string[]>,
-        lastKeyRef: React.MutableRefObject<string>
-    ) {
+    constructor(keysPressedRef: React.MutableRefObject<string[]>, lastKeyRef: React.MutableRefObject<string>) {
         this.keysPressed = keysPressedRef;
         this.lastKey = lastKeyRef;
     }

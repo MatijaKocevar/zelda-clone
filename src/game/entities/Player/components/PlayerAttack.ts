@@ -23,25 +23,17 @@ export class PlayerAttack {
     }
 
     private initializeHitbox(): void {
-        this.attackHitbox = this.player.scene.physics.add.sprite(
-            -10000,
-            -10000,
-            'hitbox'
-        );
+        this.attackHitbox = this.player.scene.physics.add.sprite(-10000, -10000, 'hitbox');
         this.attackHitbox.setVisible(false).setActive(false);
 
         this.enemies.forEach((enemy) => {
-            this.player.scene.physics.add.overlap(
-                this.attackHitbox,
-                enemy.sprite,
-                () => {
-                    if (this.attackHitbox.active === false) return;
-                    if (this.hitEnemies.has(enemy)) return;
+            this.player.scene.physics.add.overlap(this.attackHitbox, enemy.sprite, () => {
+                if (this.attackHitbox.active === false) return;
+                if (this.hitEnemies.has(enemy)) return;
 
-                    enemy.takeDamage(25);
-                    this.hitEnemies.add(enemy);
-                }
-            );
+                enemy.takeDamage(25);
+                this.hitEnemies.add(enemy);
+            });
         });
     }
 
@@ -53,10 +45,7 @@ export class PlayerAttack {
         const { keysPressed } = this.playerMovement.input;
         const currentTime = this.player.scene.time.now;
 
-        if (
-            keysPressed.current.includes(SPACE) &&
-            this.canAttack(currentTime)
-        ) {
+        if (keysPressed.current.includes(SPACE) && this.canAttack(currentTime)) {
             this.isSlashing = true;
             this.lastSlashTime = currentTime;
             this.handleAttackAnimation();
@@ -75,10 +64,7 @@ export class PlayerAttack {
 
     private determineAttackDirection(): string {
         const { keysPressed, lastKey } = this.playerMovement.input;
-        const direction =
-            keysPressed.current.find((key) =>
-                [LEFT, RIGHT, UP, DOWN].includes(key)
-            ) || lastKey.current;
+        const direction = keysPressed.current.find((key) => [LEFT, RIGHT, UP, DOWN].includes(key)) || lastKey.current;
         return direction;
     }
 
@@ -103,19 +89,14 @@ export class PlayerAttack {
                 break;
         }
 
-        this.player.once('animationcomplete', () =>
-            this.onAttackAnimationComplete()
-        );
+        this.player.once('animationcomplete', () => this.onAttackAnimationComplete());
     }
 
     private positionHitbox(direction: string): void {
         const offsets = this.calculateHitboxOffset(direction);
         const size = this.calculateHitboxSize(direction);
 
-        this.attackHitbox.setPosition(
-            this.player.x + offsets.x,
-            this.player.y + offsets.y
-        );
+        this.attackHitbox.setPosition(this.player.x + offsets.x, this.player.y + offsets.y);
         this.attackHitbox.setSize(size.width, size.height).setActive(true);
     }
 
@@ -145,17 +126,17 @@ export class PlayerAttack {
             case RIGHT:
                 return { x: 37, y: 40 };
             default:
-                return { x: this.player.flipX ? -20 : 20, y: 0 };
+                return {
+                    x: this.player.flipX ? -20 : 20,
+                    y: 0,
+                };
         }
     }
 
     private onAttackAnimationComplete(): void {
         this.isSlashing = false;
         this.playerMovement.handleMovementAnimations();
-        this.attackHitbox
-            .setActive(false)
-            .setVisible(false)
-            .setPosition(-10000, -10000);
+        this.attackHitbox.setActive(false).setVisible(false).setPosition(-10000, -10000);
 
         this.hitEnemies.clear();
     }

@@ -4,14 +4,9 @@ export const useFullScreen = () => {
     const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
     useEffect(() => {
-        const updateFullScreenStatus = () =>
-            setIsFullScreen(!!document.fullscreenElement);
+        const updateFullScreenStatus = () => setIsFullScreen(!!document.fullscreenElement);
         document.addEventListener('fullscreenchange', updateFullScreenStatus);
-        return () =>
-            document.removeEventListener(
-                'fullscreenchange',
-                updateFullScreenStatus
-            );
+        return () => document.removeEventListener('fullscreenchange', updateFullScreenStatus);
     }, []);
 
     const toggleFullScreen = (): void => {

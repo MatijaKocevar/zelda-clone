@@ -5,10 +5,7 @@ export class GameScene extends Phaser.Scene {
     keysPressedRef: React.MutableRefObject<string[]>;
     lastKeyRef: React.MutableRefObject<string>;
 
-    constructor(
-        keysPressedRef: React.MutableRefObject<string[]>,
-        lastKeyRef: React.MutableRefObject<string>
-    ) {
+    constructor(keysPressedRef: React.MutableRefObject<string[]>, lastKeyRef: React.MutableRefObject<string>) {
         super('GameScene');
         this.keysPressedRef = keysPressedRef;
         this.lastKeyRef = lastKeyRef;

@@ -8,11 +8,7 @@ type UsePhaserGameProps = {
     lastKeyRef: React.MutableRefObject<string>;
 };
 
-export const usePhaserGame = ({
-    gameContainerId,
-    keysPressedRef,
-    lastKeyRef,
-}: UsePhaserGameProps) => {
+export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: UsePhaserGameProps) => {
     const gameRef = useRef<Phaser.Game | null>(null);
 
     useEffect(() => {
@@ -23,10 +19,16 @@ export const usePhaserGame = ({
             width: window.innerWidth,
             height: window.innerHeight,
             parent: gameContainerId,
-            render: { pixelArt: true, roundPixels: true },
+            render: {
+                pixelArt: true,
+                roundPixels: true,
+            },
             physics: {
                 default: 'arcade',
-                arcade: { gravity: { y: 0 }, debug: false },
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false,
+                },
             },
             scene: gameScene,
         };

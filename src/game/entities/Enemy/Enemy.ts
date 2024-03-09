@@ -15,11 +15,7 @@ export class Enemy {
         this.position = position;
         this.scene = scene;
 
-        this.sprite = scene.physics.add.sprite(
-            position.x,
-            position.y,
-            spriteName
-        );
+        this.sprite = scene.physics.add.sprite(position.x, position.y, spriteName);
 
         this.enemyMovement = new EnemyMovement({
             enemy: this,

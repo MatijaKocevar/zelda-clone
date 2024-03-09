@@ -7,16 +7,9 @@ export class AssetLoader {
         });
     }
 
-    static loadSpriteSheets(
-        scene: Phaser.Scene,
-        spriteSheets: SpriteSheetAsset[]
-    ): void {
+    static loadSpriteSheets(scene: Phaser.Scene, spriteSheets: SpriteSheetAsset[]): void {
         spriteSheets.forEach((spriteSheet) => {
-            scene.load.spritesheet(
-                spriteSheet.key,
-                spriteSheet.path,
-                spriteSheet.frameConfig
-            );
+            scene.load.spritesheet(spriteSheet.key, spriteSheet.path, spriteSheet.frameConfig);
         });
     }
 }
