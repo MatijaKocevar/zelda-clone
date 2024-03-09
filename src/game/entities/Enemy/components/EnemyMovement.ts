@@ -13,8 +13,7 @@ export class EnemyMovement {
     private pauseTimer = 0;
     private isPaused = false;
     private alertSpeedMultiplier = 1.5;
-    private lastDirection: 'left' | 'right' | 'up' | 'down' | 'horizontal' =
-        'horizontal';
+    private lastDirection: 'left' | 'right' | 'up' | 'down' | 'horizontal' = 'horizontal';
 
     constructor({ enemy, patrolPath, spriteName }: IEnemyMovement) {
         this.enemy = enemy;
@@ -42,7 +41,7 @@ export class EnemyMovement {
                 this.enemy.sprite.x,
                 this.enemy.sprite.y,
                 this.player.sprite.x,
-                this.player.sprite.y
+                this.player.sprite.y,
             );
 
             if (distanceToPlayer <= this.detectionRange) {
@@ -60,12 +59,7 @@ export class EnemyMovement {
             const enemyCenterX = this.enemy.sprite.body?.center.x ?? 0;
             const enemyCenterY = this.enemy.sprite.body?.center.y ?? 0;
 
-            const angle = Phaser.Math.Angle.Between(
-                enemyCenterX,
-                enemyCenterY,
-                playerCenterX,
-                playerCenterY
-            );
+            const angle = Phaser.Math.Angle.Between(enemyCenterX, enemyCenterY, playerCenterX, playerCenterY);
 
             const velocity = 100 * this.alertSpeedMultiplier;
             const velocityX = Math.cos(angle) * velocity;
@@ -74,12 +68,8 @@ export class EnemyMovement {
             this.enemy.sprite.setVelocityX(velocityX);
             this.enemy.sprite.setVelocityY(velocityY);
 
-            this.enemy.sprite.flipX =
-                this.player.sprite.x < this.enemy.sprite.x;
-            this.enemy.sprite.anims.play(
-                `${this.spriteName}-walk-horizontal`,
-                true
-            );
+            this.enemy.sprite.flipX = this.player.sprite.x < this.enemy.sprite.x;
+            this.enemy.sprite.anims.play(`${this.spriteName}-walk-horizontal`, true);
         }
     }
 
@@ -92,32 +82,21 @@ export class EnemyMovement {
             case 'left':
             case 'right':
                 sprite.setVelocityY(0);
-                sprite.setVelocityX(
-                    path.direction === 'right' ? velocity : -velocity
-                );
+                sprite.setVelocityX(path.direction === 'right' ? velocity : -velocity);
                 sprite.flipX = path.direction === 'left';
                 break;
             case 'up':
             case 'down':
                 sprite.setVelocityX(0);
-                sprite.setVelocityY(
-                    path.direction === 'down' ? velocity : -velocity
-                );
+                sprite.setVelocityY(path.direction === 'down' ? velocity : -velocity);
                 break;
         }
 
-        this.lastDirection =
-            path.direction === 'left' || path.direction === 'right'
-                ? 'horizontal'
-                : path.direction;
+        this.lastDirection = path.direction === 'left' || path.direction === 'right' ? 'horizontal' : path.direction;
 
-        sprite.anims.play(
-            `${this.spriteName}-walk-${this.lastDirection}`,
-            true
-        );
+        sprite.anims.play(`${this.spriteName}-walk-${this.lastDirection}`, true);
 
-        this.currentMoveDistance +=
-            Math.abs(velocity * this.enemy.scene.game.loop.delta) / 1000;
+        this.currentMoveDistance += Math.abs(velocity * this.enemy.scene.game.loop.delta) / 1000;
         if (this.currentMoveDistance >= path.distance) {
             this.prepareForPause();
         }

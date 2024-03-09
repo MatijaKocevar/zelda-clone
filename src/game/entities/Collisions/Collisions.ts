@@ -10,12 +10,7 @@ export class Collisions {
     private enemies: Enemy[];
     private collisions2dArray: number[][];
 
-    constructor({
-        scene,
-        player,
-        enemies,
-        collisions2dArray,
-    }: ICollisionBlock) {
+    constructor({ scene, player, enemies, collisions2dArray }: ICollisionBlock) {
         this.scene = scene;
         this.player = player;
         this.enemies = enemies;
@@ -54,9 +49,7 @@ export class Collisions {
 
         physics.add.collider(this.player.sprite, block);
 
-        this.enemies.forEach((enemy) =>
-            physics.add.collider(enemy.sprite, block)
-        );
+        this.enemies.forEach((enemy) => physics.add.collider(enemy.sprite, block));
     }
 
     private addColliders() {

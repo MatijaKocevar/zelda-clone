@@ -33,24 +33,12 @@ export class Input {
 
         if (scene.input.keyboard) {
             const cursors = {
-                up: scene.input.keyboard.addKey(
-                    Phaser.Input.Keyboard.KeyCodes.W
-                ),
-                down: scene.input.keyboard.addKey(
-                    Phaser.Input.Keyboard.KeyCodes.S
-                ),
-                left: scene.input.keyboard.addKey(
-                    Phaser.Input.Keyboard.KeyCodes.A
-                ),
-                right: scene.input.keyboard.addKey(
-                    Phaser.Input.Keyboard.KeyCodes.D
-                ),
-                space: scene.input.keyboard.addKey(
-                    Phaser.Input.Keyboard.KeyCodes.SPACE
-                ),
-                shift: scene.input.keyboard.addKey(
-                    Phaser.Input.Keyboard.KeyCodes.SHIFT
-                ),
+                up: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+                down: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+                left: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+                right: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+                space: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
+                shift: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT),
             };
 
             this.cursors = cursors;

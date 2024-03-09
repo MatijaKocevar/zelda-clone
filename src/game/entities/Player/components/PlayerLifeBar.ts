@@ -23,21 +23,14 @@ export class PlayerLifeBar {
         const startX = 30;
         const startY = 30;
 
-        const heartsToDisplay = Math.min(
-            this.playerStats.maxHealth / 100,
-            this.maxHeartsVisible
-        );
+        const heartsToDisplay = Math.min(this.playerStats.maxHealth / 100, this.maxHeartsVisible);
 
         for (let i = 0; i < heartsToDisplay; i++) {
             const rowNum = Math.floor(i / 10);
             const heartX = startX + (i % 10) * heartWidth;
             const heartY = startY + rowNum * rowOffset;
 
-            const heart = this.scene.physics.add.sprite(
-                heartX,
-                heartY,
-                'heart'
-            );
+            const heart = this.scene.physics.add.sprite(heartX, heartY, 'heart');
             heart.setDepth(100);
             heart.setScrollFactor(0);
             this.hearts.push(heart);
@@ -45,10 +38,7 @@ export class PlayerLifeBar {
     }
 
     private createBackgroundBox() {
-        const heartsToDisplay = Math.min(
-            this.playerStats.maxHealth / 100,
-            this.maxHeartsVisible
-        );
+        const heartsToDisplay = Math.min(this.playerStats.maxHealth / 100, this.maxHeartsVisible);
 
         const rows = Math.ceil(heartsToDisplay / 10);
         const heartsInFirstRow = heartsToDisplay > 10 ? 10 : heartsToDisplay;
@@ -58,13 +48,7 @@ export class PlayerLifeBar {
 
         this.backgroundBox = this.scene.add.graphics();
         this.backgroundBox.fillStyle(0x000000, 0.3);
-        this.backgroundBox.fillRoundedRect(
-            15,
-            17,
-            boxWidth,
-            boxHeight,
-            cornerRadius
-        );
+        this.backgroundBox.fillRoundedRect(15, 17, boxWidth, boxHeight, cornerRadius);
         this.backgroundBox.setScrollFactor(0);
         this.backgroundBox.setDepth(99);
     }

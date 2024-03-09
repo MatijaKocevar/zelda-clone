@@ -10,10 +10,7 @@ import foregroundTopLeft from '../../../../assets/map/foreground/topLeft.png';
 import foregroundTopRight from '../../../../assets/map/foreground/topRight.png';
 import foregroundBottomLeft from '../../../../assets/map/foreground/bottomLeft.png';
 import foregroundBottomRight from '../../../../assets/map/foreground/bottomRight.png';
-import {
-    ImageAsset,
-    SpriteSheetAsset,
-} from '../../../utils/AssetLoader/AssetLoader.types';
+import { ImageAsset, SpriteSheetAsset } from '../../../utils/AssetLoader/AssetLoader.types';
 
 export const homeImageAssets: ImageAsset[] = [
     {
@@ -54,21 +51,33 @@ export const homeSpriteSheetAssets: SpriteSheetAsset[] = [
     {
         key: 'player1',
         path: playerSprite,
-        frameConfig: { frameWidth: 144, frameHeight: 144 },
+        frameConfig: {
+            frameWidth: 144,
+            frameHeight: 144,
+        },
     },
     {
         key: 'pinkazoid',
         path: pinkazoidSprite,
-        frameConfig: { frameWidth: 96, frameHeight: 96 },
+        frameConfig: {
+            frameWidth: 96,
+            frameHeight: 96,
+        },
     },
     {
         key: 'zomboi',
         path: zomboiSprite,
-        frameConfig: { frameWidth: 96, frameHeight: 96 },
+        frameConfig: {
+            frameWidth: 96,
+            frameHeight: 96,
+        },
     },
     {
         key: 'heart',
         path: heartSprite,
-        frameConfig: { frameWidth: 17, frameHeight: 17 },
+        frameConfig: {
+            frameWidth: 17,
+            frameHeight: 17,
+        },
     },
 ];
