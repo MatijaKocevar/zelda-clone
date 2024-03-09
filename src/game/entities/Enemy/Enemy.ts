@@ -34,8 +34,6 @@ export class Enemy {
     public takeDamage(damage: number) {
         this.health -= damage;
 
-        console.log('Enemy took damage', this.health);
-
         if (this.health <= 0) this.destroy();
     }
 

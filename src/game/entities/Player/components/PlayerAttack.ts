@@ -4,7 +4,7 @@ import { Player } from '../Player';
 import { PlayerMovement } from './PlayerMovement';
 
 export class PlayerAttack {
-    private player: Phaser.Physics.Arcade.Sprite;
+    private player: Player;
     private playerMovement: PlayerMovement;
     private lastSlashTime = 0;
     private slashCooldown = 500;
@@ -15,7 +15,7 @@ export class PlayerAttack {
     private hitEnemies: Set<Enemy>;
 
     constructor(player: Player, enemies: Enemy[]) {
-        this.player = player.sprite;
+        this.player = player;
         this.enemies = enemies;
         this.hitEnemies = new Set();
         this.playerMovement = player.playerMovement;
@@ -31,7 +31,9 @@ export class PlayerAttack {
                 if (this.attackHitbox.active === false) return;
                 if (this.hitEnemies.has(enemy)) return;
 
-                enemy.takeDamage(25);
+                console.log('hit', this.player.playerStats.damage);
+
+                enemy.takeDamage(this.player.playerStats.damage);
                 this.hitEnemies.add(enemy);
             });
         });
@@ -71,32 +73,32 @@ export class PlayerAttack {
     private triggerAttackAnimation(direction: string): void {
         switch (direction) {
             case UP:
-                this.player.anims.play('slash-up', true);
+                this.player.sprite.anims.play('slash-up', true);
                 break;
             case DOWN:
-                this.player.anims.play('slash-down', true);
+                this.player.sprite.anims.play('slash-down', true);
                 break;
             case LEFT:
-                this.player.flipX = true;
-                this.player.anims.play('slash-horizontal', true);
+                this.player.sprite.flipX = true;
+                this.player.sprite.anims.play('slash-horizontal', true);
                 break;
             case RIGHT:
-                this.player.flipX = false;
-                this.player.anims.play('slash-horizontal', true);
+                this.player.sprite.flipX = false;
+                this.player.sprite.anims.play('slash-horizontal', true);
                 break;
             default:
-                this.player.anims.play('slash-horizontal', true);
+                this.player.sprite.anims.play('slash-horizontal', true);
                 break;
         }
 
-        this.player.once('animationcomplete', () => this.onAttackAnimationComplete());
+        this.player.sprite.once('animationcomplete', () => this.onAttackAnimationComplete());
     }
 
     private positionHitbox(direction: string): void {
         const offsets = this.calculateHitboxOffset(direction);
         const size = this.calculateHitboxSize(direction);
 
-        this.attackHitbox.setPosition(this.player.x + offsets.x, this.player.y + offsets.y);
+        this.attackHitbox.setPosition(this.player.sprite.x + offsets.x, this.player.sprite.y + offsets.y);
         this.attackHitbox.setSize(size.width, size.height).setActive(true);
     }
 
@@ -127,7 +129,7 @@ export class PlayerAttack {
                 return { x: 37, y: 40 };
             default:
                 return {
-                    x: this.player.flipX ? -20 : 20,
+                    x: this.player.sprite.flipX ? -20 : 20,
                     y: 0,
                 };
         }

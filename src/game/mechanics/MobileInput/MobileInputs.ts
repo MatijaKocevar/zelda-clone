@@ -54,11 +54,9 @@ export class MobileInput {
     }
 
     onKeyReleased(key: string) {
-        console.log('key released', key);
         const index = this.keysPressed.current.indexOf(key);
-        if (index === -1) {
-            return;
-        }
+
+        if (index === -1) return;
 
         this.keysPressed.current.splice(index, 1);
     }

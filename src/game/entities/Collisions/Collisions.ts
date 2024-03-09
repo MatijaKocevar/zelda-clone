@@ -29,9 +29,7 @@ export class Collisions {
 
         collisions2dArray.forEach((row, y) => {
             row.forEach((col, x) => {
-                if (col === 1) {
-                    this.createCollisionBlock(x, y);
-                }
+                if (col === 1) this.createCollisionBlock(x, y);
             });
         });
     }

@@ -58,22 +58,15 @@ export class PlayerLifeBar {
         const partialHeart = this.playerStats.health % 100;
 
         for (let i = 0; i < fullHearts; i++) {
-            if (i < this.hearts.length) {
-                this.hearts[i].anims.play('heart-full');
-            }
+            if (i < this.hearts.length) this.hearts[i].anims.play('heart-full');
         }
 
         if (fullHearts < this.hearts.length) {
             const partialIndex = fullHearts;
-            if (partialHeart >= 75) {
-                this.hearts[partialIndex].anims.play('heart-3/4');
-            } else if (partialHeart >= 50) {
-                this.hearts[partialIndex].anims.play('heart-1/2');
-            } else if (partialHeart >= 25) {
-                this.hearts[partialIndex].anims.play('heart-1/4');
-            } else if (partialHeart >= 0) {
-                this.hearts[partialIndex].anims.play('heart-empty');
-            }
+            if (partialHeart >= 75) this.hearts[partialIndex].anims.play('heart-3/4');
+            else if (partialHeart >= 50) this.hearts[partialIndex].anims.play('heart-1/2');
+            else if (partialHeart >= 25) this.hearts[partialIndex].anims.play('heart-1/4');
+            else if (partialHeart >= 0) this.hearts[partialIndex].anims.play('heart-empty');
         }
 
         for (let i = fullHearts + 1; i < this.hearts.length; i++) {
