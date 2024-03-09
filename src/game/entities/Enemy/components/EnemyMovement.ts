@@ -41,14 +41,11 @@ export class EnemyMovement {
                 this.enemy.sprite.x,
                 this.enemy.sprite.y,
                 this.player.sprite.x,
-                this.player.sprite.y,
+                this.player.sprite.y
             );
 
-            if (distanceToPlayer <= this.detectionRange) {
-                this.moveTowardsPlayer();
-            } else {
-                this.followPatrolPath();
-            }
+            if (distanceToPlayer <= this.detectionRange) this.moveTowardsPlayer();
+            else this.followPatrolPath();
         }
     }
 
@@ -93,13 +90,11 @@ export class EnemyMovement {
         }
 
         this.lastDirection = path.direction === 'left' || path.direction === 'right' ? 'horizontal' : path.direction;
-
         sprite.anims.play(`${this.spriteName}-walk-${this.lastDirection}`, true);
 
         this.currentMoveDistance += Math.abs(velocity * this.enemy.scene.game.loop.delta) / 1000;
-        if (this.currentMoveDistance >= path.distance) {
-            this.prepareForPause();
-        }
+
+        if (this.currentMoveDistance >= path.distance) this.prepareForPause();
     }
 
     private playIdleAnimation() {
@@ -120,6 +115,7 @@ export class EnemyMovement {
                 idleAnimationName += 'horizontal';
                 break;
         }
+
         this.enemy.sprite.anims.play(idleAnimationName, true);
     }
 
@@ -131,10 +127,7 @@ export class EnemyMovement {
     }
 
     private handlePause() {
-        if (this.pauseTimer > 0) {
-            this.pauseTimer -= this.enemy.scene.game.loop.delta;
-        } else {
-            this.isPaused = false;
-        }
+        if (this.pauseTimer > 0) this.pauseTimer -= this.enemy.scene.game.loop.delta;
+        else this.isPaused = false;
     }
 }

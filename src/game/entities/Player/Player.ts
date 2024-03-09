@@ -19,7 +19,7 @@ export class Player {
         this.playerStats = new PlayerStats({
             health: 300,
             maxHealth: 300,
-            damage: 10,
+            damage: 25,
         });
         this.playerLifeBar = new PlayerLifeBar(this);
         this.playerMovement = new PlayerMovement(this);
