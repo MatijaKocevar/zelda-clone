@@ -8,10 +8,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'right', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -19,10 +31,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'down', distance: 100 },
-                { direction: 'left', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'right', distance: 100 },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -30,10 +54,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'right', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -41,10 +77,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'right', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'left', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -52,10 +100,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'right', distance: 100 },
-                { direction: 'down', distance: 100 },
-                { direction: 'up', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -63,10 +123,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'right', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -74,10 +146,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'right', distance: 100 },
-                { direction: 'left', distance: 100 },
-                { direction: 'down', distance: 100 },
-                { direction: 'up', distance: 100 },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -85,10 +169,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'down', distance: 100 },
-                { direction: 'right', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -96,10 +192,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'right', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'left', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -107,10 +215,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'right', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -118,10 +238,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'right', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'left', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -129,10 +261,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'right', distance: 100 },
-                { direction: 'left', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'down', distance: 100 },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -140,10 +284,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'zomboi',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'down', distance: 100 },
-                { direction: 'right', distance: 100 },
-                { direction: 'up', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -151,10 +307,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'right', distance: 100 },
-                { direction: 'down', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'left', distance: 100 },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
             ],
         },
         {
@@ -162,10 +330,22 @@ export function setupEnemies(scene: Phaser.Scene): Enemy[] {
             scene: scene,
             spriteName: 'pinkazoid',
             patrolPath: [
-                { direction: 'left', distance: 100 },
-                { direction: 'up', distance: 100 },
-                { direction: 'down', distance: 100 },
-                { direction: 'right', distance: 100 },
+                {
+                    direction: 'left',
+                    distance: 100,
+                },
+                {
+                    direction: 'up',
+                    distance: 100,
+                },
+                {
+                    direction: 'down',
+                    distance: 100,
+                },
+                {
+                    direction: 'right',
+                    distance: 100,
+                },
             ],
         },
     ];

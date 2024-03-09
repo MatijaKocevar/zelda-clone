@@ -15,15 +15,11 @@ export class Player {
     constructor({ position, scene, enemies }: IPlayer) {
         this.scene = scene;
 
-        this.sprite = scene.physics.add.sprite(
-            position.x,
-            position.y,
-            'player1'
-        );
+        this.sprite = scene.physics.add.sprite(position.x, position.y, 'player1');
         this.playerStats = new PlayerStats({
             health: 300,
             maxHealth: 300,
-            damage: 10,
+            damage: 25,
         });
         this.playerLifeBar = new PlayerLifeBar(this);
         this.playerMovement = new PlayerMovement(this);
@@ -37,7 +33,5 @@ export class Player {
         this.playerAttack.update();
         this.playerMovement.update();
         this.playerLifeBar.update();
-
-        console.log('Player updated position: ', this.sprite.x, this.sprite.y);
     }
 }

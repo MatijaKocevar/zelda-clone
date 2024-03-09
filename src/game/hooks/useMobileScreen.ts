@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export const useMobileScreen = (isFullScreen: boolean) => {
-    const [showFullScreenButton, setShowFullScreenButton] =
-        useState<boolean>(false);
+    const [showFullScreenButton, setShowFullScreenButton] = useState<boolean>(false);
 
     useEffect(() => {
         const checkMobileDevice = (): void => {
