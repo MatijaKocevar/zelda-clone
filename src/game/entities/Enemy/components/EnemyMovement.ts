@@ -26,6 +26,10 @@ export class EnemyMovement {
     }
 
     public update() {
+        if (this.enemy.isKnockedBack) {
+            return;
+        }
+
         if (this.isPaused) {
             this.handlePause();
 

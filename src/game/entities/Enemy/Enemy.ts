@@ -8,6 +8,7 @@ export class Enemy {
     sprite: Phaser.Physics.Arcade.Sprite;
     enemyMovement: EnemyMovement;
     isDestroyed = false;
+    isKnockedBack = false;
 
     health = 100;
 
@@ -31,10 +32,66 @@ export class Enemy {
         this.enemyMovement.update();
     }
 
-    public takeDamage(damage: number) {
+    public takeDamage(damage: number, attackDirection: string, closeContact: boolean) {
+        if (this.health <= 0) {
+            this.destroy();
+            return;
+        }
+
         this.health -= damage;
 
-        if (this.health <= 0) this.destroy();
+        this.flicker();
+        this.applyKnockback(attackDirection, closeContact);
+    }
+
+    private flicker() {
+        if (this.sprite.getData('isFlickering')) {
+            this.scene.tweens.killTweensOf(this.sprite);
+        }
+
+        this.sprite.setData('isFlickering', true);
+
+        this.scene.tweens.add({
+            targets: this.sprite,
+            alpha: { from: 0.5, to: 1 },
+            duration: 50,
+            yoyo: true,
+            repeat: 5,
+            onComplete: () => {
+                this.sprite.setData('isFlickering', false);
+                this.sprite.alpha = 1;
+            },
+        });
+    }
+
+    private applyKnockback(attackDirection: string, isCloseContact: boolean) {
+        this.sprite.setVelocity(0, 0);
+        this.isKnockedBack = true;
+        const knockbackStrength = isCloseContact ? 700 : 500;
+
+        console.log('knockbackStrength', knockbackStrength);
+        console.log('attackDirection', attackDirection);
+        console.log('isCloseContact', isCloseContact);
+
+        switch (attackDirection) {
+            case 'LEFT':
+                this.sprite.setVelocityX(-knockbackStrength);
+                break;
+            case 'RIGHT':
+                this.sprite.setVelocityX(knockbackStrength);
+                break;
+            case 'UP':
+                this.sprite.setVelocityY(-knockbackStrength);
+                break;
+            case 'DOWN':
+                this.sprite.setVelocityY(knockbackStrength);
+                break;
+        }
+
+        this.scene.time.delayedCall(200, () => {
+            this.sprite.setVelocity(0, 0);
+            this.isKnockedBack = false;
+        });
     }
 
     public destroy() {
