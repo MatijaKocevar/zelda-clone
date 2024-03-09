@@ -8,10 +8,7 @@ export const MobileControls = (props: MobileControlsProps) => {
 
     useEffect(() => {
         if (props.keysPressedRef.current) {
-            mobileInputRef.current = new MobileInput(
-                props.keysPressedRef,
-                props.lastKeyRef
-            );
+            mobileInputRef.current = new MobileInput(props.keysPressedRef, props.lastKeyRef);
         }
     }, [props.keysPressedRef, props.lastKeyRef]);
 

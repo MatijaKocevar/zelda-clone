@@ -27,10 +27,7 @@ export class HomeScene {
 
     create() {
         this.setupManager = new SetupManager(this.scene);
-        this.updateManager = new UpdateManager(
-            this.setupManager.player,
-            this.setupManager.enemies
-        );
+        this.updateManager = new UpdateManager(this.setupManager.player, this.setupManager.enemies);
     }
 
     update() {
