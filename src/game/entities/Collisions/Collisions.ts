@@ -45,7 +45,10 @@ export class Collisions {
             .setSize(TILE_SIZE * 4, TILE_SIZE * 4)
             .setImmovable(true);
 
-        physics.add.collider(this.player.sprite, block);
+        physics.add.collider(this.player.playerSprite.collisionHitbox, block, () => {
+            this.player.playerSprite.isCollidingWithBlock = true;
+        });
+        physics.add.collider(this.player.playerSprite.sprite, block);
 
         this.enemies.forEach((enemy) => physics.add.collider(enemy.sprite, block));
     }
@@ -55,7 +58,7 @@ export class Collisions {
         const { player, enemies } = this;
 
         enemies.forEach((enemy) => {
-            physics.add.collider(player.sprite, enemy.sprite, () => {
+            physics.add.collider(player.playerSprite.sprite, enemy.sprite, () => {
                 time.delayedCall(100, () => {
                     if (enemy.isDestroyed) return;
 

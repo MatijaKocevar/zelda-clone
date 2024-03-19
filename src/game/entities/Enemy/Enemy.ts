@@ -1,4 +1,4 @@
-import { Position } from '../../types/Position.interface';
+import { Position } from '../../types/common';
 import { IEnemy } from './Enemy.types';
 import { EnemyMovement } from './components/EnemyMovement';
 
@@ -72,6 +72,7 @@ export class Enemy {
         console.log('knockbackStrength', knockbackStrength);
         console.log('attackDirection', attackDirection);
         console.log('isCloseContact', isCloseContact);
+        false;
 
         switch (attackDirection) {
             case 'LEFT':

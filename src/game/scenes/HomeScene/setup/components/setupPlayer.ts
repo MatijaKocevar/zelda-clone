@@ -12,8 +12,8 @@ export function setupPlayer(scene: Phaser.Scene, enemies: Enemy[]): Player {
     });
 
     scene.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-    if (player.sprite) {
-        scene.cameras.main.startFollow(player.sprite, true, 1, 1);
+    if (player.playerSprite.sprite) {
+        scene.cameras.main.startFollow(player.playerSprite.sprite, true, 1, 1);
         scene.cameras.main.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
     }
 

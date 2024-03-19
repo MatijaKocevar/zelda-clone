@@ -24,15 +24,15 @@ export class UpdateManager {
             }
         }
 
-        this.enemies.forEach((enemy) => enemy.update());
+        // this.enemies.forEach((enemy) => enemy.update());
     }
 
     private updateEntityDepth(): void {
         const areaWidth = 200;
         const areaHeight = 200;
 
-        const playerX = this.player.sprite.getCenter()?.x ?? 0;
-        const playerY = this.player.sprite.getCenter()?.y ?? 0;
+        const playerX = this.player.playerSprite.sprite.getCenter()?.x ?? 0;
+        const playerY = this.player.playerSprite.sprite.getCenter()?.y ?? 0;
 
         const leftBound = playerX - areaWidth / 2;
         const rightBound = playerX + areaWidth / 2;
@@ -44,13 +44,13 @@ export class UpdateManager {
             const enemyY = enemy.sprite.getCenter()?.y ?? 0;
 
             if (enemyX >= leftBound && enemyX <= rightBound && enemyY >= topBound && enemyY <= bottomBound) {
-                const playerCenterY = this.player.sprite.getCenter()?.y ?? 0;
+                const playerCenterY = this.player.playerSprite.sprite.getCenter()?.y ?? 0;
                 const enemyCenterY = enemy.sprite.getCenter()?.y ?? 0;
 
                 const playerDepth = playerCenterY > enemyCenterY ? 10 : 5;
                 const enemyDepth = playerDepth === 10 ? 5 : 10;
 
-                this.player.sprite.setDepth(playerDepth);
+                this.player.playerSprite.sprite.setDepth(playerDepth);
                 enemy.sprite.setDepth(enemyDepth);
             }
         });

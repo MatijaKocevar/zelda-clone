@@ -19,8 +19,8 @@ export class PlayerMovement {
         const { player } = this;
         const { keysPressed } = this.input;
 
-        player.sprite.setVelocityX(0);
-        player.sprite.setVelocityY(0);
+        player.playerSprite.sprite.setVelocityX(0);
+        player.playerSprite.sprite.setVelocityY(0);
 
         if (!player.playerAttack.isSlashing) {
             const isShiftPressed = keysPressed.current.includes(SHIFT);
@@ -33,16 +33,23 @@ export class PlayerMovement {
             let velocityX = 0,
                 velocityY = 0;
 
-            if (horizontalKey) velocityX = horizontalKey === LEFT ? -movingVelocity : movingVelocity;
-            if (verticalKey) velocityY = verticalKey === UP ? -movingVelocity : movingVelocity;
+            if (horizontalKey && !player.playerSprite.isCollidingWithBlock)
+                velocityX = horizontalKey === LEFT ? -movingVelocity : movingVelocity;
+            if (verticalKey && !player.playerSprite.isCollidingWithBlock)
+                velocityY = verticalKey === UP ? -movingVelocity : movingVelocity;
 
-            if (horizontalKey && verticalKey) {
+            if (horizontalKey && verticalKey && !player.playerSprite.isCollidingWithBlock) {
                 velocityX *= diagonalVelocity / movingVelocity;
                 velocityY *= diagonalVelocity / movingVelocity;
             }
 
-            player.sprite.setVelocityX(velocityX);
-            player.sprite.setVelocityY(velocityY);
+            if (!player.playerSprite.isCollidingWithBlock) {
+                player.playerSprite.sprite.setVelocityX(velocityX);
+                player.playerSprite.sprite.setVelocityY(velocityY);
+            }
+
+            player.playerSprite.collisionHitbox.setVelocityX(velocityX);
+            player.playerSprite.collisionHitbox.setVelocityY(velocityY);
         }
     }
 
@@ -58,15 +65,17 @@ export class PlayerMovement {
             let animationDirection = '';
             if (direction === LEFT || direction === RIGHT) {
                 animationDirection = '-horizontal';
-                player.sprite.flipX = direction === LEFT;
+                player.playerSprite.sprite.flipX = direction === LEFT;
             } else if (direction === UP) {
                 animationDirection = '-up';
+                player.playerSprite.sprite.flipX = false;
             } else if (direction === DOWN) {
                 animationDirection = '-down';
+                player.playerSprite.sprite.flipX = false;
             }
 
             if (animationDirection) {
-                player.sprite.anims.play(`${animationPrefix}${animationDirection}`, true);
+                player.playerSprite.sprite.anims.play(`${animationPrefix}${animationDirection}`, true);
             }
 
             this.handleIdleAnimations();
@@ -86,18 +95,18 @@ export class PlayerMovement {
         if (shouldPlayIdleAnimation) {
             switch (lastKey.current) {
                 case LEFT:
-                    player.sprite.flipX = true;
-                    player.sprite.anims.play('idle-horizontal', true);
+                    player.playerSprite.sprite.flipX = true;
+                    player.playerSprite.sprite.anims.play('idle-horizontal', true);
                     break;
                 case RIGHT:
-                    player.sprite.flipX = false;
-                    player.sprite.anims.play('idle-horizontal', true);
+                    player.playerSprite.sprite.flipX = false;
+                    player.playerSprite.sprite.anims.play('idle-horizontal', true);
                     break;
                 case UP:
-                    player.sprite.anims.play('idle-up', true);
+                    player.playerSprite.sprite.anims.play('idle-up', true);
                     break;
                 case DOWN:
-                    player.sprite.anims.play('idle-down', true);
+                    player.playerSprite.sprite.anims.play('idle-down', true);
                     break;
             }
         }

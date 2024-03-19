@@ -1,4 +1,4 @@
-import { Position } from '../../types/Position.interface';
+import { Position } from '../../types/common';
 import { Enemy } from './Enemy';
 
 export interface IEnemy {

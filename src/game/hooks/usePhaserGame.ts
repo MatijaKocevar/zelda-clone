@@ -27,7 +27,7 @@ export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: U
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 0 },
-                    debug: false,
+                    debug: true,
                 },
             },
             scene: gameScene,

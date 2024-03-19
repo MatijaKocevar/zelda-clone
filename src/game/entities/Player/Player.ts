@@ -3,10 +3,13 @@ import { PlayerAttack } from './components/PlayerAttack';
 import { PlayerStats } from './components/PlayerStats';
 import { PlayerLifeBar } from './components/PlayerLifeBar';
 import { IPlayer } from './Player.types';
+import { PlayerSprite } from './components/PlayerSprite';
+import { Position } from '../../types/common';
 
 export class Player {
     scene: Phaser.Scene;
-    sprite: Phaser.Physics.Arcade.Sprite;
+    position: Position;
+    playerSprite: PlayerSprite;
     playerMovement: PlayerMovement;
     playerAttack: PlayerAttack;
     playerStats: PlayerStats;
@@ -14,8 +17,8 @@ export class Player {
 
     constructor({ position, scene, enemies }: IPlayer) {
         this.scene = scene;
+        this.position = position;
 
-        this.sprite = scene.physics.add.sprite(position.x, position.y, 'player1');
         this.playerStats = new PlayerStats({
             health: 300,
             maxHealth: 300,
@@ -24,14 +27,13 @@ export class Player {
         this.playerLifeBar = new PlayerLifeBar(this);
         this.playerMovement = new PlayerMovement(this);
         this.playerAttack = new PlayerAttack(this, enemies);
-
-        this.sprite.body?.setSize(20, 40, true);
-        this.sprite.body?.setOffset(65, 90);
+        this.playerSprite = new PlayerSprite(this);
     }
 
     update() {
+        this.playerSprite.update();
         this.playerAttack.update();
-        this.playerMovement.update();
         this.playerLifeBar.update();
+        this.playerMovement.update();
     }
 }

@@ -24,13 +24,16 @@ export class PlayerAttack {
     }
 
     private initializeHitbox(): void {
-        this.attackHitbox = this.player.scene.physics.add.sprite(-10000, -10000, 'hitbox');
-        this.attackHitbox.setVisible(false).setActive(false);
+        this.attackHitbox = this.player.scene.physics.add.sprite(0, 0, 'hitbox').setVisible(false).setActive(false);
+        const attackHitboxBody = this.attackHitbox.body as Phaser.Physics.Arcade.Body;
+        attackHitboxBody.setEnable(false);
 
         this.enemies.forEach((enemy) => {
             this.player.scene.physics.add.overlap(this.attackHitbox, enemy.sprite, () => {
                 if (this.attackHitbox.active === false) return;
                 if (this.hitEnemies.has(enemy)) return;
+
+                console.log('hit', enemy);
 
                 const closeContact = this.isInCloseContact(enemy);
                 enemy.takeDamage(this.player.playerStats.damage, this.attackDirection, closeContact);
@@ -40,9 +43,14 @@ export class PlayerAttack {
     }
 
     private isInCloseContact(enemy: Enemy) {
-        return (
-            Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.attackHitbox.x, this.attackHitbox.y) < 15
+        const distance = Phaser.Math.Distance.Between(
+            enemy.sprite.x,
+            enemy.sprite.y,
+            this.attackHitbox.x,
+            this.attackHitbox.y
         );
+
+        return distance < 15;
     }
 
     update() {
@@ -67,7 +75,6 @@ export class PlayerAttack {
     private handleAttackAnimation(): void {
         this.determineAttackDirection();
         this.triggerAttackAnimation();
-        this.positionHitbox();
     }
 
     private determineAttackDirection() {
@@ -79,47 +86,64 @@ export class PlayerAttack {
     private triggerAttackAnimation() {
         switch (this.attackDirection) {
             case UP:
-                this.player.sprite.anims.play('slash-up', true);
+                this.player.playerSprite.sprite.anims.play('slash-up', true);
+                this.player.playerSprite.sprite.once('animationstart', () => this.activateHitbox());
                 break;
             case DOWN:
-                this.player.sprite.anims.play('slash-down', true);
+                this.player.playerSprite.sprite.anims.play('slash-down', true);
+                this.player.playerSprite.sprite.once('animationstart', () => this.activateHitbox());
                 break;
             case LEFT:
-                this.player.sprite.flipX = true;
-                this.player.sprite.anims.play('slash-horizontal', true);
+                this.player.playerSprite.sprite.flipX = true;
+                this.player.playerSprite.sprite.anims.play('slash-horizontal', true);
+                this.player.playerSprite.sprite.once('animationstart', () => this.activateHitbox());
                 break;
             case RIGHT:
-                this.player.sprite.flipX = false;
-                this.player.sprite.anims.play('slash-horizontal', true);
+                this.player.playerSprite.sprite.flipX = false;
+                this.player.playerSprite.sprite.anims.play('slash-horizontal', true);
+                this.player.playerSprite.sprite.once('animationstart', () => this.activateHitbox());
                 break;
             default:
-                this.player.sprite.anims.play('slash-horizontal', true);
+                this.player.playerSprite.sprite.anims.play('slash-horizontal', true);
+                this.player.playerSprite.sprite.once('animationstart', () => this.activateHitbox());
                 break;
         }
 
-        this.player.sprite.once('animationcomplete', () => this.onAttackAnimationComplete());
+        this.player.playerSprite.sprite.once('animationcomplete', () => this.deactivateHitbox());
     }
 
-    private positionHitbox() {
-        const offsets = this.calculateHitboxOffset();
-        const size = this.calculateHitboxSize();
+    private activateHitbox() {
+        const { width, height } = this.calculateHitboxSize();
+        const { x, y } = this.calculateHitboxOffset();
+        this.attackHitbox
+            .setPosition(this.player.playerSprite.sprite.x + x, this.player.playerSprite.sprite.y + y)
+            .setSize(width, height)
+            .setActive(true)
+            .setVisible(true);
+        (this.attackHitbox.body as Phaser.Physics.Arcade.Body).setEnable(true);
+    }
 
-        this.attackHitbox.setPosition(this.player.sprite.x + offsets.x, this.player.sprite.y + offsets.y);
-        this.attackHitbox.setSize(size.width, size.height).setActive(true);
+    private deactivateHitbox() {
+        this.isSlashing = false;
+
+        this.attackHitbox.setActive(false).setVisible(false);
+        (this.attackHitbox.body as Phaser.Physics.Arcade.Body).setEnable(false);
+
+        this.hitEnemies.clear();
     }
 
     private calculateHitboxSize() {
         switch (this.attackDirection) {
             case UP:
-                return { width: 50, height: 30 };
+                return { width: 50, height: 50 };
             case DOWN:
-                return { width: 50, height: 20 };
+                return { width: 50, height: 50 };
             case LEFT:
                 return { width: 50, height: 50 };
             case RIGHT:
                 return { width: 50, height: 50 };
             default:
-                return { width: 30, height: 30 };
+                return { width: 50, height: 50 };
         }
     }
 
@@ -130,22 +154,14 @@ export class PlayerAttack {
             case DOWN:
                 return { x: 3, y: 70 };
             case LEFT:
-                return { x: -30, y: 40 };
+                return { x: -37, y: 38 };
             case RIGHT:
-                return { x: 37, y: 40 };
+                return { x: 37, y: 38 };
             default:
                 return {
-                    x: this.player.sprite.flipX ? -20 : 20,
+                    x: this.player.playerSprite.sprite.flipX ? -20 : 20,
                     y: 0,
                 };
         }
-    }
-
-    private onAttackAnimationComplete(): void {
-        this.isSlashing = false;
-        this.playerMovement.handleMovementAnimations();
-        this.attackHitbox.setActive(false).setVisible(false).setPosition(-10000, -10000);
-
-        this.hitEnemies.clear();
     }
 }
