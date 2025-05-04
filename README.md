@@ -4,6 +4,13 @@
 
 This project takes inspiration from A Link to the Past, a classic game from the 90s. The game is a top-down shooter where the player must navigate through a maze of enemies and obstacles to reach the end of the level. The game is built using TypeScript and Vite.
 
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+- Node.js (version 16.0.0 or higher)
+- npm (version 8.0.0 or higher)
+- A modern web browser (Chrome, Firefox, Safari, or Edge)
+
 ## Installation
 
 To install and run the game, follow these steps:
