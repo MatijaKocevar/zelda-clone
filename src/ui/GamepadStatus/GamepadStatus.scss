@@ -1,0 +1,46 @@
+.gamepad-status {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.gamepad-warning {
+    background-color: rgba(255, 165, 0, 0.9); // Orange background for warning
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    animation: pulseWarning 2s ease-in-out infinite;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+@keyframes pulseWarning {
+    0%, 100% {
+        opacity: 0.9;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+@media (max-width: 768px) {
+    .gamepad-status {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .gamepad-warning {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}

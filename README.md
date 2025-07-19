@@ -24,11 +24,19 @@ To install and run the game, follow these steps:
 
 To play the game:
 
+**Keyboard Controls:**
 -   Use [w] to move up
 -   Use [a] to move left
 -   Use [s] to move down
 -   Use [d] to move right
 -   Press [space] to attack
+-   Hold [shift] to walk
+
+**Gamepad Support:** 🎮
+-   Connect any compatible Bluetooth gamepad (Xbox, PlayStation, etc.)
+-   Use D-pad or left analog stick for movement
+-   A/Cross button for attack
+-   B/Circle button for sprint
 
 ## Technologies Used
 

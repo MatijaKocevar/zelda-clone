@@ -1,16 +1,20 @@
 import { DOWN, Input, LEFT, RIGHT, SHIFT, SPACE, UP } from '../../../mechanics/Input/Input';
+import { GamepadInput } from '../../../mechanics/GamepadInput';
 import { Player } from '../Player';
 
 export class PlayerMovement {
     private player: Player;
     input: Input;
+    gamepadInput: GamepadInput;
 
     constructor(player: Player) {
         this.player = player;
         this.input = new Input(player.scene);
+        this.gamepadInput = new GamepadInput(player.scene);
     }
 
     update() {
+        this.gamepadInput.update();
         this.handleMovementAnimations();
         this.handleMovement();
     }

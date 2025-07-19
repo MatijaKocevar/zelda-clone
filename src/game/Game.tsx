@@ -7,6 +7,7 @@ import { useFullScreen } from './hooks/useFullscreen';
 import { usePhaserGame } from './hooks/usePhaserGame';
 import { useMobileScreen } from './hooks/useMobileScreen';
 import { MobileControls } from '../ui/MobileControls/MobileControls';
+import GamepadStatus from '../ui/GamepadStatus/GamepadStatus';
 
 const Game: React.FC = () => {
     const gameComponentRef = useRef<HTMLDivElement>(null);
@@ -23,6 +24,7 @@ const Game: React.FC = () => {
 
     return (
         <>
+            <GamepadStatus />
             {showFullScreenButton && (
                 <button
                     onClick={toggleFullScreen}
