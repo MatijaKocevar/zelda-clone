@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/zelda-clone/sw.js', { scope: '/zelda-clone/' })})}
