@@ -30,6 +30,9 @@ export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: U
                     debug: false,
                 },
             },
+            input: {
+                gamepad: true,
+            },
             scene: gameScene,
         };
 
