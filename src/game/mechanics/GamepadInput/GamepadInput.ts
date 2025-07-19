@@ -12,7 +12,7 @@ export class GamepadInput {
         this.scene = scene as CustomScene;
         this.keysPressed = this.scene.keysPressedRef;
         this.lastKey = this.scene.lastKeyRef;
-        
+
         this.init();
     }
 
@@ -22,7 +22,7 @@ export class GamepadInput {
 
     setupGamepad() {
         const { scene } = this;
-        
+
         if (scene.input.gamepad) {
             scene.input.gamepad.on('connected', (pad: Phaser.Input.Gamepad.Gamepad) => {
                 this.gamepad = pad;
@@ -52,7 +52,7 @@ export class GamepadInput {
 
         const leftX = this.gamepad.leftStick.x;
         const leftY = this.gamepad.leftStick.y;
-        
+
         if (leftX > threshold || this.gamepad.right) {
             if (!this.gamepadPressedButtons.has(RIGHT)) {
                 this.onKeyPressed(RIGHT);

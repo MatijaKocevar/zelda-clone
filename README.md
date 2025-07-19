@@ -7,6 +7,7 @@ This project takes inspiration from A Link to the Past, a classic game from the 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - Node.js (version 16.0.0 or higher)
 - npm (version 8.0.0 or higher)
 - A modern web browser (Chrome, Firefox, Safari, or Edge)
@@ -25,22 +26,24 @@ To install and run the game, follow these steps:
 To play the game:
 
 **Keyboard Controls:**
--   Use [w] to move up
--   Use [a] to move left
--   Use [s] to move down
--   Use [d] to move right
--   Press [space] to attack
--   Hold [shift] to walk
+
+- Use [w] to move up
+- Use [a] to move left
+- Use [s] to move down
+- Use [d] to move right
+- Press [space] to attack
+- Hold [shift] to walk
 
 **Gamepad Support:** 🎮
--   Connect any compatible Bluetooth gamepad (Xbox, PlayStation, etc.)
--   Use D-pad or left analog stick for movement
--   A/Cross button for attack
--   B/Circle button for sprint
+
+- Connect any compatible Bluetooth gamepad (Xbox, PlayStation, etc.)
+- Use D-pad or left analog stick for movement
+- A/Cross button for attack
+- B/Circle button for sprint
 
 ## Technologies Used
 
--   TypeScript
--   React.js
--   Phaser.js
--   Vite
+- TypeScript
+- React.js
+- Phaser.js
+- Vite
