@@ -12,15 +12,17 @@ const GamepadStatus: React.FC = () => {
     useEffect(() => {
         const checkGamepads = () => {
             const gamepads = navigator.getGamepads();
-            const connectedGamepad = Array.from(gamepads).find(gamepad => gamepad && gamepad.connected) as GamepadWithBattery | undefined;
-            
+            const connectedGamepad = Array.from(gamepads).find((gamepad) => gamepad && gamepad.connected) as
+                | GamepadWithBattery
+                | undefined;
+
             if (connectedGamepad) {
                 setGamepadName(connectedGamepad.id);
-                
+
                 if (connectedGamepad.battery) {
                     const batteryLevel = connectedGamepad.battery.level;
                     const isCharging = connectedGamepad.battery.charging;
-                    
+
                     setShowLowBatteryWarning(batteryLevel < 0.2 && !isCharging);
                 } else {
                     setShowLowBatteryWarning(false);
@@ -60,9 +62,7 @@ const GamepadStatus: React.FC = () => {
 
     return (
         <div className="gamepad-status">
-            <div className="gamepad-warning">
-                🔋 Low Battery: {gamepadName}
-            </div>
+            <div className="gamepad-warning">🔋 Low Battery: {gamepadName}</div>
         </div>
     );
 };

@@ -1,11 +1,6 @@
-// Game.tsx
 import React, { useRef } from 'react';
 import './Game.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExpandAlt } from '@fortawesome/free-solid-svg-icons';
-import { useFullScreen } from './hooks/useFullscreen';
 import { usePhaserGame } from './hooks/usePhaserGame';
-import { useMobileScreen } from './hooks/useMobileScreen';
 import { MobileControls } from '../ui/MobileControls/MobileControls';
 import GamepadStatus from '../ui/GamepadStatus/GamepadStatus';
 
@@ -14,8 +9,6 @@ const Game: React.FC = () => {
     const keysPressedRef = useRef<string[]>([]);
     const lastKeyRef = useRef<string>('RIGHT');
 
-    const { isFullScreen, toggleFullScreen } = useFullScreen();
-    const showFullScreenButton = useMobileScreen(isFullScreen);
     usePhaserGame({
         gameContainerId: 'phaser-game-container',
         keysPressedRef,
@@ -25,28 +18,6 @@ const Game: React.FC = () => {
     return (
         <>
             <GamepadStatus />
-            {showFullScreenButton && (
-                <button
-                    onClick={toggleFullScreen}
-                    style={{
-                        position: 'absolute',
-                        top: '25px',
-                        right: '20px',
-                        zIndex: 1000,
-                        padding: '10px',
-                        opacity: 0.8,
-                        cursor: 'pointer',
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        color: 'white',
-                        fontSize: '25px',
-                    }}
-                    className="fullscreen-button"
-                    aria-label="Toggle Fullscreen"
-                >
-                    <FontAwesomeIcon icon={faExpandAlt} />
-                </button>
-            )}
             <MobileControls keysPressedRef={keysPressedRef} lastKeyRef={lastKeyRef} />
             <div ref={gameComponentRef} id="phaser-game-container"></div>
         </>

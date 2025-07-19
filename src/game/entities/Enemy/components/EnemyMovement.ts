@@ -45,7 +45,7 @@ export class EnemyMovement {
                 this.enemy.sprite.x,
                 this.enemy.sprite.y,
                 this.player.sprite.x,
-                this.player.sprite.y
+                this.player.sprite.y,
             );
 
             if (distanceToPlayer <= this.detectionRange) this.moveTowardsPlayer();

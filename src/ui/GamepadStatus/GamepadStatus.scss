@@ -23,7 +23,8 @@
 }
 
 @keyframes pulseWarning {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0.9;
         transform: scale(1);
     }
@@ -38,7 +39,7 @@
         top: 15px;
         left: 15px;
     }
-    
+
     .gamepad-warning {
         font-size: 12px;
         padding: 6px 10px;
