@@ -6,7 +6,7 @@ export class GameScene extends Phaser.Scene {
     lastKeyRef: React.MutableRefObject<string>;
 
     constructor(keysPressedRef: React.MutableRefObject<string[]>, lastKeyRef: React.MutableRefObject<string>) {
-        super('GameScene');
+        super({ key: 'GameScene' });
         this.keysPressedRef = keysPressedRef;
         this.lastKeyRef = lastKeyRef;
 
@@ -19,6 +19,11 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         this.homeScene.create();
+
+        this.input.keyboard?.on('keydown-ESC', () => {
+            this.scene.pause();
+            this.scene.launch('PauseScene');
+        });
     }
 
     update() {

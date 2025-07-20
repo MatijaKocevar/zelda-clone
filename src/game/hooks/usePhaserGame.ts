@@ -1,6 +1,8 @@
 import { useRef, useEffect } from 'react';
 import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
+import { MenuScene } from '../scenes/MenuScene/MenuScene';
+import { PauseScene } from '../scenes/PauseScene/PauseScene';
 
 type UsePhaserGameProps = {
     gameContainerId: string;
@@ -12,7 +14,10 @@ export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: U
     const gameRef = useRef<Phaser.Game | null>(null);
 
     useEffect(() => {
+        const menuScene = new MenuScene();
         const gameScene = new GameScene(keysPressedRef, lastKeyRef);
+        const pauseScene = new PauseScene();
+
         const gameConfig: Phaser.Types.Core.GameConfig = {
             mode: Phaser.Scale.FIT,
             type: Phaser.AUTO,
@@ -33,7 +38,7 @@ export const usePhaserGame = ({ gameContainerId, keysPressedRef, lastKeyRef }: U
             input: {
                 gamepad: true,
             },
-            scene: gameScene,
+            scene: [menuScene, gameScene, pauseScene],
         };
 
         gameRef.current = new Phaser.Game(gameConfig);
