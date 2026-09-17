@@ -4,15 +4,18 @@ export class PlayerStats {
     health: number;
     maxHealth: number;
     damage: number;
+    armor: number;
 
-    constructor({ health, maxHealth, damage }: IPlayerStats) {
+    constructor({ health, maxHealth, damage, armor }: IPlayerStats) {
         this.health = health;
         this.maxHealth = maxHealth;
         this.damage = damage;
+        this.armor = armor;
     }
 
     takeDamage(damage: number) {
-        this.health -= damage;
+        const mitigatedDamage = Math.max(0, damage - this.armor);
+        this.health -= mitigatedDamage;
         if (this.health < 0) {
             this.health = 0;
         }
@@ -43,6 +46,14 @@ export class PlayerStats {
 
     getDamage() {
         return this.damage;
+    }
+
+    getArmor() {
+        return this.armor;
+    }
+
+    setArmor(armor: number) {
+        this.armor = armor;
     }
 
     setHealth(health: number) {
