@@ -50,10 +50,10 @@ export class PlayerAttack {
     }
 
     private handleAttack(): void {
-        const { keysPressed } = this.playerMovement.input;
+        const { inputState } = this.playerMovement.input;
         const currentTime = this.player.scene.time.now;
 
-        if (keysPressed.current.includes(SPACE) && this.canAttack(currentTime)) {
+        if (inputState.isPressed(SPACE) && this.canAttack(currentTime)) {
             this.isSlashing = true;
             this.lastSlashTime = currentTime;
             this.handleAttackAnimation();
@@ -71,9 +71,9 @@ export class PlayerAttack {
     }
 
     private determineAttackDirection() {
-        const { keysPressed, lastKey } = this.playerMovement.input;
+        const { inputState } = this.playerMovement.input;
         this.attackDirection =
-            keysPressed.current.find((key) => [LEFT, RIGHT, UP, DOWN].includes(key)) || lastKey.current;
+            inputState.keysPressed.find((key) => [LEFT, RIGHT, UP, DOWN].includes(key)) || inputState.lastKey;
     }
 
     private triggerAttackAnimation() {

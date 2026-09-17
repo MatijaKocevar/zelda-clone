@@ -21,18 +21,18 @@ export class PlayerMovement {
 
     handleMovement() {
         const { player } = this;
-        const { keysPressed } = this.input;
+        const { inputState } = this.input;
 
         player.sprite.setVelocityX(0);
         player.sprite.setVelocityY(0);
 
         if (!player.playerAttack.isSlashing) {
-            const isShiftPressed = keysPressed.current.includes(SHIFT);
+            const isShiftPressed = inputState.isPressed(SHIFT);
             const movingVelocity = isShiftPressed ? 150 : 250;
             const diagonalVelocity = isShiftPressed ? 130 : 180;
 
-            const horizontalKey = keysPressed.current.find((key) => key === LEFT || key === RIGHT);
-            const verticalKey = keysPressed.current.find((key) => key === UP || key === DOWN);
+            const horizontalKey = inputState.keysPressed.find((key) => key === LEFT || key === RIGHT);
+            const verticalKey = inputState.keysPressed.find((key) => key === UP || key === DOWN);
 
             let velocityX = 0,
                 velocityY = 0;
@@ -52,11 +52,11 @@ export class PlayerMovement {
 
     handleMovementAnimations() {
         const { player } = this;
-        const { keysPressed } = this.input;
+        const { inputState } = this.input;
 
         if (!player.playerAttack.isSlashing) {
-            const direction = keysPressed.current[0];
-            const isWalking = keysPressed.current.includes(SHIFT);
+            const direction = inputState.keysPressed[0];
+            const isWalking = inputState.isPressed(SHIFT);
             const animationPrefix = isWalking ? 'walk' : 'run';
 
             let animationDirection = '';
@@ -79,16 +79,16 @@ export class PlayerMovement {
 
     handleIdleAnimations() {
         const { player } = this;
-        const { keysPressed, lastKey } = this.input;
+        const { inputState } = this.input;
 
         const shouldPlayIdleAnimation =
-            keysPressed.current.length === 0 ||
-            (keysPressed.current.length === 1 &&
-                (keysPressed.current[0] === SPACE || keysPressed.current[0] === SHIFT) &&
+            inputState.keysPressed.length === 0 ||
+            (inputState.keysPressed.length === 1 &&
+                (inputState.keysPressed[0] === SPACE || inputState.keysPressed[0] === SHIFT) &&
                 !player.playerAttack.isSlashing);
 
         if (shouldPlayIdleAnimation) {
-            switch (lastKey.current) {
+            switch (inputState.lastKey) {
                 case LEFT:
                     player.sprite.flipX = true;
                     player.sprite.anims.play('idle-horizontal', true);
