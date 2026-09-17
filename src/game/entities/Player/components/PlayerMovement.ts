@@ -23,6 +23,8 @@ export class PlayerMovement {
         const { player } = this;
         const { inputState } = this.input;
 
+        if (player.playerDamage.isHurt || player.playerDamage.isDead) return;
+
         player.sprite.setVelocityX(0);
         player.sprite.setVelocityY(0);
 
@@ -53,6 +55,8 @@ export class PlayerMovement {
     handleMovementAnimations() {
         const { player } = this;
         const { inputState } = this.input;
+
+        if (player.playerDamage.isHurt || player.playerDamage.isDead) return;
 
         if (!player.playerAttack.isSlashing) {
             const direction = inputState.keysPressed[0];

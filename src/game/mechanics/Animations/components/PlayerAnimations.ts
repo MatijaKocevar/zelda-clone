@@ -142,5 +142,27 @@ export class PlayerAnimations {
             frameRate: 10,
             repeat: 0,
         });
+
+        //HURT ANIMATION
+        scene.anims.create({
+            key: 'hurt',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 55,
+                end: 55,
+            }),
+            frameRate: 1,
+            repeat: 0,
+        });
+
+        //DEATH ANIMATION
+        scene.anims.create({
+            key: 'death',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 56,
+                end: 56,
+            }),
+            frameRate: 1,
+            repeat: 0,
+        });
     }
 }

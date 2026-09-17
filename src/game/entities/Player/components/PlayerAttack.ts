@@ -53,6 +53,8 @@ export class PlayerAttack {
         const { inputState } = this.playerMovement.input;
         const currentTime = this.player.scene.time.now;
 
+        if (this.player.playerDamage.isHurt || this.player.playerDamage.isDead) return;
+
         if (inputState.isPressed(SPACE) && this.canAttack(currentTime)) {
             this.isSlashing = true;
             this.lastSlashTime = currentTime;
