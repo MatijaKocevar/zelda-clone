@@ -1,17 +1,16 @@
 import { DOWN, LEFT, RIGHT, SHIFT, SPACE, UP } from '../Input/Input';
 import { CustomScene } from '../Input/Input.types';
+import { InputState } from '../../input/InputState';
 
 export class GamepadInput {
     private scene: CustomScene;
     private gamepad?: Phaser.Input.Gamepad.Gamepad;
     private gamepadPressedButtons: Set<string> = new Set();
-    private keysPressed: React.MutableRefObject<string[]>;
-    private lastKey: React.MutableRefObject<string>;
+    private inputState: InputState;
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene as CustomScene;
-        this.keysPressed = this.scene.keysPressedRef;
-        this.lastKey = this.scene.lastKeyRef;
+        this.inputState = this.scene.inputState;
 
         this.init();
     }
@@ -55,93 +54,79 @@ export class GamepadInput {
 
         if (leftX > threshold || this.gamepad.right) {
             if (!this.gamepadPressedButtons.has(RIGHT)) {
-                this.onKeyPressed(RIGHT);
-                this.lastKey.current = RIGHT;
+                this.inputState.press(RIGHT);
+                this.inputState.lastKey = RIGHT;
                 this.gamepadPressedButtons.add(RIGHT);
             }
         } else {
             if (this.gamepadPressedButtons.has(RIGHT)) {
-                this.onKeyReleased(RIGHT);
+                this.inputState.release(RIGHT);
                 this.gamepadPressedButtons.delete(RIGHT);
             }
         }
 
         if (leftX < -threshold || this.gamepad.left) {
             if (!this.gamepadPressedButtons.has(LEFT)) {
-                this.onKeyPressed(LEFT);
-                this.lastKey.current = LEFT;
+                this.inputState.press(LEFT);
+                this.inputState.lastKey = LEFT;
                 this.gamepadPressedButtons.add(LEFT);
             }
         } else {
             if (this.gamepadPressedButtons.has(LEFT)) {
-                this.onKeyReleased(LEFT);
+                this.inputState.release(LEFT);
                 this.gamepadPressedButtons.delete(LEFT);
             }
         }
 
         if (leftY < -threshold || this.gamepad.up) {
             if (!this.gamepadPressedButtons.has(UP)) {
-                this.onKeyPressed(UP);
-                this.lastKey.current = UP;
+                this.inputState.press(UP);
+                this.inputState.lastKey = UP;
                 this.gamepadPressedButtons.add(UP);
             }
         } else {
             if (this.gamepadPressedButtons.has(UP)) {
-                this.onKeyReleased(UP);
+                this.inputState.release(UP);
                 this.gamepadPressedButtons.delete(UP);
             }
         }
 
         if (leftY > threshold || this.gamepad.down) {
             if (!this.gamepadPressedButtons.has(DOWN)) {
-                this.onKeyPressed(DOWN);
-                this.lastKey.current = DOWN;
+                this.inputState.press(DOWN);
+                this.inputState.lastKey = DOWN;
                 this.gamepadPressedButtons.add(DOWN);
             }
         } else {
             if (this.gamepadPressedButtons.has(DOWN)) {
-                this.onKeyReleased(DOWN);
+                this.inputState.release(DOWN);
                 this.gamepadPressedButtons.delete(DOWN);
             }
         }
 
         if (this.gamepad.A) {
             if (!this.gamepadPressedButtons.has(SPACE)) {
-                this.keysPressed.current.push(SPACE);
+                this.inputState.push(SPACE);
                 this.gamepadPressedButtons.add(SPACE);
             }
         } else {
             if (this.gamepadPressedButtons.has(SPACE)) {
-                this.onKeyReleased(SPACE);
+                this.inputState.release(SPACE);
                 this.gamepadPressedButtons.delete(SPACE);
             }
         }
 
         if (this.gamepad.B) {
             if (!this.gamepadPressedButtons.has(SHIFT)) {
-                this.keysPressed.current.push(SHIFT);
+                this.inputState.push(SHIFT);
                 this.gamepadPressedButtons.add(SHIFT);
             }
         } else {
             if (this.gamepadPressedButtons.has(SHIFT)) {
-                this.onKeyReleased(SHIFT);
+                this.inputState.release(SHIFT);
                 this.gamepadPressedButtons.delete(SHIFT);
             }
         }
-    }
-
-    private onKeyPressed(key: string) {
-        if (this.keysPressed.current?.indexOf(key) === -1) {
-            this.keysPressed.current?.unshift(key);
-        }
-    }
-
-    private onKeyReleased(key: string) {
-        const index = this.keysPressed.current?.indexOf(key);
-
-        if (index === -1) return;
-
-        this.keysPressed.current?.splice(index, 1);
     }
 
     get isConnected(): boolean {

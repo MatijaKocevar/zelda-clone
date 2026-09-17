@@ -1,63 +1,47 @@
 import { UP, DOWN, LEFT, RIGHT } from '../Input/Input';
 import { SPACE, SHIFT } from '../Input/Input';
+import { InputState } from '../../input/InputState';
 
 export class MobileInput {
-    keysPressed: React.MutableRefObject<string[]>;
-    lastKey: React.MutableRefObject<string>;
+    inputState: InputState;
 
-    constructor(keysPressedRef: React.MutableRefObject<string[]>, lastKeyRef: React.MutableRefObject<string>) {
-        this.keysPressed = keysPressedRef;
-        this.lastKey = lastKeyRef;
+    constructor(inputState: InputState) {
+        this.inputState = inputState;
     }
 
     onTouchStartUp = () => {
-        this.onKeyPressed(UP);
-        this.lastKey.current = UP;
+        this.inputState.press(UP);
+        this.inputState.lastKey = UP;
     };
 
-    onTouchEndUp = () => this.onKeyReleased(UP);
+    onTouchEndUp = () => this.inputState.release(UP);
 
     onTouchStartDown = () => {
-        this.onKeyPressed(DOWN);
-        this.lastKey.current = DOWN;
+        this.inputState.press(DOWN);
+        this.inputState.lastKey = DOWN;
     };
 
-    onTouchEndDown = () => this.onKeyReleased(DOWN);
+    onTouchEndDown = () => this.inputState.release(DOWN);
 
     onTouchStartLeft = () => {
-        this.onKeyPressed(LEFT);
-        this.lastKey.current = LEFT;
+        this.inputState.press(LEFT);
+        this.inputState.lastKey = LEFT;
     };
 
-    onTouchEndLeft = () => this.onKeyReleased(LEFT);
+    onTouchEndLeft = () => this.inputState.release(LEFT);
 
     onTouchStartRight = () => {
-        this.onKeyPressed(RIGHT);
-        this.lastKey.current = RIGHT;
+        this.inputState.press(RIGHT);
+        this.inputState.lastKey = RIGHT;
     };
 
-    onTouchEndRight = () => this.onKeyReleased(RIGHT);
+    onTouchEndRight = () => this.inputState.release(RIGHT);
 
-    onTouchStartA = () => this.keysPressed.current.push(SPACE);
+    onTouchStartA = () => this.inputState.push(SPACE);
 
-    onTouchEndA = () => this.onKeyReleased(SPACE);
+    onTouchEndA = () => this.inputState.release(SPACE);
 
-    onTouchStartB = () => this.keysPressed.current.push(SHIFT);
+    onTouchStartB = () => this.inputState.push(SHIFT);
 
-    onTouchEndB = () => this.onKeyReleased(SHIFT);
-
-    onKeyPressed(key: string) {
-        console.log('key pressed', key);
-        if (this.keysPressed.current.indexOf(key) === -1) {
-            this.keysPressed.current.unshift(key);
-        }
-    }
-
-    onKeyReleased(key: string) {
-        const index = this.keysPressed.current.indexOf(key);
-
-        if (index === -1) return;
-
-        this.keysPressed.current.splice(index, 1);
-    }
+    onTouchEndB = () => this.inputState.release(SHIFT);
 }

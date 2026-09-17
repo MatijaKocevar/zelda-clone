@@ -1,4 +1,5 @@
 import { Cursors } from '../../types/Cursors.interface';
+import { InputState } from '../../input/InputState';
 import { CustomScene } from './Input.types';
 
 export const LEFT = 'LEFT';
@@ -11,14 +12,12 @@ export const SHIFT = 'SHIFT';
 export class Input {
     private scene: CustomScene;
     cursors?: Cursors;
-    keysPressed: React.MutableRefObject<string[]>;
-    lastKey: React.MutableRefObject<string>;
+    inputState: InputState;
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene as CustomScene;
 
-        this.keysPressed = this.scene.keysPressedRef;
-        this.lastKey = this.scene.lastKeyRef;
+        this.inputState = this.scene.inputState;
 
         this.init();
     }
@@ -52,7 +51,7 @@ export class Input {
 
         cursors.up.on('down', () => {
             this.onKeyPressed(UP);
-            this.lastKey.current = UP;
+            this.inputState.lastKey = UP;
         });
         cursors.up.on('up', () => {
             this.onKeyReleased(UP);
@@ -60,7 +59,7 @@ export class Input {
 
         cursors.down.on('down', () => {
             this.onKeyPressed(DOWN);
-            this.lastKey.current = DOWN;
+            this.inputState.lastKey = DOWN;
         });
         cursors.down.on('up', () => {
             this.onKeyReleased(DOWN);
@@ -68,7 +67,7 @@ export class Input {
 
         cursors.left.on('down', () => {
             this.onKeyPressed(LEFT);
-            this.lastKey.current = LEFT;
+            this.inputState.lastKey = LEFT;
         });
         cursors.left.on('up', () => {
             this.onKeyReleased(LEFT);
@@ -76,21 +75,21 @@ export class Input {
 
         cursors.right.on('down', () => {
             this.onKeyPressed(RIGHT);
-            this.lastKey.current = RIGHT;
+            this.inputState.lastKey = RIGHT;
         });
         cursors.right.on('up', () => {
             this.onKeyReleased(RIGHT);
         });
 
         cursors.space.on('down', () => {
-            this.keysPressed.current.push(SPACE);
+            this.inputState.push(SPACE);
         });
         cursors.space.on('up', () => {
             this.onKeyReleased(SPACE);
         });
 
         cursors.shift.on('down', () => {
-            this.keysPressed.current.push(SHIFT);
+            this.inputState.push(SHIFT);
         });
         cursors.shift.on('up', () => {
             this.onKeyReleased(SHIFT);
@@ -98,16 +97,10 @@ export class Input {
     }
 
     onKeyPressed(key: string) {
-        if (this.keysPressed.current?.indexOf(key) === -1) {
-            this.keysPressed.current?.unshift(key);
-        }
+        this.inputState.press(key);
     }
 
     onKeyReleased(key: string) {
-        const index = this.keysPressed.current?.indexOf(key);
-
-        if (index === -1) return;
-
-        this.keysPressed.current?.splice(index, 1);
+        this.inputState.release(key);
     }
 }

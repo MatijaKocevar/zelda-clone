@@ -1,14 +1,13 @@
+import { InputState } from '../input/InputState';
 import { HomeScene } from './HomeScene/HomeScene';
 
 export class GameScene extends Phaser.Scene {
     homeScene: HomeScene;
-    keysPressedRef: React.MutableRefObject<string[]>;
-    lastKeyRef: React.MutableRefObject<string>;
+    inputState: InputState;
 
-    constructor(keysPressedRef: React.MutableRefObject<string[]>, lastKeyRef: React.MutableRefObject<string>) {
+    constructor(inputState: InputState) {
         super({ key: 'GameScene' });
-        this.keysPressedRef = keysPressedRef;
-        this.lastKeyRef = lastKeyRef;
+        this.inputState = inputState;
 
         this.homeScene = new HomeScene(this);
     }
