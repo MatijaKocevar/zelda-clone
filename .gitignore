@@ -26,3 +26,9 @@ dist-ssr
 .github
 certs/
 dev-dist
+
+# MCP / tooling output
+.mcp/
+.playwright-mcp/
+.mcp.json
+.mcp.jsonc
