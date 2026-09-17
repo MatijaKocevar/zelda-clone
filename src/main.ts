@@ -6,11 +6,12 @@ import { PauseScene } from './game/scenes/PauseScene/PauseScene';
 import { InputState } from './game/input/InputState';
 import { MobileControls } from './ui/MobileControls/MobileControls';
 import { GamepadStatus } from './ui/GamepadStatus/GamepadStatus';
+import { RotateOverlay } from './ui/RotateOverlay/RotateOverlay';
 
 const inputState = new InputState();
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
-    mode: Phaser.Scale.FIT,
+    mode: Phaser.Scale.RESIZE,
     type: Phaser.AUTO,
     width: window.innerWidth,
     height: window.innerHeight,
@@ -32,11 +33,8 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     scene: [new MenuScene(), new GameScene(inputState), new PauseScene()],
 };
 
-const game = new Phaser.Game(gameConfig);
+new Phaser.Game(gameConfig);
 
 new MobileControls(inputState);
 new GamepadStatus();
-
-window.addEventListener('resize', () => {
-    game.scale.resize(window.innerWidth, window.innerHeight);
-});
+new RotateOverlay();
