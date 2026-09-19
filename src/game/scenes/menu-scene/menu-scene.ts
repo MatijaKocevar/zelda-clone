@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export class MenuScene extends Phaser.Scene {
     private startButton!: Phaser.GameObjects.Text;
 

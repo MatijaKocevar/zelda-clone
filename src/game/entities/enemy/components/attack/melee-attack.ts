@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Player } from '../../../player/player';
 import { Enemy } from '../../enemy';
 import { EnemyAttackConfig, IAttackBehavior } from '../../enemy.types';

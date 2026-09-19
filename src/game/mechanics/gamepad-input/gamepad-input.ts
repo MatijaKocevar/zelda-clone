@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { DOWN, LEFT, RIGHT, SHIFT, SPACE, UP } from '../input/input';
 import { CustomScene } from '../input/input.types';
 import { InputState } from '../../input/input-state';

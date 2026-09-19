@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { InputState } from '../input/input-state';
 import { AreaScene } from './area-scene/area-scene';
 import { AssetLoader } from '../utils/asset-loader/asset-loader';

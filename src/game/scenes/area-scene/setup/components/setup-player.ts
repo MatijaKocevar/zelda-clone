@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Enemy } from '../../../../entities/enemy/enemy';
 import { Player } from '../../../../entities/player/player';
 import { AreaDefinition } from '../../../../areas/area.types';

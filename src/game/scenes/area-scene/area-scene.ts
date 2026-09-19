@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Collisions } from '../../entities/collisions/collisions';
 import { Player } from '../../entities/player/player';
 import { Animations } from '../../mechanics/animations/animations';

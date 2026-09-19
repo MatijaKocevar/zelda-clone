@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export type ImageAsset = {
     key: string;
     path: string;

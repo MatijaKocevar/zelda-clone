@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export class PlayerAnimations {
     scene: Phaser.Scene;
 

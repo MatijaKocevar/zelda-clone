@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Cursors } from '../../types/cursors.interface';
 import { InputState } from '../../input/input-state';
 import { CustomScene } from './input.types';

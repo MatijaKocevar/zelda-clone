@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { DOWN, LEFT, RIGHT, SPACE, UP } from '../../../mechanics/input/input';
 import { Enemy } from '../../enemy/enemy';
 import { Player } from '../player';

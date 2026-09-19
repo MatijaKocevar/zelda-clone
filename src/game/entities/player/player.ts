@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { PlayerMovement } from './components/player-movement';
 import { PlayerAttack } from './components/player-attack';
 import { PlayerStats } from './components/player-stats';
