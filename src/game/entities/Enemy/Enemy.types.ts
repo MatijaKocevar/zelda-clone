@@ -10,6 +10,7 @@ export interface IEnemy {
 
 export interface IEnemyAttack {
     enemy: Enemy;
+    spriteName: string;
 }
 
 export interface PatrolPath {

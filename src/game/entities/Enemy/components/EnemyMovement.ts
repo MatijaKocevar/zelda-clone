@@ -30,7 +30,7 @@ export class EnemyMovement {
             return;
         }
 
-        if (this.enemy.isKnockedBack) {
+        if (this.enemy.isKnockedBack || this.enemy.enemyAttack.isAttacking) {
             return;
         }
 
