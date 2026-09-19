@@ -26,6 +26,10 @@ export class EnemyMovement {
     }
 
     public update() {
+        if (this.enemy.isDying || this.enemy.isDead || this.enemy.isDestroyed) {
+            return;
+        }
+
         if (this.enemy.isKnockedBack) {
             return;
         }

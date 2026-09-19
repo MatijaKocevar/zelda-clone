@@ -40,6 +40,8 @@ export class UpdateManager {
         const bottomBound = playerY + areaHeight / 2;
 
         this.enemies.forEach((enemy) => {
+            if (enemy.isDead) return;
+
             const enemyX = enemy.sprite.getCenter()?.x ?? 0;
             const enemyY = enemy.sprite.getCenter()?.y ?? 0;
 

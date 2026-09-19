@@ -2,12 +2,19 @@ import { Position } from '../../types/Position.interface';
 import { IEnemy } from './Enemy.types';
 import { EnemyMovement } from './components/EnemyMovement';
 
+const DEATH_FALL_DURATION = 450;
+const CORPSE_LINGER_DURATION = 30000;
+const CORPSE_FADE_DURATION = 1500;
+const CORPSE_DEPTH = 1;
+
 export class Enemy {
     scene: Phaser.Scene;
     position: Position;
     sprite: Phaser.Physics.Arcade.Sprite;
     enemyMovement: EnemyMovement;
     isDestroyed = false;
+    isDying = false;
+    isDead = false;
     isKnockedBack = false;
 
     health = 100;
@@ -29,12 +36,16 @@ export class Enemy {
     }
 
     public update() {
+        if (this.isDying || this.isDead || this.isDestroyed) return;
+
         this.enemyMovement.update();
     }
 
     public takeDamage(damage: number, attackDirection: string, closeContact: boolean) {
+        if (this.isDying || this.isDead) return;
+
         if (this.health <= 0) {
-            this.destroy();
+            this.die(attackDirection);
             return;
         }
 
@@ -42,6 +53,58 @@ export class Enemy {
 
         this.flicker();
         this.applyKnockback(attackDirection, closeContact);
+    }
+
+    private die(attackDirection: string) {
+        this.isDying = true;
+        this.isKnockedBack = false;
+
+        this.scene.tweens.killTweensOf(this.sprite);
+        this.sprite.setData('isFlickering', false);
+        this.sprite.alpha = 1;
+        this.sprite.setVelocity(0, 0);
+        this.sprite.anims.stop();
+
+        const body = this.sprite.body as Phaser.Physics.Arcade.Body | null;
+        if (body) {
+            body.enable = false;
+            body.checkCollision.none = true;
+        }
+
+        const fallDirection = attackDirection === 'LEFT' || attackDirection === 'UP' ? -1 : 1;
+
+        this.sprite.setTintFill(0xffffff);
+        this.scene.time.delayedCall(90, () => {
+            if (!this.isDestroyed) this.sprite.clearTint();
+        });
+
+        this.scene.tweens.add({
+            targets: this.sprite,
+            angle: 90 * fallDirection,
+            duration: DEATH_FALL_DURATION,
+            ease: 'Bounce.Out',
+            onComplete: () => this.becomeCorpse(),
+        });
+    }
+
+    private becomeCorpse() {
+        this.isDying = false;
+        this.isDead = true;
+
+        this.sprite.setDepth(CORPSE_DEPTH);
+
+        this.scene.time.delayedCall(CORPSE_LINGER_DURATION, () => this.fadeCorpse());
+    }
+
+    private fadeCorpse() {
+        if (this.isDestroyed) return;
+
+        this.scene.tweens.add({
+            targets: this.sprite,
+            alpha: 0,
+            duration: CORPSE_FADE_DURATION,
+            onComplete: () => this.destroy(),
+        });
     }
 
     private flicker() {
@@ -89,12 +152,16 @@ export class Enemy {
         }
 
         this.scene.time.delayedCall(200, () => {
+            if (this.isDying || this.isDead) return;
+
             this.sprite.setVelocity(0, 0);
             this.isKnockedBack = false;
         });
     }
 
     public destroy() {
+        this.isDying = false;
+        this.isDead = false;
         this.isDestroyed = true;
         this.sprite.setVisible(false).setActive(false);
         this.sprite.destroy();

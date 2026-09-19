@@ -71,7 +71,7 @@ export class Collisions {
 
         enemies.forEach((enemy) => {
             physics.add.collider(player.sprite, enemy.sprite, () => {
-                if (enemy.isDestroyed) return;
+                if (enemy.isDestroyed || enemy.isDying || enemy.isDead) return;
 
                 const directionX = player.sprite.x - enemy.sprite.x;
                 const directionY = player.sprite.y - enemy.sprite.y;
@@ -80,7 +80,7 @@ export class Collisions {
                 player.playerDamage.takeDamage(CONTACT_DAMAGE, directionX / distance, directionY / distance);
 
                 time.delayedCall(100, () => {
-                    if (enemy.isDestroyed) return;
+                    if (enemy.isDestroyed || enemy.isDying || enemy.isDead) return;
 
                     enemy.sprite.setVelocity(0, 0);
                 });

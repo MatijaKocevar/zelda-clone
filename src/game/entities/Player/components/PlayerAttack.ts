@@ -31,6 +31,7 @@ export class PlayerAttack {
             this.player.scene.physics.add.overlap(this.attackHitbox, enemy.sprite, () => {
                 if (this.attackHitbox.active === false) return;
                 if (this.hitEnemies.has(enemy)) return;
+                if (enemy.isDying || enemy.isDead) return;
 
                 const closeContact = this.isInCloseContact(enemy);
                 enemy.takeDamage(this.player.playerStats.damage, this.attackDirection, closeContact);
