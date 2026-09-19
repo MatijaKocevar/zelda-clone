@@ -8,6 +8,7 @@ const STAGGER_DURATION = 250;
 const BASE_KNOCKBACK_STRENGTH = 400;
 const CONTACT_PUSH_STRENGTH = 50;
 const CONTACT_PUSH_MARGIN = 4;
+const GAME_OVER_DELAY = 800;
 
 export class PlayerDamage {
     private player: Player;
@@ -104,6 +105,10 @@ export class PlayerDamage {
         this.stopFlicker();
         this.player.sprite.setVelocity(0, 0);
         this.player.sprite.anims.play('death', true);
+
+        this.player.scene.time.delayedCall(GAME_OVER_DELAY, () => {
+            this.player.scene.events.emit('player-died');
+        });
     }
 
     private applyKnockback(directionX: number, directionY: number) {

@@ -3,6 +3,7 @@ import './main.scss';
 import { MenuScene } from './game/scenes/MenuScene/MenuScene';
 import { GameScene } from './game/scenes/GameScene';
 import { PauseScene } from './game/scenes/PauseScene/PauseScene';
+import { GameOverScene } from './game/scenes/GameOverScene/GameOverScene';
 import { InputState } from './game/input/InputState';
 import { MobileControls } from './ui/MobileControls/MobileControls';
 import { GamepadStatus } from './ui/GamepadStatus/GamepadStatus';
@@ -30,7 +31,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     input: {
         gamepad: true,
     },
-    scene: [new MenuScene(), new GameScene(inputState), new PauseScene()],
+    scene: [new MenuScene(), new GameScene(inputState), new PauseScene(), new GameOverScene()],
 };
 
 new Phaser.Game(gameConfig);

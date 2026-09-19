@@ -23,6 +23,11 @@ export class GameScene extends Phaser.Scene {
             this.scene.pause();
             this.scene.launch('PauseScene');
         });
+
+        this.events.once('player-died', () => {
+            this.scene.pause();
+            this.scene.launch('GameOverScene');
+        });
     }
 
     update() {
