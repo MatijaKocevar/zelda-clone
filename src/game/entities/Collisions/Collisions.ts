@@ -1,6 +1,5 @@
 import { Enemy } from '../Enemy/Enemy';
 import { Player } from '../Player/Player';
-import { CONTACT_DAMAGE } from '../Player/components/PlayerDamage';
 import { ICollisionBlock } from './Collisions.types';
 
 export const TILE_SIZE = 16;
@@ -66,25 +65,9 @@ export class Collisions {
     }
 
     private addColliders() {
-        const { physics, time } = this.scene;
+        const { physics } = this.scene;
         const { player, enemies } = this;
 
-        enemies.forEach((enemy) => {
-            physics.add.collider(player.sprite, enemy.sprite, () => {
-                if (enemy.isDestroyed || enemy.isDying || enemy.isDead) return;
-
-                const directionX = player.sprite.x - enemy.sprite.x;
-                const directionY = player.sprite.y - enemy.sprite.y;
-                const distance = Math.hypot(directionX, directionY) || 1;
-
-                player.playerDamage.takeDamage(CONTACT_DAMAGE, directionX / distance, directionY / distance);
-
-                time.delayedCall(100, () => {
-                    if (enemy.isDestroyed || enemy.isDying || enemy.isDead) return;
-
-                    enemy.sprite.setVelocity(0, 0);
-                });
-            });
-        });
+        enemies.forEach((enemy) => physics.add.collider(player.sprite, enemy.sprite));
     }
 }

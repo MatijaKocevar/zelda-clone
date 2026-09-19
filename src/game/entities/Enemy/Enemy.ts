@@ -1,6 +1,7 @@
 import { Position } from '../../types/Position.interface';
 import { IEnemy } from './Enemy.types';
 import { EnemyMovement } from './components/EnemyMovement';
+import { EnemyAttack } from './components/EnemyAttack';
 
 const DEATH_FALL_DURATION = 450;
 const CORPSE_LINGER_DURATION = 30000;
@@ -11,7 +12,9 @@ export class Enemy {
     scene: Phaser.Scene;
     position: Position;
     sprite: Phaser.Physics.Arcade.Sprite;
+    spriteName: string;
     enemyMovement: EnemyMovement;
+    enemyAttack: EnemyAttack;
     isDestroyed = false;
     isDying = false;
     isDead = false;
@@ -22,6 +25,7 @@ export class Enemy {
     constructor({ position, scene, spriteName, patrolPath }: IEnemy) {
         this.position = position;
         this.scene = scene;
+        this.spriteName = spriteName;
 
         this.sprite = scene.physics.add.sprite(position.x, position.y, spriteName);
 
@@ -29,6 +33,10 @@ export class Enemy {
             enemy: this,
             spriteName,
             patrolPath: patrolPath,
+        });
+        this.enemyAttack = new EnemyAttack({
+            enemy: this,
+            spriteName,
         });
 
         this.sprite.body?.setSize(27, 35);
@@ -38,6 +46,7 @@ export class Enemy {
     public update() {
         if (this.isDying || this.isDead || this.isDestroyed) return;
 
+        this.enemyAttack.update();
         this.enemyMovement.update();
     }
 
