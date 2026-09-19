@@ -8,6 +8,11 @@ import { InputState } from './game/input/InputState';
 import { MobileControls } from './ui/MobileControls/MobileControls';
 import { GamepadStatus } from './ui/GamepadStatus/GamepadStatus';
 import { RotateOverlay } from './ui/RotateOverlay/RotateOverlay';
+import { PauseControl } from './ui/PauseControl/PauseControl';
+import {
+    getMobileControlsVisible,
+    onMobileControlsVisibilityChange,
+} from './game/input/MobileControlsState';
 
 const inputState = new InputState();
 
@@ -30,14 +35,31 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
             debug: false,
         },
     },
-    input: {
-        gamepad: true,
-    },
     scene: [new MenuScene(), new GameScene(inputState), new PauseScene(), new GameOverScene()],
 };
 
 new Phaser.Game(gameConfig);
 
-new MobileControls(inputState);
-new GamepadStatus();
+const mobileControls = new MobileControls(inputState);
+const pauseControl = new PauseControl();
+
+let gamepadConnected = false;
+
+const updatePauseButton = () => {
+    pauseControl.setVisible(getMobileControlsVisible() || !gamepadConnected);
+};
+
+mobileControls.setVisible(getMobileControlsVisible());
+onMobileControlsVisibilityChange((visible) => {
+    mobileControls.setVisible(visible);
+    updatePauseButton();
+});
+updatePauseButton();
+
+new GamepadStatus({
+    onConnectionChange: (connected) => {
+        gamepadConnected = connected;
+        updatePauseButton();
+    },
+});
 new RotateOverlay();

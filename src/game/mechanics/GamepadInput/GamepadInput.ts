@@ -2,138 +2,109 @@ import { DOWN, LEFT, RIGHT, SHIFT, SPACE, UP } from '../Input/Input';
 import { CustomScene } from '../Input/Input.types';
 import { InputState } from '../../input/InputState';
 
+const STICK_THRESHOLD = 0.3;
+
+const BUTTON = {
+    A: 0,
+    B: 1,
+    DPAD_UP: 12,
+    DPAD_DOWN: 13,
+    DPAD_LEFT: 14,
+    DPAD_RIGHT: 15,
+};
+
 export class GamepadInput {
-    private scene: CustomScene;
-    private gamepad?: Phaser.Input.Gamepad.Gamepad;
-    private gamepadPressedButtons: Set<string> = new Set();
     private inputState: InputState;
+    private gamepadIndex: number | null = null;
+    private pressedButtons: Set<string> = new Set();
 
     constructor(scene: Phaser.Scene) {
-        this.scene = scene as CustomScene;
-        this.inputState = this.scene.inputState;
-
-        this.init();
-    }
-
-    init() {
-        this.setupGamepad();
-    }
-
-    setupGamepad() {
-        const { scene } = this;
-
-        if (scene.input.gamepad) {
-            scene.input.gamepad.on('connected', (pad: Phaser.Input.Gamepad.Gamepad) => {
-                this.gamepad = pad;
-                console.log('Gamepad connected:', pad.id);
-            });
-
-            scene.input.gamepad.on('disconnected', (pad: Phaser.Input.Gamepad.Gamepad) => {
-                if (this.gamepad === pad) {
-                    this.gamepad = undefined;
-                    console.log('Gamepad disconnected');
-                    this.gamepadPressedButtons.clear();
-                }
-            });
-
-            const existingGamepads = scene.input.gamepad.gamepads;
-            if (existingGamepads && existingGamepads.length > 0) {
-                this.gamepad = existingGamepads[0];
-                console.log('Gamepad already connected:', this.gamepad.id);
-            }
-        }
+        this.inputState = (scene as CustomScene).inputState;
     }
 
     update() {
-        if (!this.gamepad) return;
+        const gamepad = this.getGamepad();
 
-        const threshold = 0.3;
-
-        const leftX = this.gamepad.leftStick.x;
-        const leftY = this.gamepad.leftStick.y;
-
-        if (leftX > threshold || this.gamepad.right) {
-            if (!this.gamepadPressedButtons.has(RIGHT)) {
-                this.inputState.press(RIGHT);
-                this.inputState.lastKey = RIGHT;
-                this.gamepadPressedButtons.add(RIGHT);
-            }
-        } else {
-            if (this.gamepadPressedButtons.has(RIGHT)) {
-                this.inputState.release(RIGHT);
-                this.gamepadPressedButtons.delete(RIGHT);
-            }
+        if (!gamepad) {
+            this.releaseAll();
+            return;
         }
 
-        if (leftX < -threshold || this.gamepad.left) {
-            if (!this.gamepadPressedButtons.has(LEFT)) {
-                this.inputState.press(LEFT);
-                this.inputState.lastKey = LEFT;
-                this.gamepadPressedButtons.add(LEFT);
-            }
-        } else {
-            if (this.gamepadPressedButtons.has(LEFT)) {
-                this.inputState.release(LEFT);
-                this.gamepadPressedButtons.delete(LEFT);
-            }
-        }
+        const leftX = gamepad.axes[0] ?? 0;
+        const leftY = gamepad.axes[1] ?? 0;
 
-        if (leftY < -threshold || this.gamepad.up) {
-            if (!this.gamepadPressedButtons.has(UP)) {
-                this.inputState.press(UP);
-                this.inputState.lastKey = UP;
-                this.gamepadPressedButtons.add(UP);
-            }
-        } else {
-            if (this.gamepadPressedButtons.has(UP)) {
-                this.inputState.release(UP);
-                this.gamepadPressedButtons.delete(UP);
-            }
-        }
-
-        if (leftY > threshold || this.gamepad.down) {
-            if (!this.gamepadPressedButtons.has(DOWN)) {
-                this.inputState.press(DOWN);
-                this.inputState.lastKey = DOWN;
-                this.gamepadPressedButtons.add(DOWN);
-            }
-        } else {
-            if (this.gamepadPressedButtons.has(DOWN)) {
-                this.inputState.release(DOWN);
-                this.gamepadPressedButtons.delete(DOWN);
-            }
-        }
-
-        if (this.gamepad.A) {
-            if (!this.gamepadPressedButtons.has(SPACE)) {
-                this.inputState.push(SPACE);
-                this.gamepadPressedButtons.add(SPACE);
-            }
-        } else {
-            if (this.gamepadPressedButtons.has(SPACE)) {
-                this.inputState.release(SPACE);
-                this.gamepadPressedButtons.delete(SPACE);
-            }
-        }
-
-        if (this.gamepad.B) {
-            if (!this.gamepadPressedButtons.has(SHIFT)) {
-                this.inputState.push(SHIFT);
-                this.gamepadPressedButtons.add(SHIFT);
-            }
-        } else {
-            if (this.gamepadPressedButtons.has(SHIFT)) {
-                this.inputState.release(SHIFT);
-                this.gamepadPressedButtons.delete(SHIFT);
-            }
-        }
+        this.setDirection(RIGHT, leftX > STICK_THRESHOLD || this.isPressed(gamepad, BUTTON.DPAD_RIGHT));
+        this.setDirection(LEFT, leftX < -STICK_THRESHOLD || this.isPressed(gamepad, BUTTON.DPAD_LEFT));
+        this.setDirection(UP, leftY < -STICK_THRESHOLD || this.isPressed(gamepad, BUTTON.DPAD_UP));
+        this.setDirection(DOWN, leftY > STICK_THRESHOLD || this.isPressed(gamepad, BUTTON.DPAD_DOWN));
+        this.setButton(SPACE, this.isPressed(gamepad, BUTTON.A));
+        this.setButton(SHIFT, this.isPressed(gamepad, BUTTON.B));
     }
 
     get isConnected(): boolean {
-        return !!this.gamepad;
+        return this.getGamepad() !== null;
     }
 
-    get gamepadInfo(): { id: string; connected: boolean } | null {
-        return this.gamepad ? { id: this.gamepad.id, connected: this.gamepad.connected } : null;
+    private getGamepad(): Gamepad | null {
+        const gamepads = navigator.getGamepads();
+
+        if (this.gamepadIndex !== null) {
+            const current = gamepads[this.gamepadIndex];
+
+            if (current && current.connected) {
+                return current;
+            }
+
+            this.gamepadIndex = null;
+        }
+
+        for (const gamepad of gamepads) {
+            if (gamepad && gamepad.connected) {
+                this.gamepadIndex = gamepad.index;
+                return gamepad;
+            }
+        }
+
+        return null;
+    }
+
+    private isPressed(gamepad: Gamepad, buttonIndex: number): boolean {
+        return gamepad.buttons[buttonIndex]?.pressed ?? false;
+    }
+
+    private setDirection(key: string, active: boolean) {
+        if (active) {
+            if (!this.pressedButtons.has(key)) {
+                this.inputState.press(key);
+                this.inputState.lastKey = key;
+                this.pressedButtons.add(key);
+            }
+            return;
+        }
+
+        if (this.pressedButtons.has(key)) {
+            this.inputState.release(key);
+            this.pressedButtons.delete(key);
+        }
+    }
+
+    private setButton(key: string, active: boolean) {
+        if (active) {
+            if (!this.pressedButtons.has(key)) {
+                this.inputState.push(key);
+                this.pressedButtons.add(key);
+            }
+            return;
+        }
+
+        if (this.pressedButtons.has(key)) {
+            this.inputState.release(key);
+            this.pressedButtons.delete(key);
+        }
+    }
+
+    private releaseAll() {
+        this.pressedButtons.forEach((key) => this.inputState.release(key));
+        this.pressedButtons.clear();
     }
 }

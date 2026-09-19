@@ -4,12 +4,20 @@ interface GamepadWithBattery extends Gamepad {
     battery?: { level: number; charging: boolean };
 }
 
+export interface GamepadStatusOptions {
+    onConnectionChange?: (connected: boolean) => void;
+}
+
 export class GamepadStatus {
     private container: HTMLDivElement;
     private warning: HTMLDivElement;
     private gamepadName = '';
+    private connected = false;
+    private onConnectionChange?: (connected: boolean) => void;
 
-    constructor() {
+    constructor(options: GamepadStatusOptions = {}) {
+        this.onConnectionChange = options.onConnectionChange;
+
         this.container = document.createElement('div');
         this.container.className = 'gamepad-status';
 
@@ -29,17 +37,28 @@ export class GamepadStatus {
 
         const handleGamepadConnected = (event: GamepadEvent) => {
             this.gamepadName = event.gamepad.id;
+            this.setConnected(true);
         };
 
         const handleGamepadDisconnected = () => {
             this.hideWarning();
             this.gamepadName = '';
+            this.setConnected(false);
         };
 
         window.addEventListener('gamepadconnected', handleGamepadConnected);
         window.addEventListener('gamepaddisconnected', handleGamepadDisconnected);
 
-        setInterval(() => this.checkGamepads(), 5000);
+        setInterval(() => this.checkGamepads(), 2000);
+    }
+
+    private setConnected(connected: boolean) {
+        if (this.connected === connected) {
+            return;
+        }
+
+        this.connected = connected;
+        this.onConnectionChange?.(connected);
     }
 
     private checkGamepads() {
@@ -50,6 +69,7 @@ export class GamepadStatus {
 
         if (connectedGamepad) {
             this.gamepadName = connectedGamepad.id;
+            this.setConnected(true);
 
             if (connectedGamepad.battery) {
                 const batteryLevel = connectedGamepad.battery.level;
@@ -65,6 +85,7 @@ export class GamepadStatus {
         } else {
             this.hideWarning();
             this.gamepadName = '';
+            this.setConnected(false);
         }
     }
 

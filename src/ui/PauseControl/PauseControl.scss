@@ -1,0 +1,28 @@
+.pause-button {
+    display: none;
+}
+
+@media (max-width: 990px), (pointer: coarse) {
+    .pause-button {
+        position: absolute;
+        top: calc(16px + env(safe-area-inset-top));
+        right: calc(16px + env(safe-area-inset-right));
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        padding: 0;
+        border: none;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        pointer-events: auto;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+}
