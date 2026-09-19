@@ -4,6 +4,7 @@ import { setupAreaImages } from './components/setupAreaImages';
 import { setupPlayer } from './components/setupPlayer';
 import { setupEnemies } from './components/setupEnemies';
 import { setupCollisions } from './components/setupCollisions';
+import { setupHudCamera } from './components/setupHudCamera';
 import { getMapCollisionRects } from '../data/getMapCollisionRects';
 import { AreaDefinition } from '../../../areas/Area.types';
 import { Collisions } from '../../../entities/Collisions/Collisions';
@@ -38,5 +39,6 @@ export class SetupManager {
             enemy.enemyAttack.setPlayer(this.player);
         });
         this.collisions = setupCollisions(this.scene, this.player, this.enemies, getMapCollisionRects(this.map));
+        setupHudCamera(this.scene, this.player.playerLifeBar);
     }
 }

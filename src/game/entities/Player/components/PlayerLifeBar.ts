@@ -37,8 +37,7 @@ export class PlayerLifeBar {
         }
     }
 
-    private createBackgroundBox() {
-        const heartsToDisplay = Math.min(this.playerStats.maxHealth / 100, this.maxHeartsVisible);
+    private createBackgroundBox() {        const heartsToDisplay = Math.min(this.playerStats.maxHealth / 100, this.maxHeartsVisible);
 
         const rows = Math.ceil(heartsToDisplay / 10);
         const heartsInFirstRow = heartsToDisplay > 10 ? 10 : heartsToDisplay;
@@ -51,6 +50,10 @@ export class PlayerLifeBar {
         this.backgroundBox.fillRoundedRect(15, 17, boxWidth, boxHeight, cornerRadius);
         this.backgroundBox.setScrollFactor(0);
         this.backgroundBox.setDepth(99);
+    }
+
+    getObjects(): Phaser.GameObjects.GameObject[] {
+        return [...this.hearts, this.backgroundBox];
     }
 
     update() {
