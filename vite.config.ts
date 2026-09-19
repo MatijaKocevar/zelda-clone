@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
 
     return {
         base,
+        assetsInclude: ['**/*.tmj'],
         define: {
             __WS_TOKEN__: JSON.stringify(''),
         },
