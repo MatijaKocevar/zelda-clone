@@ -1,18 +1,18 @@
 import Phaser from 'phaser';
 import './main.scss';
-import { MenuScene } from './game/scenes/MenuScene/MenuScene';
-import { GameScene } from './game/scenes/GameScene';
-import { PauseScene } from './game/scenes/PauseScene/PauseScene';
-import { GameOverScene } from './game/scenes/GameOverScene/GameOverScene';
-import { InputState } from './game/input/InputState';
-import { MobileControls } from './ui/MobileControls/MobileControls';
-import { GamepadStatus } from './ui/GamepadStatus/GamepadStatus';
-import { RotateOverlay } from './ui/RotateOverlay/RotateOverlay';
-import { PauseControl } from './ui/PauseControl/PauseControl';
+import { MenuScene } from './game/scenes/menu-scene/menu-scene';
+import { GameScene } from './game/scenes/game-scene';
+import { PauseScene } from './game/scenes/pause-scene/pause-scene';
+import { GameOverScene } from './game/scenes/game-over-scene/game-over-scene';
+import { InputState } from './game/input/input-state';
+import { MobileControls } from './ui/mobile-controls/mobile-controls';
+import { GamepadStatus } from './ui/gamepad-status/gamepad-status';
+import { RotateOverlay } from './ui/rotate-overlay/rotate-overlay';
+import { PauseControl } from './ui/pause-control/pause-control';
 import {
     getMobileControlsVisible,
     onMobileControlsVisibilityChange,
-} from './game/input/MobileControlsState';
+} from './game/input/mobile-controls-state';
 
 const inputState = new InputState();
 
