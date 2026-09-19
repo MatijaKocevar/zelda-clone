@@ -3,6 +3,11 @@ import { Player } from '../../../../entities/Player/Player';
 import { AreaDefinition } from '../../../../areas/Area.types';
 
 const DEBUG_FULL_MAP = false;
+const TARGET_VIEW_HEIGHT = 720;
+
+function applyGameplayZoom(camera: Phaser.Cameras.Scene2D.Camera): void {
+    camera.setZoom(camera.height / TARGET_VIEW_HEIGHT);
+}
 
 export function setupPlayer(
     scene: Phaser.Scene,
@@ -32,10 +37,17 @@ export function setupPlayer(
         camera.centerOn(worldWidth / 2, worldHeight / 2);
     } else {
         camera.setBounds(0, 0, worldWidth, worldHeight);
+        applyGameplayZoom(camera);
 
         if (player.sprite) {
             camera.startFollow(player.sprite, true, 1, 1);
         }
+
+        const handleResize = () => applyGameplayZoom(camera);
+        scene.scale.on(Phaser.Scale.Events.RESIZE, handleResize);
+        scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+            scene.scale.off(Phaser.Scale.Events.RESIZE, handleResize);
+        });
     }
 
     return player;

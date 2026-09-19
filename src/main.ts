@@ -12,11 +12,13 @@ import { RotateOverlay } from './ui/RotateOverlay/RotateOverlay';
 const inputState = new InputState();
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
-    mode: Phaser.Scale.RESIZE,
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
-    parent: 'phaser-game-container',
+    scale: {
+        mode: Phaser.Scale.RESIZE,
+        parent: 'phaser-game-container',
+        width: '100%',
+        height: '100%',
+    },
     render: {
         pixelArt: true,
         roundPixels: true,
