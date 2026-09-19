@@ -1,23 +1,38 @@
 import { InputState } from '../input/InputState';
-import { HomeScene } from './HomeScene/HomeScene';
+import { AreaScene } from './AreaScene/AreaScene';
+import { AssetLoader } from '../utils/AssetLoader/AssetLoader';
+import { globalSpriteSheetAssets } from '../assets/globalAssets';
+import { defaultAreaKey, getArea } from '../areas/areas';
+
+interface GameSceneData {
+    area?: string;
+}
 
 export class GameScene extends Phaser.Scene {
-    homeScene: HomeScene;
+    areaScene!: AreaScene;
     inputState: InputState;
+    areaKey: string = defaultAreaKey;
 
     constructor(inputState: InputState) {
         super({ key: 'GameScene' });
         this.inputState = inputState;
+    }
 
-        this.homeScene = new HomeScene(this);
+    init(data: GameSceneData) {
+        this.areaKey = data.area ?? defaultAreaKey;
+        this.areaScene = new AreaScene(this, getArea(this.areaKey));
     }
 
     preload() {
-        this.homeScene.preload();
+        AssetLoader.loadSpriteSheets(this, globalSpriteSheetAssets);
+        this.areaScene.preload();
     }
 
     create() {
-        this.homeScene.create();
+        this.areaScene.create();
+
+        this.events.off('player-died');
+        this.input.keyboard?.removeAllListeners('keydown-ESC');
 
         this.input.keyboard?.on('keydown-ESC', () => {
             this.scene.pause();
@@ -31,6 +46,10 @@ export class GameScene extends Phaser.Scene {
     }
 
     update() {
-        this.homeScene.update();
+        this.areaScene.update();
+    }
+
+    goToArea(key: string) {
+        this.scene.restart({ area: key });
     }
 }

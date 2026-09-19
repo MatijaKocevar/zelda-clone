@@ -1,11 +1,16 @@
 import { Collisions } from '../../../../entities/Collisions/Collisions';
+import { ICollisionRect } from '../../../../entities/Collisions/Collisions.types';
 import { Enemy } from '../../../../entities/Enemy/Enemy';
 import { Player } from '../../../../entities/Player/Player';
-import { getHomeCollisions2dArray } from '../../data/homeCollisions';
 
-export function setupCollisions(scene: Phaser.Scene, player: Player, enemies: Enemy[]): Collisions {
+export function setupCollisions(
+    scene: Phaser.Scene,
+    player: Player,
+    enemies: Enemy[],
+    collisionRects: ICollisionRect[],
+): Collisions {
     return new Collisions({
-        collisions2dArray: getHomeCollisions2dArray(),
+        collisionRects: collisionRects,
         player: player,
         enemies: enemies,
         scene: scene,
