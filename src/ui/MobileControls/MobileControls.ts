@@ -17,6 +17,10 @@ export class MobileControls {
         document.body.appendChild(this.container);
     }
 
+    setVisible(visible: boolean): void {
+        this.container.style.display = visible ? '' : 'none';
+    }
+
     private createButton(className: string, label: string, onStart: () => void, onEnd: () => void): HTMLButtonElement {
         const button = document.createElement('button');
         button.className = className;
