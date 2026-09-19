@@ -1,3 +1,4 @@
+import { Enemy } from '../../Enemy/Enemy';
 import { Player } from '../Player';
 
 export const CONTACT_DAMAGE = 10;
@@ -5,9 +6,12 @@ export const CONTACT_DAMAGE = 10;
 const INVULNERABILITY_DURATION = 1000;
 const STAGGER_DURATION = 250;
 const BASE_KNOCKBACK_STRENGTH = 400;
+const CONTACT_PUSH_STRENGTH = 50;
+const CONTACT_PUSH_MARGIN = 4;
 
 export class PlayerDamage {
     private player: Player;
+    private enemies: Enemy[];
     isHurt = false;
     isDead = false;
     isInvulnerable = false;
@@ -15,8 +19,9 @@ export class PlayerDamage {
     private invulnerabilityTimer = 0;
     private flickerTween?: Phaser.Tweens.Tween;
 
-    constructor(player: Player) {
+    constructor(player: Player, enemies: Enemy[]) {
         this.player = player;
+        this.enemies = enemies;
     }
 
     update() {
@@ -30,10 +35,43 @@ export class PlayerDamage {
             }
         }
 
+        if (!this.isHurt) this.applyContactPushVelocity();
+
         if (this.isInvulnerable) {
             this.invulnerabilityTimer -= this.player.scene.game.loop.delta;
             if (this.invulnerabilityTimer <= 0) this.endInvulnerability();
         }
+    }
+
+    private applyContactPushVelocity() {
+        const body = this.player.sprite.body as Phaser.Physics.Arcade.Body;
+        let pushX = 0;
+        let pushY = 0;
+
+        this.enemies.forEach((enemy) => {
+            if (enemy.isDestroyed || enemy.isDying || enemy.isDead || enemy.enemyAttack.isAttacking) return;
+
+            const enemyBody = enemy.sprite.body as Phaser.Physics.Arcade.Body | null;
+            if (!enemyBody) return;
+
+            const directionX = body.center.x - enemyBody.center.x;
+            const directionY = body.center.y - enemyBody.center.y;
+
+            const withinX = Math.abs(directionX) < body.halfWidth + enemyBody.halfWidth + CONTACT_PUSH_MARGIN;
+            const withinY = Math.abs(directionY) < body.halfHeight + enemyBody.halfHeight + CONTACT_PUSH_MARGIN;
+
+            if (!withinX || !withinY) return;
+
+            const distance = Math.hypot(directionX, directionY) || 1;
+            pushX += directionX / distance;
+            pushY += directionY / distance;
+        });
+
+        const length = Math.hypot(pushX, pushY);
+        if (length === 0) return;
+
+        body.velocity.x += (pushX / length) * CONTACT_PUSH_STRENGTH;
+        body.velocity.y += (pushY / length) * CONTACT_PUSH_STRENGTH;
     }
 
     takeDamage(damage: number, knockbackDirectionX: number, knockbackDirectionY: number) {
