@@ -1,24 +1,20 @@
-import { Player } from '../../Player/Player';
-import { CONTACT_DAMAGE } from '../../Player/components/PlayerDamage';
-import { Enemy } from '../Enemy';
-import { IEnemyAttack } from '../Enemy.types';
+import { Player } from '../../../Player/Player';
+import { Enemy } from '../../Enemy';
+import { EnemyAttackConfig, IAttackBehavior } from '../../Enemy.types';
+import { AttackBehavior } from './AttackBehavior';
 
-const WIND_UP_DURATION = 200;
-const ATTACK_COOLDOWN = 700;
-const ATTACK_RANGE_MARGIN = 8;
-
-export class EnemyAttack {
-    private enemy: Enemy;
-    private spriteName: string;
-    private player?: Player;
+export class MeleeAttack implements AttackBehavior {
+    protected enemy: Enemy;
+    protected player?: Player;
+    protected config: EnemyAttackConfig;
     isAttacking = false;
     private cooldownTimer = 0;
     private windUpTimer = 0;
     private hasDealtDamage = false;
 
-    constructor({ enemy, spriteName }: IEnemyAttack) {
+    constructor({ enemy, config }: IAttackBehavior) {
         this.enemy = enemy;
-        this.spriteName = spriteName;
+        this.config = config;
     }
 
     setPlayer(player: Player) {
@@ -48,28 +44,31 @@ export class EnemyAttack {
         if (this.isPlayerInRange()) this.startAttack();
     }
 
-    private startAttack() {
+    protected startAttack() {
         if (!this.player) return;
 
         this.isAttacking = true;
         this.hasDealtDamage = false;
-        this.windUpTimer = WIND_UP_DURATION;
+        this.windUpTimer = this.config.windUp;
 
         this.enemy.sprite.setVelocity(0, 0);
 
         const directionX = this.player.sprite.x - this.enemy.sprite.x;
         const directionY = this.player.sprite.y - this.enemy.sprite.y;
 
-        this.enemy.sprite.anims.play(`${this.spriteName}-attack-${this.getAttackDirection(directionX, directionY)}`, true);
+        this.enemy.sprite.anims.play(
+            `${this.enemy.spriteName}-attack-${this.getAttackDirection(directionX, directionY)}`,
+            true,
+        );
         this.enemy.sprite.once('animationcomplete', () => this.onAttackComplete());
     }
 
-    private onAttackComplete() {
+    protected onAttackComplete() {
         this.isAttacking = false;
-        this.cooldownTimer = ATTACK_COOLDOWN;
+        this.cooldownTimer = this.config.cooldown;
     }
 
-    private dealDamage() {
+    protected dealDamage() {
         const { player, enemy } = this;
         if (!player || !this.isPlayerInRange()) return;
 
@@ -77,10 +76,10 @@ export class EnemyAttack {
         const directionY = player.sprite.y - enemy.sprite.y;
         const distance = Math.hypot(directionX, directionY) || 1;
 
-        player.playerDamage.takeDamage(CONTACT_DAMAGE, directionX / distance, directionY / distance);
+        player.playerDamage.takeDamage(this.config.damage, directionX / distance, directionY / distance);
     }
 
-    private isPlayerInRange(): boolean {
+    protected isPlayerInRange(): boolean {
         const { player, enemy } = this;
         if (!player) return false;
 
@@ -91,13 +90,13 @@ export class EnemyAttack {
         const directionX = playerBody.center.x - enemyBody.center.x;
         const directionY = playerBody.center.y - enemyBody.center.y;
 
-        const withinX = Math.abs(directionX) < playerBody.halfWidth + enemyBody.halfWidth + ATTACK_RANGE_MARGIN;
-        const withinY = Math.abs(directionY) < playerBody.halfHeight + enemyBody.halfHeight + ATTACK_RANGE_MARGIN;
+        const withinX = Math.abs(directionX) < playerBody.halfWidth + enemyBody.halfWidth + this.config.rangeMargin;
+        const withinY = Math.abs(directionY) < playerBody.halfHeight + enemyBody.halfHeight + this.config.rangeMargin;
 
         return withinX && withinY;
     }
 
-    private getAttackDirection(directionX: number, directionY: number): 'horizontal' | 'up' | 'down' {
+    protected getAttackDirection(directionX: number, directionY: number): 'horizontal' | 'up' | 'down' {
         if (Math.abs(directionX) >= Math.abs(directionY)) {
             this.enemy.sprite.flipX = directionX < 0;
             return 'horizontal';

@@ -1,8 +1,6 @@
 import { Enemy } from '../../Enemy/Enemy';
 import { Player } from '../Player';
 
-export const CONTACT_DAMAGE = 10;
-
 const INVULNERABILITY_DURATION = 1000;
 const STAGGER_DURATION = 250;
 const BASE_KNOCKBACK_STRENGTH = 400;
