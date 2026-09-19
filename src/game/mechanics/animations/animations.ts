@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { EnemyAnimations } from './components/enemy-animations';
 import { HealthAnimations } from './components/health-animations';
 import { PlayerAnimations } from './components/player-animations';

@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Enemy } from '../enemy/enemy';
 import { Player } from '../player/player';
 

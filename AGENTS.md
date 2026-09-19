@@ -36,7 +36,7 @@ mkcert -key-file certs/localhost+3-key.pem -cert-file certs/localhost+3.pem loca
 
 ## Code conventions / gotchas
 
-- Phaser is referenced as a **global namespace** (`Phaser.Scene`) in some files without an import — works because Phaser's bundled d.ts declares a global; don't "fix" the missing import
+- Always import Phaser explicitly: `import Phaser from 'phaser';` at the top of any file that references `Phaser.*` (types or values). Phaser does set `globalThis.Phaser` as a side effect, but relying on it is fragile — a type-only reference would pass `tsc` yet throw `ReferenceError` at runtime
 - `vite.config.ts` sets `base` to `/zelda-clone/` in production (gh-pages) and `/` in dev — affects absolute asset URLs and the PWA `start_url`
 - Game images in `src/assets/` are imported as Vite modules and passed to the Phaser loader (`src/game/assets/global-assets.ts`, `src/game/areas/areas.ts`) — add new assets this way, not via string paths
 - Camera follows the player (`setup-player.ts`), so the player stays centered on screen — verify movement by world scroll, not sprite position

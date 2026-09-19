@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { AreaDefinition, PlacedImage } from '../../../../areas/area.types';
 
 function addImages(scene: Phaser.Scene, images: PlacedImage[], defaultDepth: number): void {

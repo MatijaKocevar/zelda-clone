@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { getMobileControlsVisible, toggleMobileControls } from '../../input/mobile-controls-state';
 
 export class PauseScene extends Phaser.Scene {

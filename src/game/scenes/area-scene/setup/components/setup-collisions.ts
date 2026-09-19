@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Collisions } from '../../../../entities/collisions/collisions';
 import { ICollisionRect } from '../../../../entities/collisions/collisions.types';
 import { Enemy } from '../../../../entities/enemy/enemy';

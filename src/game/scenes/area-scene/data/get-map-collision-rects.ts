@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { ICollisionRect } from '../../../entities/collisions/collisions.types';
 
 export function getMapCollisionRects(map: Phaser.Tilemaps.Tilemap): ICollisionRect[] {

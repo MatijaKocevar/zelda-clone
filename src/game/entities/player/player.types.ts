@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Position } from '../../types/position.interface';
 import { Enemy } from '../enemy/enemy';
 

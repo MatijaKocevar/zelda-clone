@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { PlayerLifeBar } from '../../../../entities/player/components/player-life-bar';
 
 export function setupHudCamera(scene: Phaser.Scene, lifeBar: PlayerLifeBar): Phaser.Cameras.Scene2D.Camera {

@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { Enemy } from '../../../../entities/enemy/enemy';
 import { IEnemy } from '../../../../entities/enemy/enemy.types';
 

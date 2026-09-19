@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { ImageAsset, SpriteSheetAsset } from './asset-loader.types';
 
 export class AssetLoader {
