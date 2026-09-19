@@ -29,8 +29,8 @@ mkcert -key-file certs/localhost+3-key.pem -cert-file certs/localhost+3.pem loca
 ## Architecture
 
 - No framework — plain TS. `src/main.ts` builds the Phaser game config and mounts it into `#phaser-game-container` (div in `index.html`); also starts the DOM UI (mobile controls, gamepad status)
-- Shared input: `src/game/input/InputState.ts` (`keysPressed` array + `lastKey`) is the single source of truth, written by `Input` (keyboard), `GamepadInput`, `MobileInput` and read by `PlayerMovement`/`PlayerAttack`; direction keys `press` (unshift), action keys `push`
-- `GameScene` only wires pause/ESC and delegates everything to `HomeScene` (sub-scene pattern) with `SetupManager`/`UpdateManager`
+- Shared input: `src/game/input/input-state.ts` (`keysPressed` array + `lastKey`) is the single source of truth, written by `Input` (keyboard), `GamepadInput`, `MobileInput` and read by `PlayerMovement`/`PlayerAttack`; direction keys `press` (unshift), action keys `push`
+- `GameScene` only wires pause/ESC and delegates everything to `AreaScene` (sub-scene pattern) with `SetupManager`/`UpdateManager`
 - Scenes: `MenuScene` (start), `GameScene`, `PauseScene`
 - DOM UI (`src/ui/`): `MobileControls` and `GamepadStatus` are plain TS classes that create DOM elements and import their own SCSS; game logic in `src/game/`
 
@@ -38,7 +38,8 @@ mkcert -key-file certs/localhost+3-key.pem -cert-file certs/localhost+3.pem loca
 
 - Phaser is referenced as a **global namespace** (`Phaser.Scene`) in some files without an import — works because Phaser's bundled d.ts declares a global; don't "fix" the missing import
 - `vite.config.ts` sets `base` to `/zelda-clone/` in production (gh-pages) and `/` in dev — affects absolute asset URLs and the PWA `start_url`
-- Game images in `src/assets/` are imported as Vite modules and passed to the Phaser loader (`src/game/scenes/HomeScene/assets/HomeAssets.ts`) — add new assets this way, not via string paths
-- Camera follows the player (`setupPlayer.ts`), so the player stays centered on screen — verify movement by world scroll, not sprite position
+- Game images in `src/assets/` are imported as Vite modules and passed to the Phaser loader (`src/game/assets/global-assets.ts`, `src/game/areas/areas.ts`) — add new assets this way, not via string paths
+- Camera follows the player (`setup-player.ts`), so the player stays centered on screen — verify movement by world scroll, not sprite position
+- **File naming:** every file and directory under `src/` is **kebab-case** (`player-movement.ts`, `area-scene/`). Dot suffixes stay (`area.types.ts`, `cursors.interface.ts`); class/type identifiers remain PascalCase. No lint enforcement — follow the convention manually.
 - Prettier: single quotes, tabWidth 4, printWidth 120 (no format script; use `npx prettier --write .`)
 - No CI in repo (`.github` is gitignored)
