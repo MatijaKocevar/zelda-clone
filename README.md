@@ -43,10 +43,9 @@ To play the game:
 
 ## Assets
 
-Map art packs are **not stored in this repository** for licensing reasons. They live on the NAS at
-`external asset store` (see the README there for sources, download
-instructions, and license terms). Currently used: **Tiny Swords** by Pixel Frog
-(https://pixelfrog-assets.itch.io/tiny-swords, 64×64 grid).
+Map art packs are **not stored in this repository** for licensing reasons — download them separately
+from their source and follow that source's license terms. Currently used: **Tiny Swords** by Pixel
+Frog (https://pixelfrog-assets.itch.io/tiny-swords, 64×64 grid).
 
 ## Technologies Used
 
