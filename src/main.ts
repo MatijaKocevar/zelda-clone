@@ -9,10 +9,8 @@ import { MobileControls } from './ui/mobile-controls/mobile-controls';
 import { GamepadStatus } from './ui/gamepad-status/gamepad-status';
 import { RotateOverlay } from './ui/rotate-overlay/rotate-overlay';
 import { PauseControl } from './ui/pause-control/pause-control';
-import {
-    getMobileControlsVisible,
-    onMobileControlsVisibilityChange,
-} from './game/input/mobile-controls-state';
+import { FpsCounter } from './ui/fps-counter/fps-counter';
+import { getMobileControlsVisible, onMobileControlsVisibilityChange } from './game/input/mobile-controls-state';
 
 const inputState = new InputState();
 
@@ -38,7 +36,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     scene: [new MenuScene(), new GameScene(inputState), new PauseScene(), new GameOverScene()],
 };
 
-new Phaser.Game(gameConfig);
+const game = new Phaser.Game(gameConfig);
 
 const mobileControls = new MobileControls(inputState);
 const pauseControl = new PauseControl();
@@ -63,3 +61,7 @@ new GamepadStatus({
     },
 });
 new RotateOverlay();
+
+if (import.meta.env.DEV) {
+    new FpsCounter(game);
+}
