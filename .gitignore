@@ -27,6 +27,9 @@ dist-ssr
 certs/
 dev-dist
 
+# Reference art, not used by the game
+src/assets/OG/
+
 # MCP / tooling output
 .mcp/
 .playwright-mcp/
