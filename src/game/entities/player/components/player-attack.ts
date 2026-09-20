@@ -4,6 +4,10 @@ import { Enemy } from '../../enemy/enemy';
 import { Player } from '../player';
 import { PlayerMovement } from './player-movement';
 
+const HORIZONTAL_HITBOX_OFFSET_X = 37;
+const ATTACK_HITBOX_SIZE = 50;
+const VERTICAL_HITBOX_HEIGHT = 30;
+
 export class PlayerAttack {
     private player: Player;
     private playerMovement: PlayerMovement;
@@ -115,13 +119,11 @@ export class PlayerAttack {
     private calculateHitboxSize() {
         switch (this.attackDirection) {
             case UP:
-                return { width: 50, height: 30 };
             case DOWN:
-                return { width: 50, height: 20 };
+                return { width: ATTACK_HITBOX_SIZE, height: VERTICAL_HITBOX_HEIGHT };
             case LEFT:
-                return { width: 50, height: 50 };
             case RIGHT:
-                return { width: 50, height: 50 };
+                return { width: ATTACK_HITBOX_SIZE, height: ATTACK_HITBOX_SIZE };
             default:
                 return { width: 30, height: 30 };
         }
@@ -132,11 +134,11 @@ export class PlayerAttack {
             case UP:
                 return { x: 3, y: 5 };
             case DOWN:
-                return { x: 3, y: 70 };
+                return { x: 3, y: 60 };
             case LEFT:
-                return { x: -30, y: 40 };
+                return { x: -HORIZONTAL_HITBOX_OFFSET_X, y: 40 };
             case RIGHT:
-                return { x: 37, y: 40 };
+                return { x: HORIZONTAL_HITBOX_OFFSET_X, y: 40 };
             default:
                 return {
                     x: this.player.sprite.flipX ? -20 : 20,
