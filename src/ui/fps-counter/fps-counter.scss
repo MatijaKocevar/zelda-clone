@@ -1,0 +1,24 @@
+.fps-counter {
+    position: absolute;
+    top: calc(12px + env(safe-area-inset-top));
+    left: 50%;
+    z-index: 999;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateX(-50%);
+}
+
+.fps-counter-low {
+    color: #ffd700;
+}
+
+.fps-counter-critical {
+    color: #ff4500;
+}
