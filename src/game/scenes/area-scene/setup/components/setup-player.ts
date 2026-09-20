@@ -7,7 +7,8 @@ const DEBUG_FULL_MAP = false;
 const TARGET_VIEW_HEIGHT = 720;
 
 function applyGameplayZoom(camera: Phaser.Cameras.Scene2D.Camera): void {
-    camera.setZoom(camera.height / TARGET_VIEW_HEIGHT);
+    const zoom = Math.max(1, Math.round(camera.height / TARGET_VIEW_HEIGHT));
+    camera.setZoom(zoom);
 }
 
 export function setupPlayer(
