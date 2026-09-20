@@ -28,16 +28,50 @@ export class AreaScene {
             this.scene.load.tilemapTiledJSON(this.area.key, this.area.mapUrl);
         }
 
-        AssetLoader.loadImages(this.scene, [...this.area.backgroundImages, ...this.area.foregroundImages]);
+        AssetLoader.loadImages(this.scene, [
+            ...this.area.backgroundImages,
+            ...this.area.foregroundImages,
+            ...(this.area.tilesetImages ?? []),
+        ]);
     }
 
     create() {
         const map = this.scene.make.tilemap({ key: this.area.key });
+        this.createTileLayers(map);
         this.setupManager = new SetupManager(this.scene, map, this.area);
         this.updateManager = new UpdateManager(this.setupManager.player, this.setupManager.enemies);
     }
 
     update() {
         this.updateManager.update();
+    }
+
+    private createTileLayers(map: Phaser.Tilemaps.Tilemap): void {
+        const tilesetImages = this.area.tilesetImages;
+
+        if (!tilesetImages?.length) {
+            return;
+        }
+
+        const tilesets = tilesetImages
+            .map(({ name, key }) => map.addTilesetImage(name, key))
+            .filter((tileset): tileset is Phaser.Tilemaps.Tileset => Boolean(tileset))
+            .map((tileset) => {
+                // Tiled anchors tiles larger than the grid to the bottom-left of their cell.
+                tileset.tileOffset.set(0, Math.max(0, tileset.tileHeight - map.tileHeight));
+
+                return tileset;
+            });
+
+        let depth = -50;
+
+        map.layers.forEach((layer) => {
+            if (layer.name === 'collisions') {
+                return;
+            }
+
+            map.createLayer(layer.name, tilesets)?.setDepth(depth);
+            depth += 1;
+        });
     }
 }
