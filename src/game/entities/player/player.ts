@@ -48,6 +48,13 @@ export class Player {
         this.playerMovement.update();
         this.playerDamage.update();
         this.playerLifeBar.update();
+        this.syncDepth();
+    }
+
+    private syncDepth(): void {
+        const body = this.sprite.body as Phaser.Physics.Arcade.Body | null;
+
+        this.sprite.setDepth(body ? body.bottom : this.sprite.y);
     }
 
     private syncBodyOffset(): void {

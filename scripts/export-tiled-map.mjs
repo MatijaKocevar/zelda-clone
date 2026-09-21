@@ -56,24 +56,43 @@ function readLayer(tag, body) {
     };
 }
 
+function readProperties(body) {
+    return [...body.matchAll(/<property\b([^>]*)\/?>/g)].map(([, propertyTag]) => {
+        const property = readAttributes(propertyTag);
+        const type = property.type ?? 'string';
+        let value = property.value ?? '';
+
+        if (type === 'int' || type === 'float') {
+            value = Number(value);
+        } else if (type === 'bool') {
+            value = value === 'true';
+        }
+
+        return { name: property.name, type, value };
+    });
+}
+
 function readObjectLayer(tag, body) {
     const layer = readAttributes(tag);
 
-    const objects = [...body.matchAll(/<object\b([^>]*?)\/?>/g)].map(([, objectTag]) => {
-        const object = readAttributes(objectTag);
+    const objects = [...body.matchAll(/<object\b([^>]*?)(?:\/>|>([\s\S]*?)<\/object>)/g)].map(
+        ([, objectTag, objectBody]) => {
+            const object = readAttributes(objectTag);
 
-        return {
-            id: Number(object.id),
-            name: object.name ?? '',
-            type: object.type ?? '',
-            x: Number(object.x ?? 0),
-            y: Number(object.y ?? 0),
-            width: Number(object.width ?? 0),
-            height: Number(object.height ?? 0),
-            rotation: Number(object.rotation ?? 0),
-            visible: object.visible !== '0',
-        };
-    });
+            return {
+                id: Number(object.id),
+                name: object.name ?? '',
+                type: object.type ?? '',
+                x: Number(object.x ?? 0),
+                y: Number(object.y ?? 0),
+                width: Number(object.width ?? 0),
+                height: Number(object.height ?? 0),
+                rotation: Number(object.rotation ?? 0),
+                visible: object.visible !== '0',
+                properties: readProperties(objectBody ?? ''),
+            };
+        },
+    );
 
     return {
         type: 'objectgroup',

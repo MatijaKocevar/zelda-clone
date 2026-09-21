@@ -9,7 +9,6 @@ import { MovementBehavior } from './components/movement/movement-behavior';
 const DEATH_FALL_DURATION = 450;
 const CORPSE_LINGER_DURATION = 30000;
 const CORPSE_FADE_DURATION = 1500;
-const CORPSE_DEPTH = 1;
 
 export class Enemy {
     scene: Phaser.Scene;
@@ -52,10 +51,20 @@ export class Enemy {
     }
 
     public update() {
-        if (this.isDying || this.isDead || this.isDestroyed) return;
+        if (this.isDestroyed) return;
+
+        this.syncDepth();
+
+        if (this.isDying || this.isDead) return;
 
         this.enemyAttack.update();
         this.enemyMovement.update();
+    }
+
+    private syncDepth(): void {
+        const body = this.sprite.body as Phaser.Physics.Arcade.Body | null;
+
+        this.sprite.setDepth(body ? body.bottom : this.sprite.y);
     }
 
     public takeDamage(damage: number, attackDirection: string, closeContact: boolean) {
@@ -107,8 +116,6 @@ export class Enemy {
     private becomeCorpse() {
         this.isDying = false;
         this.isDead = true;
-
-        this.sprite.setDepth(CORPSE_DEPTH);
 
         this.scene.time.delayedCall(CORPSE_LINGER_DURATION, () => this.fadeCorpse());
     }
