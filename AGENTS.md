@@ -34,6 +34,27 @@ mkcert -key-file certs/localhost+3-key.pem -cert-file certs/localhost+3.pem loca
 - Scenes: `MenuScene` (start), `GameScene`, `PauseScene`
 - DOM UI (`src/ui/`): `MobileControls` and `GamepadStatus` are plain TS classes that create DOM elements and import their own SCSS; game logic in `src/game/`
 
+## Assets — Ninja Adventure pack
+
+- Source lives **only locally** in `src/assets/OG/Ninja Adventure - Asset Pack/` (path has spaces — quote it). It is gitignored and **must never be committed**; README explains where to download it. License: CC0 (Pixel-Boy / AAA), see the pack's `README.md`.
+- **Native grid is 16×16, the game world is 4×** (map tiles 64px, player frames 144px, custom enemies 96px). Upscale every asset you use with nearest-neighbour before referencing it, and keep the copies inside gitignored `src/assets/OG/ninja-4x/`:
+  `magick "src/assets/OG/Ninja Adventure - Asset Pack/<file>.png" -filter point -resize 400% "src/assets/OG/ninja-4x/<file>.png"`
+- Code imports and Tiled `.tsx` files always point at the **4× copies**, never the raw pack (see `global-assets.ts`, `home.assets.ts`, and the old `Tilemap_color1.tsx` pattern).
+- **Player stays custom** (`src/assets/characters/player/player.png`, 144×144 frames) — never replace it with pack art.
+- Pack layout (check `AllPreview.png` / `*Preview.gif` for visuals):
+  - `Actor/Character/<Name>/` — `SpriteSheet.png` 64×112 = 4 cols × 7 rows of 16×16 (at 4×: 256×448, 64px frames). Columns = facing **down, up, left, right**; rows = move `0–3`, attack `4`, jump `5`, dead/item `6` (mapping from the original game's `sprite_character.gd`). `Faceset.png` = 38×38 portrait; colour variants are separate folders (`Knight`/`KnightGold`).
+  - `Actor/Monster/<Name>/` — `SpriteSheet.png` 64×64 = same 4 direction columns × 4 walk frames (at 4×: 256×256, 64px frames); 40 monsters.
+  - `Actor/Animal/<Name>/` — `SpriteSheet*.png` 32×16 = 2 side-view frames (at 4×: 128×64, 64px frames), flip X for direction; `*Side` variants are four-legged walks.
+  - `Actor/Boss/<Name>/` — one horizontal strip per animation (`Idle`, `Walk`, `Attack`, `Hit`…), ~50px frames, no fixed grid; preview the GIF before wiring.
+  - `Actor/CharacterAnimated/NinjaGreen/` — full ninja; prefer `Separate/*.png` over the combined `SpriteSheet.png`. Strips are 4 direction columns (down/up/left/right) × N frames, in **32×32 cells with 16×16 art centred** (at 4×: 128×128, 32px art). `Weapon/*.png` = in-hand overlays.
+  - `Backgrounds/Tilesets/` — 20 terrain tilesets, all 16×16 (Field, Nature, House, Interior/InteriorFloor/WallSimple, Water, Desert, Dungeon, VillageAbandoned, Relief/ReliefDetail, Floor/FloorB/FloorDetail, Element, Towers, Hole, Pipes, camp, bed). `TilesetLogic.png` = palette/marker tiles, not collision. `TilesetFloor.png` is 352×417 (extra transparent row) — ignore the stray pixel row in the TSX.
+  - `Backgrounds/Animated/` — flags, flowers, plants, waterfall, water ripples, quicksand, watermill, conveyor; `*Preview.gif` shows the result.
+  - `Items/` — single PNGs (`Weapons/<Weapon>/{Sprite,SpriteInHand}.png`, Treasure, Potion, Food, Tool, Projectile, Resource, Scroll); `AllPreview.png`.
+  - `FX/` — effect sheets (Slash, Attack, Magic, Elemental, Projectile, Particle, Smoke); `AllPreview.png`.
+  - `Ui/` — Dialog boxes/buttons, hearts/lifebar (`Receptacle`), emotes, input icons, skill icons, bitmap fonts (`Font/font8x8.png`, `font24x30.png`) + TTF, `Theme/Theme Wood` 9-slice UI. Ignore `Ui/Theme/Wip/` (unfinished).
+  - `Audio/` — `.ogg`: 41 musics, 132 sounds, 15 jingles.
+- Tiled wiring (unchanged): create a `.tsx` next to the area map with the **4× image and 64×64 tiles**, import it in `<area>.assets.ts` as `tilesetImages` (`name` must equal the TSX name); keep `collisions`/`doors` object layers and y-sorted `Buildings`/`Decor` tile layers that `area-scene.ts` expects.
+
 ## Code conventions / gotchas
 
 - Always import Phaser explicitly: `import Phaser from 'phaser';` at the top of any file that references `Phaser.*` (types or values). Phaser does set `globalThis.Phaser` as a side effect, but relying on it is fragile — a type-only reference would pass `tsc` yet throw `ReferenceError` at runtime
