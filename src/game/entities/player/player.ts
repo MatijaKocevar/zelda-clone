@@ -4,6 +4,7 @@ import { PlayerAttack } from './components/player-attack';
 import { PlayerRangedAttack } from './components/player-ranged-attack';
 import { PlayerStats } from './components/player-stats';
 import { PlayerLifeBar } from './components/player-life-bar';
+import { PlayerManaBar } from './components/player-mana-bar';
 import { PlayerDamage } from './components/player-damage';
 import { IPlayer } from './player.types';
 
@@ -20,6 +21,7 @@ export class Player {
     playerRangedAttack: PlayerRangedAttack;
     playerStats: PlayerStats;
     playerLifeBar: PlayerLifeBar;
+    playerManaBar: PlayerManaBar;
     playerDamage: PlayerDamage;
     private flipX: boolean | undefined;
 
@@ -32,8 +34,11 @@ export class Player {
             maxHealth: 300,
             damage: 25,
             armor: 0,
+            mana: 100,
+            maxMana: 100,
         });
         this.playerLifeBar = new PlayerLifeBar(this);
+        this.playerManaBar = new PlayerManaBar(this);
         this.playerMovement = new PlayerMovement(this);
         this.playerDamage = new PlayerDamage(this, enemies);
         this.playerAttack = new PlayerAttack(this, enemies);
@@ -51,7 +56,9 @@ export class Player {
         this.playerRangedAttack.update();
         this.playerMovement.update();
         this.playerDamage.update();
+        this.playerStats.regenerateMana(this.scene.game.loop.delta);
         this.playerLifeBar.update();
+        this.playerManaBar.update();
         this.syncDepth();
     }
 

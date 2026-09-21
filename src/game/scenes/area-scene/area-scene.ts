@@ -7,6 +7,8 @@ import { AreaDefinition, AreaSpawn } from '../../areas/area.types';
 import { UpdateManager } from './update/update-manager';
 import { SetupManager } from './setup/setup-manager';
 import { AssetLoader } from '../../utils/asset-loader/asset-loader';
+import { signImageAssets } from '../../assets/sign-assets';
+import { ENEMIES_DEFEATED_EVENT } from '../../events';
 
 const SPRITE_LAYER_NAMES = ['Buildings', 'Decor'];
 
@@ -25,6 +27,8 @@ export class AreaScene {
     setupManager!: SetupManager;
     updateManager!: UpdateManager;
     private spawn?: AreaSpawn;
+    private enemyCount = 0;
+    private hasWon = false;
 
     constructor(scene: Phaser.Scene, area: AreaDefinition, spawn?: AreaSpawn) {
         this.scene = scene;
@@ -42,6 +46,10 @@ export class AreaScene {
             ...this.area.foregroundImages,
             ...(this.area.tilesetImages ?? []),
         ]);
+
+        if (this.area.signs?.length) {
+            AssetLoader.loadImages(this.scene, signImageAssets);
+        }
     }
 
     create() {
@@ -50,11 +58,30 @@ export class AreaScene {
         const map = this.scene.make.tilemap({ key: this.area.key });
         this.createTileLayers(map);
         this.setupManager = new SetupManager(this.scene, map, this.area, this.spawn);
-        this.updateManager = new UpdateManager(this.setupManager.player, this.setupManager.enemies);
+        this.updateManager = new UpdateManager(
+            this.setupManager.player,
+            this.setupManager.enemies,
+            this.setupManager.signs,
+        );
+        this.enemyCount = this.setupManager.enemies.length;
     }
 
     update() {
         this.updateManager.update();
+        this.checkVictory();
+    }
+
+    private checkVictory(): void {
+        if (this.hasWon || this.enemyCount === 0) {
+            return;
+        }
+
+        if (this.setupManager.enemies.some((enemy) => enemy.isAlive)) {
+            return;
+        }
+
+        this.hasWon = true;
+        this.scene.events.emit(ENEMIES_DEFEATED_EVENT);
     }
 
     private createTileLayers(map: Phaser.Tilemaps.Tilemap): void {

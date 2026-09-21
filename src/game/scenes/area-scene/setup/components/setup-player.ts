@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import { Enemy } from '../../../../entities/enemy/enemy';
 import { Player } from '../../../../entities/player/player';
 import { AreaDefinition, AreaSpawn } from '../../../../areas/area.types';
+import { FULL_MAP_VIEW } from '../../../../dev-flags';
 
-const DEBUG_FULL_MAP = import.meta.env.DEV;
 const TARGET_VIEW_HEIGHT = 720;
 
 function applyGameplayZoom(camera: Phaser.Cameras.Scene2D.Camera): void {
@@ -33,7 +33,7 @@ export function setupPlayer(
 
     const camera = scene.cameras.main;
 
-    if (DEBUG_FULL_MAP) {
+    if (FULL_MAP_VIEW) {
         camera.stopFollow();
         camera.useBounds = false;
         camera.setZoom(Math.min(camera.width / worldWidth, camera.height / worldHeight));
