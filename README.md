@@ -43,9 +43,21 @@ To play the game:
 
 ## Assets
 
-Map art packs are **not stored in this repository** for licensing reasons — download them separately
-from their source and follow that source's license terms. Currently used: **Ninja Adventure** by
-Pixel-Boy (https://pixel-boy.itch.io/ninja-adventure-asset-pack).
+Map art packs are **not stored in this repository**. Currently used: **Ninja Adventure** by Pixel-Boy
+(https://pixel-boy.itch.io/ninja-adventure-asset-pack, CC0 — attribution appreciated). Download the
+pack and extract it to `src/assets/OG/Ninja Adventure - Asset Pack/` (gitignored) before running the
+game.
+
+The pack uses a 16×16 grid while the game world is 4×, so upscale any asset you use before
+referencing it — e.g.:
+
+```sh
+magick "src/assets/OG/Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetField.png" \
+  -filter point -resize 400% "src/assets/OG/ninja-4x/TilesetField.png"
+```
+
+Game code imports and Tiled `.tsx` files always point at the upscaled copies under
+`src/assets/OG/ninja-4x/`.
 
 ## Technologies Used
 

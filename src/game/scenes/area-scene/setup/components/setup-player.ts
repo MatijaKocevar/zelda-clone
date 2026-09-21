@@ -3,7 +3,7 @@ import { Enemy } from '../../../../entities/enemy/enemy';
 import { Player } from '../../../../entities/player/player';
 import { AreaDefinition, AreaSpawn } from '../../../../areas/area.types';
 
-const DEBUG_FULL_MAP = true;
+const DEBUG_FULL_MAP = import.meta.env.DEV;
 const TARGET_VIEW_HEIGHT = 720;
 
 function applyGameplayZoom(camera: Phaser.Cameras.Scene2D.Camera): void {
