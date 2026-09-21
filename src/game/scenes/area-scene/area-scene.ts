@@ -65,8 +65,8 @@ export class AreaScene {
             .map(({ name, key }) => map.addTilesetImage(name, key))
             .filter((tileset): tileset is Phaser.Tilemaps.Tileset => Boolean(tileset))
             .map((tileset) => {
-                // Tiled anchors tiles larger than the grid to the bottom-left of their cell.
-                tileset.tileOffset.set(0, Math.max(0, tileset.tileHeight - map.tileHeight));
+                // Tiled anchors tiles to the bottom-left of their cell.
+                tileset.tileOffset.set(0, tileset.tileHeight - map.tileHeight);
 
                 return tileset;
             });
@@ -128,7 +128,7 @@ export class AreaScene {
                     frameBases.set(frameKey, frameBase);
                 }
 
-                const tileOffsetY = Math.max(0, tileset.tileHeight - map.tileHeight);
+                const tileOffsetY = tileset.tileHeight - map.tileHeight;
                 const x = tile.pixelX;
                 const y = tile.pixelY - tileOffsetY;
 
