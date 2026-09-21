@@ -23,8 +23,9 @@ export class Enemy {
     isDying = false;
     isDead = false;
     isKnockedBack = false;
+    private onDeath?: () => void;
 
-    constructor({ position, scene, type, patrolPath, initialDelay = 0 }: IEnemy) {
+    constructor({ position, scene, type, patrolPath, initialDelay = 0, onDeath }: IEnemy) {
         const definition = ENEMY_DEFINITIONS[type];
 
         this.position = position;
@@ -32,6 +33,7 @@ export class Enemy {
         this.type = type;
         this.spriteName = definition.spriteName;
         this.health = definition.health;
+        this.onDeath = onDeath;
 
         this.sprite = scene.physics.add.sprite(position.x, position.y, definition.spriteName);
 
@@ -88,6 +90,7 @@ export class Enemy {
     private die(attackDirection: string) {
         this.isDying = true;
         this.isKnockedBack = false;
+        this.onDeath?.();
 
         this.scene.tweens.killTweensOf(this.sprite);
         this.sprite.setData('isFlickering', false);

@@ -37,6 +37,7 @@ export interface IEnemy {
     type: EnemyType;
     patrolPath: PatrolPath[];
     initialDelay?: number;
+    onDeath?: () => void;
 }
 
 export interface IMovementBehavior {
