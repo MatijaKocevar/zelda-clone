@@ -4,7 +4,7 @@ import { roomArea } from './room/room.assets';
 import { sharedTestMapUrl } from './shared/test-map.assets';
 import { tutorialArea } from './tutorial/tutorial.assets';
 
-export const defaultAreaKey = 'tutorial';
+export const defaultAreaKey = 'home';
 
 function createTestArea(key: string): AreaDefinition {
     return {
