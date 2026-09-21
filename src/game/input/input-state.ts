@@ -2,6 +2,10 @@ export class InputState {
     keysPressed: string[] = [];
     lastKey = 'RIGHT';
 
+    reset() {
+        this.keysPressed = [];
+    }
+
     press(key: string) {
         if (!this.keysPressed.includes(key)) {
             this.keysPressed.unshift(key);

@@ -4,16 +4,19 @@ import { AreaScene } from './area-scene/area-scene';
 import { AssetLoader } from '../utils/asset-loader/asset-loader';
 import { globalSpriteSheetAssets } from '../assets/global-assets';
 import { defaultAreaKey, getArea } from '../areas/areas';
-import { TOGGLE_PAUSE_EVENT } from '../events';
+import { AreaDoor, AreaSpawn } from '../areas/area.types';
+import { DOOR_ENTERED_EVENT, TOGGLE_PAUSE_EVENT } from '../events';
 
 interface GameSceneData {
     area?: string;
+    spawn?: AreaSpawn;
 }
 
 export class GameScene extends Phaser.Scene {
     areaScene!: AreaScene;
     inputState: InputState;
     areaKey: string = defaultAreaKey;
+    private returnSpawn?: AreaSpawn;
 
     constructor(inputState: InputState) {
         super({ key: 'GameScene' });
@@ -22,7 +25,7 @@ export class GameScene extends Phaser.Scene {
 
     init(data: GameSceneData) {
         this.areaKey = data.area ?? defaultAreaKey;
-        this.areaScene = new AreaScene(this, getArea(this.areaKey));
+        this.areaScene = new AreaScene(this, getArea(this.areaKey), data.spawn);
     }
 
     preload() {
@@ -34,6 +37,8 @@ export class GameScene extends Phaser.Scene {
         this.areaScene.create();
 
         this.events.off('player-died');
+        this.events.off(DOOR_ENTERED_EVENT, this.handleDoorEntered);
+        this.events.on(DOOR_ENTERED_EVENT, this.handleDoorEntered);
         this.input.keyboard?.removeAllListeners('keydown-ESC');
 
         this.input.keyboard?.on('keydown-ESC', this.pauseGame);
@@ -55,9 +60,24 @@ export class GameScene extends Phaser.Scene {
         this.areaScene.update();
     }
 
-    goToArea(key: string) {
-        this.scene.restart({ area: key });
+    goToArea(key: string, spawn?: AreaSpawn) {
+        this.scene.restart({ area: key, spawn });
     }
+
+    private handleDoorEntered = (door: AreaDoor) => {
+        if (!door.target) {
+            return;
+        }
+
+        if (!door.spawn) {
+            this.goToArea(door.target, this.returnSpawn);
+            return;
+        }
+
+        this.returnSpawn = { x: door.x + door.width / 2, y: door.y + door.height + 40 };
+
+        this.goToArea(door.target, door.spawn);
+    };
 
     private pauseGame = () => {
         if (this.scene.isActive('PauseScene')) {

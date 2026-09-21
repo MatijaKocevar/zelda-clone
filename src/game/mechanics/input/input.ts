@@ -24,6 +24,7 @@ export class Input {
     }
 
     init = () => {
+        this.inputState.reset();
         this.createInputs();
         this.createInputListeners();
     };

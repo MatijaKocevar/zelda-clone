@@ -1,5 +1,6 @@
 import { AreaDefinition } from './area.types';
 import { homeArea } from './home/home.assets';
+import { roomArea } from './room/room.assets';
 import { sharedTestMapUrl } from './shared/test-map.assets';
 import { tutorialArea } from './tutorial/tutorial.assets';
 
@@ -17,6 +18,7 @@ function createTestArea(key: string): AreaDefinition {
 
 export const areas: Record<string, AreaDefinition> = {
     home: homeArea,
+    room: roomArea,
     tutorial: tutorialArea,
     north: createTestArea('north'),
     south: createTestArea('south'),

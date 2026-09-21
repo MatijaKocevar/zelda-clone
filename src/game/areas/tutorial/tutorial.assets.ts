@@ -7,6 +7,7 @@ import tree1 from '../../../assets/map/tutorial/image-704699a9d78db1b7cc7fa2adcf
 import bush1 from '../../../assets/map/tutorial/image-e37e902e18f8218a12c276e56daa14d2a32d88418cab814effa0a0618f6d1b5e.png';
 import rocks from '../../../assets/map/tutorial/image-dab113e169f8176cd2cde37027c06af8f2cc406b0c815624127048500943bb04.png';
 import { AreaDefinition, TilesetImageAsset } from '../area.types';
+import { tutorialEnemySpawns } from './tutorial-enemies';
 
 const tutorialTilesetImages: TilesetImageAsset[] = [
     { name: 'Water Background color', key: 'tutorial-water-background', path: waterBackground },
@@ -25,4 +26,5 @@ export const tutorialArea: AreaDefinition = {
     backgroundImages: [],
     foregroundImages: [],
     tilesetImages: tutorialTilesetImages,
+    enemySpawns: tutorialEnemySpawns,
 };
