@@ -6,6 +6,7 @@ import { globalSpriteSheetAssets } from '../assets/global-assets';
 import { defaultAreaKey, getArea } from '../areas/areas';
 import { AreaDoor, AreaSpawn } from '../areas/area.types';
 import { DOOR_ENTERED_EVENT, ENEMIES_DEFEATED_EVENT, TOGGLE_PAUSE_EVENT } from '../events';
+import { resetDefeatedEnemies } from '../state/defeated-enemies';
 
 interface GameSceneData {
     area?: string;
@@ -24,6 +25,10 @@ export class GameScene extends Phaser.Scene {
     }
 
     init(data: GameSceneData) {
+        if (!data.area) {
+            resetDefeatedEnemies();
+        }
+
         this.areaKey = data.area ?? defaultAreaKey;
         this.areaScene = new AreaScene(this, getArea(this.areaKey), data.spawn);
     }
