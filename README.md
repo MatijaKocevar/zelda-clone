@@ -44,8 +44,8 @@ To play the game:
 ## Assets
 
 Map art packs are **not stored in this repository** for licensing reasons — download them separately
-from their source and follow that source's license terms. Currently used: **Tiny Swords** by Pixel
-Frog (https://pixelfrog-assets.itch.io/tiny-swords, 64×64 grid).
+from their source and follow that source's license terms. Currently used: **Ninja Adventure** by
+Pixel-Boy (https://pixel-boy.itch.io/ninja-adventure-asset-pack).
 
 ## Technologies Used
 
