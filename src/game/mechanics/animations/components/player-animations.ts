@@ -145,6 +145,17 @@ export class PlayerAnimations {
             repeat: 0,
         });
 
+        //CAST ANIMATION
+        scene.anims.create({
+            key: 'cast',
+            frames: scene.anims.generateFrameNumbers('player1', {
+                start: 54,
+                end: 54,
+            }),
+            frameRate: 10,
+            repeat: 0,
+        });
+
         //HURT ANIMATION
         scene.anims.create({
             key: 'hurt',

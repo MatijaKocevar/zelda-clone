@@ -31,15 +31,15 @@ To play the game:
 - Use [a] to move left
 - Use [s] to move down
 - Use [d] to move right
-- Press [space] to attack
-- Hold [shift] to walk
+- Press [space] for melee attack
+- Press [shift] to throw a fireball
 
 **Gamepad Support:** 🎮
 
 - Connect any compatible Bluetooth gamepad (Xbox, PlayStation, etc.)
 - Use D-pad or left analog stick for movement
-- A/Cross button for attack
-- B/Circle button for sprint
+- A/Cross button for melee attack
+- B/Circle button for fireball
 
 ## Assets
 

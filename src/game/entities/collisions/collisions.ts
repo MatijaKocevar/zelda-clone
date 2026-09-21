@@ -9,6 +9,7 @@ export class Collisions {
     private enemies: Enemy[];
     private collisionRects: ICollisionRect[];
     private collisionGroup: Phaser.Physics.Arcade.StaticGroup;
+    private projectileCollisionGroup: Phaser.Physics.Arcade.StaticGroup;
 
     constructor({ scene, player, enemies, collisionRects }: ICollisionBlock) {
         this.scene = scene;
@@ -16,6 +17,7 @@ export class Collisions {
         this.enemies = enemies;
         this.collisionRects = collisionRects;
         this.collisionGroup = scene.physics.add.staticGroup();
+        this.projectileCollisionGroup = scene.physics.add.staticGroup();
 
         this.init();
     }
@@ -29,10 +31,14 @@ export class Collisions {
         this.collisionRects.forEach((rect) => this.createCollisionBlock(rect));
     }
 
-    private createCollisionBlock({ x, y, width, height }: ICollisionRect) {
+    private createCollisionBlock({ x, y, width, height, blocksProjectiles = true }: ICollisionRect) {
         const zone = this.scene.add.zone(x + width / 2, y + height / 2, width, height);
         this.scene.physics.add.existing(zone, true);
         this.collisionGroup.add(zone);
+
+        if (blocksProjectiles) {
+            this.projectileCollisionGroup.add(zone);
+        }
     }
 
     private addColliders() {
@@ -42,5 +48,12 @@ export class Collisions {
         physics.add.collider(player.sprite, this.collisionGroup);
         enemies.forEach((enemy) => physics.add.collider(enemy.sprite, this.collisionGroup));
         enemies.forEach((enemy) => physics.add.collider(player.sprite, enemy.sprite));
+    }
+
+    public addProjectileCollider(
+        projectiles: Phaser.Physics.Arcade.Group,
+        onProjectileHit: Phaser.Types.Physics.Arcade.ArcadePhysicsCallback,
+    ): void {
+        this.scene.physics.add.collider(projectiles, this.projectileCollisionGroup, onProjectileHit);
     }
 }

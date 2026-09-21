@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { DOWN, LEFT, RIGHT, SHIFT, SPACE, UP } from '../input/input';
+import { DOWN, LEFT, RANGED, RIGHT, SPACE, UP } from '../input/input';
 import { CustomScene } from '../input/input.types';
 import { InputState } from '../../input/input-state';
 
@@ -39,7 +39,7 @@ export class GamepadInput {
         this.setDirection(UP, leftY < -STICK_THRESHOLD || this.isPressed(gamepad, BUTTON.DPAD_UP));
         this.setDirection(DOWN, leftY > STICK_THRESHOLD || this.isPressed(gamepad, BUTTON.DPAD_DOWN));
         this.setButton(SPACE, this.isPressed(gamepad, BUTTON.A));
-        this.setButton(SHIFT, this.isPressed(gamepad, BUTTON.B));
+        this.setButton(RANGED, this.isPressed(gamepad, BUTTON.B));
     }
 
     get isConnected(): boolean {
