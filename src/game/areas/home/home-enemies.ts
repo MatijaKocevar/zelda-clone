@@ -32,13 +32,13 @@ export const homeEnemySpawns: EnemySpawn[] = [
         ],
     },
     {
-        position: { x: 3840, y: 864 },
+        position: { x: 3936, y: 864 },
         type: 'zomboi',
         patrolPath: [
-            { direction: 'down', distance: 100 },
-            { direction: 'left', distance: 100 },
-            { direction: 'up', distance: 100 },
-            { direction: 'right', distance: 100 },
+            { direction: 'left', distance: 80 },
+            { direction: 'right', distance: 80 },
+            { direction: 'up', distance: 80 },
+            { direction: 'down', distance: 80 },
         ],
     },
     {
@@ -62,7 +62,7 @@ export const homeEnemySpawns: EnemySpawn[] = [
         ],
     },
     {
-        position: { x: 1088, y: 1536 },
+        position: { x: 1088, y: 1440 },
         type: 'zomboi',
         patrolPath: [
             { direction: 'left', distance: 100 },

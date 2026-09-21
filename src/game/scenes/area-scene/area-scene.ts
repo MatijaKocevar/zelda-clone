@@ -10,6 +10,11 @@ import { AssetLoader } from '../../utils/asset-loader/asset-loader';
 
 const SPRITE_LAYER_NAMES = ['Buildings', 'Decor'];
 
+interface TileBounds {
+    top: number;
+    bottom: number;
+}
+
 export class AreaScene {
     player: Player | undefined;
     enemies: Enemy[] = [];
@@ -93,26 +98,35 @@ export class AreaScene {
         layer: Phaser.Tilemaps.LayerData,
         textureKeys: Map<string, string>,
     ): void {
-        const frameBases = new Map<string, number>();
+        const frameBounds = new Map<string, TileBounds | null>();
 
-        layer.data.forEach((row) => {
-            row.forEach((tile) => {
-                if (tile.index < 0) {
-                    return;
+        for (let column = 0; column < layer.width; column++) {
+            let runDepth: number | null = null;
+            let connectsUp = false;
+
+            for (let row = layer.height - 1; row >= 0; row--) {
+                const tile = layer.data[row][column];
+
+                if (!tile || tile.index < 0) {
+                    runDepth = null;
+                    connectsUp = false;
+                    continue;
                 }
 
                 const tileset = map.tilesets.find((candidate) => candidate.containsTileIndex(tile.index));
                 const textureKey = tileset ? textureKeys.get(tileset.name) : undefined;
 
                 if (!tileset || !textureKey) {
-                    return;
+                    runDepth = null;
+                    connectsUp = false;
+                    continue;
                 }
 
                 const localId = tile.index - tileset.firstgid;
-                const column = localId % tileset.columns;
-                const rowIndex = Math.floor(localId / tileset.columns);
-                const sx = tileset.tileMargin + column * (tileset.tileWidth + tileset.tileSpacing);
-                const sy = tileset.tileMargin + rowIndex * (tileset.tileHeight + tileset.tileSpacing);
+                const tileColumn = localId % tileset.columns;
+                const tileRow = Math.floor(localId / tileset.columns);
+                const sx = tileset.tileMargin + tileColumn * (tileset.tileWidth + tileset.tileSpacing);
+                const sy = tileset.tileMargin + tileRow * (tileset.tileHeight + tileset.tileSpacing);
                 const frameName = `tile-${tile.index}`;
                 const texture = this.scene.textures.get(textureKey);
 
@@ -121,32 +135,41 @@ export class AreaScene {
                 }
 
                 const frameKey = `${textureKey}:${frameName}`;
-                let frameBase = frameBases.get(frameKey);
+                let bounds = frameBounds.get(frameKey);
 
-                if (frameBase === undefined) {
-                    frameBase = this.getOpaqueBottom(texture, sx, sy, tileset.tileWidth, tileset.tileHeight);
-                    frameBases.set(frameKey, frameBase);
+                if (bounds === undefined) {
+                    bounds = this.getOpaqueBounds(texture, sx, sy, tileset.tileWidth, tileset.tileHeight);
+                    frameBounds.set(frameKey, bounds);
+                }
+
+                if (!bounds) {
+                    runDepth = null;
+                    connectsUp = false;
+                    continue;
                 }
 
                 const tileOffsetY = tileset.tileHeight - map.tileHeight;
                 const x = tile.pixelX;
                 const y = tile.pixelY - tileOffsetY;
+                const reachesBottom = bounds.bottom === tileset.tileHeight - 1;
+                const joinsRun: boolean = runDepth !== null && connectsUp && reachesBottom;
+                const depth: number = joinsRun && runDepth !== null ? runDepth : y + bounds.bottom + 1;
 
-                this.scene.add
-                    .image(x, y, textureKey, frameName)
-                    .setOrigin(0, 0)
-                    .setDepth(y + frameBase);
-            });
-        });
+                runDepth = depth;
+                connectsUp = bounds.top === 0;
+
+                this.scene.add.image(x, y, textureKey, frameName).setOrigin(0, 0).setDepth(depth);
+            }
+        }
     }
 
-    private getOpaqueBottom(
+    private getOpaqueBounds(
         texture: Phaser.Textures.Texture,
         sx: number,
         sy: number,
         width: number,
         height: number,
-    ): number {
+    ): TileBounds | null {
         const source = texture.getSourceImage() as HTMLImageElement | HTMLCanvasElement;
         const canvas = document.createElement('canvas');
         canvas.width = source.width;
@@ -155,20 +178,27 @@ export class AreaScene {
         const context = canvas.getContext('2d');
 
         if (!context) {
-            return height;
+            return null;
         }
 
         context.drawImage(source, 0, 0);
         const { data } = context.getImageData(sx, sy, width, height);
+        let top: number | null = null;
+        let bottom: number | null = null;
 
-        for (let y = height - 1; y >= 0; y--) {
+        for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
                 if (data[(y * width + x) * 4 + 3] > 128) {
-                    return y + 1;
+                    if (top === null) {
+                        top = y;
+                    }
+
+                    bottom = y;
+                    break;
                 }
             }
         }
 
-        return height;
+        return top === null || bottom === null ? null : { top, bottom };
     }
 }
