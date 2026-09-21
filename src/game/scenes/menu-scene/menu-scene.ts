@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
 export class MenuScene extends Phaser.Scene {
+    private title!: Phaser.GameObjects.Text;
     private startButton!: Phaser.GameObjects.Text;
 
     constructor() {
@@ -10,7 +11,7 @@ export class MenuScene extends Phaser.Scene {
     create() {
         const { width, height } = this.cameras.main;
 
-        this.add
+        this.title = this.add
             .text(width / 2, height / 3, 'A Tie to the Past', {
                 fontSize: '48px',
                 color: '#ffffff',
@@ -35,6 +36,15 @@ export class MenuScene extends Phaser.Scene {
             .on('pointerout', () => {
                 this.startButton.setStyle({ color: '#00ff00' });
             });
+
+        const handleResize = (gameSize: Phaser.Structs.Size) => {
+            this.title.setPosition(gameSize.width / 2, gameSize.height / 3);
+            this.startButton.setPosition(gameSize.width / 2, gameSize.height / 2);
+        };
+        this.scale.on(Phaser.Scale.Events.RESIZE, handleResize);
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+            this.scale.off(Phaser.Scale.Events.RESIZE, handleResize);
+        });
 
         this.input.keyboard?.on('keydown-SPACE', () => {
             this.scene.start('GameScene');
