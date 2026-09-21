@@ -5,7 +5,7 @@ import { AssetLoader } from '../utils/asset-loader/asset-loader';
 import { globalSpriteSheetAssets } from '../assets/global-assets';
 import { defaultAreaKey, getArea } from '../areas/areas';
 import { AreaDoor, AreaSpawn } from '../areas/area.types';
-import { DOOR_ENTERED_EVENT, TOGGLE_PAUSE_EVENT } from '../events';
+import { DOOR_ENTERED_EVENT, ENEMIES_DEFEATED_EVENT, TOGGLE_PAUSE_EVENT } from '../events';
 
 interface GameSceneData {
     area?: string;
@@ -39,6 +39,8 @@ export class GameScene extends Phaser.Scene {
         this.events.off('player-died');
         this.events.off(DOOR_ENTERED_EVENT, this.handleDoorEntered);
         this.events.on(DOOR_ENTERED_EVENT, this.handleDoorEntered);
+        this.events.off(ENEMIES_DEFEATED_EVENT, this.handleVictory);
+        this.events.on(ENEMIES_DEFEATED_EVENT, this.handleVictory);
         this.input.keyboard?.removeAllListeners('keydown-ESC');
 
         this.input.keyboard?.on('keydown-ESC', this.pauseGame);
@@ -77,6 +79,15 @@ export class GameScene extends Phaser.Scene {
         this.returnSpawn = { x: door.x + door.width / 2, y: door.y + door.height + 40 };
 
         this.goToArea(door.target, door.spawn);
+    };
+
+    private handleVictory = () => {
+        if (!this.scene.isActive('GameScene')) {
+            return;
+        }
+
+        this.scene.pause();
+        this.scene.launch('WinScene');
     };
 
     private pauseGame = () => {

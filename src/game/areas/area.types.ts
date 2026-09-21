@@ -27,6 +27,12 @@ export interface AreaDoor {
     spawn?: AreaSpawn;
 }
 
+export interface AreaSign {
+    text: string;
+    x: number;
+    y: number;
+}
+
 export interface AreaDefinition {
     key: string;
     mapUrl: string;
@@ -36,4 +42,5 @@ export interface AreaDefinition {
     foregroundImages: PlacedImage[];
     tilesetImages?: TilesetImageAsset[];
     enemySpawns?: EnemySpawn[];
+    signs?: AreaSign[];
 }

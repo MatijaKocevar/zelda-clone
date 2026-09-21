@@ -8,6 +8,7 @@ import { PlayerMovement } from './player-movement';
 
 const FIREBALL_COOLDOWN = 700;
 const FIREBALL_DAMAGE = 35;
+const MANA_COST_FRACTION = 0.25;
 type ArcadeCollisionObject =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
     | Phaser.Physics.Arcade.Body
@@ -63,6 +64,7 @@ export class PlayerRangedAttack {
         if (this.player.playerDamage.isHurt || this.player.playerDamage.isDead) return;
         if (this.player.playerAttack.isSlashing) return;
         if (!inputState.isPressed(RANGED) || !this.canCast(currentTime)) return;
+        if (!this.player.playerStats.useMana(this.player.playerStats.maxMana * MANA_COST_FRACTION)) return;
 
         this.isCasting = true;
         this.lastCastTime = currentTime;

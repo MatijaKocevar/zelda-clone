@@ -13,4 +13,6 @@ export interface IPlayerStats {
     maxHealth: number;
     damage: number;
     armor: number;
+    mana: number;
+    maxMana: number;
 }

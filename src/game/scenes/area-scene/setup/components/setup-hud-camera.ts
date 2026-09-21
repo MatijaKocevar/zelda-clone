@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import { PlayerLifeBar } from '../../../../entities/player/components/player-life-bar';
 
-export function setupHudCamera(scene: Phaser.Scene, lifeBar: PlayerLifeBar): Phaser.Cameras.Scene2D.Camera {
-    const hudObjects = lifeBar.getObjects();
-
+export function setupHudCamera(
+    scene: Phaser.Scene,
+    hudObjects: Phaser.GameObjects.GameObject[],
+): Phaser.Cameras.Scene2D.Camera {
     const hudCamera = scene.cameras.add(0, 0, scene.scale.width, scene.scale.height);
     hudCamera.setScroll(0, 0);
 

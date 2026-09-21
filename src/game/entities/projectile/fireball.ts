@@ -14,6 +14,13 @@ const DIRECTION_VECTORS: Record<string, { x: number; y: number }> = {
     [RIGHT]: { x: 1, y: 0 },
 };
 
+const DIRECTION_ANGLES: Record<string, number> = {
+    [UP]: 0,
+    [RIGHT]: 90,
+    [DOWN]: 180,
+    [LEFT]: 270,
+};
+
 export class Fireball {
     sprite: Phaser.Physics.Arcade.Sprite;
     direction: string;
@@ -29,6 +36,7 @@ export class Fireball {
 
         this.sprite = scene.physics.add.sprite(x, y, 'fireball');
         this.sprite.play('fireball-spin');
+        this.sprite.setAngle(DIRECTION_ANGLES[direction] ?? 0);
         this.sprite.setDepth(this.sprite.y);
 
         const body = this.sprite.body as Phaser.Physics.Arcade.Body;

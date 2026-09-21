@@ -50,6 +50,10 @@ export class Enemy {
         this.sprite.body?.setOffset(35, 35);
     }
 
+    get isAlive(): boolean {
+        return !this.isDying && !this.isDead && !this.isDestroyed;
+    }
+
     public update() {
         if (this.isDestroyed) return;
 

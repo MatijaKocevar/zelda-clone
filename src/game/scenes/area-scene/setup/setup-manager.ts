@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { setupAnimations } from './components/setup-animations';
 import { setupAreaImages } from './components/setup-area-images';
+import { setupSigns } from './components/setup-signs';
 import { setupPlayer } from './components/setup-player';
 import { setupEnemies } from './components/setup-enemies';
 import { setupCollisions } from './components/setup-collisions';
@@ -11,6 +12,7 @@ import { AreaDefinition, AreaSpawn } from '../../../areas/area.types';
 import { Collisions } from '../../../entities/collisions/collisions';
 import { Enemy } from '../../../entities/enemy/enemy';
 import { Player } from '../../../entities/player/player';
+import { Sign } from '../../../entities/sign/sign';
 import { Animations } from '../../../mechanics/animations/animations';
 
 export class SetupManager {
@@ -20,6 +22,7 @@ export class SetupManager {
     private spawn?: AreaSpawn;
     public player!: Player;
     public enemies: Enemy[] = [];
+    public signs: Sign[] = [];
     public animations!: Animations;
     public collisions!: Collisions;
 
@@ -43,8 +46,12 @@ export class SetupManager {
         });
         this.collisions = setupCollisions(this.scene, this.player, this.enemies, getMapCollisionRects(this.map));
         setupDoors(this.scene, this.player, this.map);
+        this.signs = setupSigns(this.scene, this.area, this.player);
 
-        const hudCamera = setupHudCamera(this.scene, this.player.playerLifeBar);
+        const hudCamera = setupHudCamera(this.scene, [
+            ...this.player.playerLifeBar.getObjects(),
+            ...this.player.playerManaBar.getObjects(),
+        ]);
         this.player.playerRangedAttack.setCollisions(this.collisions);
         this.player.playerRangedAttack.setHudCamera(hudCamera);
     }
