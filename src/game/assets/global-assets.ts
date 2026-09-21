@@ -2,6 +2,7 @@ import playerSprite from '../../assets/characters/player/player.png';
 import pinkazoidSprite from '../../assets/characters/enemies/pinkazoid.png';
 import zomboiSprite from '../../assets/characters/enemies/zomboi.png';
 import heartSprite from '../../assets/lifebar/heart-animated-2.png';
+import fireballSprite from '../../assets/OG/ninja-4x/Fireball.png';
 import { SpriteSheetAsset } from '../utils/asset-loader/asset-loader.types';
 
 export const globalSpriteSheetAssets: SpriteSheetAsset[] = [
@@ -35,6 +36,14 @@ export const globalSpriteSheetAssets: SpriteSheetAsset[] = [
         frameConfig: {
             frameWidth: 17,
             frameHeight: 17,
+        },
+    },
+    {
+        key: 'fireball',
+        path: fireballSprite,
+        frameConfig: {
+            frameWidth: 64,
+            frameHeight: 64,
         },
     },
 ];

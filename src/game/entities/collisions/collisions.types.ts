@@ -7,6 +7,7 @@ export interface ICollisionRect {
     y: number;
     width: number;
     height: number;
+    blocksProjectiles?: boolean;
 }
 
 export interface ICollisionBlock {

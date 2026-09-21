@@ -8,7 +8,7 @@ export const RIGHT = 'RIGHT';
 export const UP = 'UP';
 export const DOWN = 'DOWN';
 export const SPACE = 'SPACE';
-export const SHIFT = 'SHIFT';
+export const RANGED = 'RANGED';
 
 export class Input {
     private scene: CustomScene;
@@ -39,7 +39,7 @@ export class Input {
                 left: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
                 right: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
                 space: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
-                shift: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT),
+                ranged: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT),
             };
 
             this.cursors = cursors;
@@ -90,11 +90,11 @@ export class Input {
             this.onKeyReleased(SPACE);
         });
 
-        cursors.shift.on('down', () => {
-            this.inputState.push(SHIFT);
+        cursors.ranged.on('down', () => {
+            this.inputState.push(RANGED);
         });
-        cursors.shift.on('up', () => {
-            this.onKeyReleased(SHIFT);
+        cursors.ranged.on('up', () => {
+            this.onKeyReleased(RANGED);
         });
     }
 

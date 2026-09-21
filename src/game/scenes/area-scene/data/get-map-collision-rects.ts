@@ -2,12 +2,17 @@ import Phaser from 'phaser';
 import { ICollisionRect } from '../../../entities/collisions/collisions.types';
 
 const COLLISION_LAYER_PREFIX = 'collisions';
+const SEA_COLLISION_LAYER_PREFIX = 'collisions-sea';
 const HOLE_PROPERTY = 'hole';
 
 type CellMap = Map<number, Set<number>>;
 
 function isCollisionLayer(name: string): boolean {
     return name === COLLISION_LAYER_PREFIX || name.startsWith(`${COLLISION_LAYER_PREFIX}-`);
+}
+
+function isSeaCollisionLayer(name: string): boolean {
+    return name === SEA_COLLISION_LAYER_PREFIX || name.startsWith(`${SEA_COLLISION_LAYER_PREFIX}-`);
 }
 
 function readProperty(object: Phaser.Types.Tilemaps.TiledObject, name: string): unknown {
@@ -82,7 +87,12 @@ function subtractCells(target: CellMap, source: CellMap): void {
     source.forEach((xs, tileY) => xs.forEach((tileX) => target.get(tileY)?.delete(tileX)));
 }
 
-function cellsToRects(cells: CellMap, tileWidth: number, tileHeight: number): ICollisionRect[] {
+function cellsToRects(
+    cells: CellMap,
+    tileWidth: number,
+    tileHeight: number,
+    blocksProjectiles = true,
+): ICollisionRect[] {
     const rects: ICollisionRect[] = [];
 
     cells.forEach((xs, tileY) => {
@@ -104,6 +114,7 @@ function cellsToRects(cells: CellMap, tileWidth: number, tileHeight: number): IC
                 y: tileY * tileHeight,
                 width: (sorted[index - 1] - runStart + 1) * tileWidth,
                 height: tileHeight,
+                blocksProjectiles,
             });
             runStart = sorted[index];
         }
@@ -113,6 +124,7 @@ function cellsToRects(cells: CellMap, tileWidth: number, tileHeight: number): IC
             y: tileY * tileHeight,
             width: (sorted[sorted.length - 1] - runStart + 1) * tileWidth,
             height: tileHeight,
+            blocksProjectiles,
         });
     });
 
@@ -122,12 +134,15 @@ function cellsToRects(cells: CellMap, tileWidth: number, tileHeight: number): IC
 export function getMapCollisionRects(map: Phaser.Tilemaps.Tilemap): ICollisionRect[] {
     const rects: ICollisionRect[] = [];
     const solidCells: CellMap = new Map();
+    const passThroughCells: CellMap = new Map();
     const holeCells: CellMap = new Map();
 
     map.layers.forEach((layer) => {
         if (!isCollisionLayer(layer.name)) {
             return;
         }
+
+        const blocksProjectiles = !isSeaCollisionLayer(layer.name);
 
         layer.data.forEach((row) => {
             row.forEach((tile) => {
@@ -137,6 +152,7 @@ export function getMapCollisionRects(map: Phaser.Tilemaps.Tilemap): ICollisionRe
                         y: tile.y * layer.tileHeight,
                         width: layer.tileWidth,
                         height: layer.tileHeight,
+                        blocksProjectiles,
                     });
                 }
             });
@@ -148,10 +164,18 @@ export function getMapCollisionRects(map: Phaser.Tilemaps.Tilemap): ICollisionRe
             return;
         }
 
+        const blocksProjectiles = !isSeaCollisionLayer(layer.name);
+
         layer.objects.forEach((object) => {
             if (object.polygon && object.polygon.length >= 3) {
                 const cells = polygonToCells(object, map.tileWidth, map.tileHeight);
-                mergeCells(readProperty(object, HOLE_PROPERTY) === true ? holeCells : solidCells, cells);
+
+                if (readProperty(object, HOLE_PROPERTY) === true) {
+                    mergeCells(holeCells, cells);
+                    return;
+                }
+
+                mergeCells(blocksProjectiles ? solidCells : passThroughCells, cells);
                 return;
             }
 
@@ -159,11 +183,16 @@ export function getMapCollisionRects(map: Phaser.Tilemaps.Tilemap): ICollisionRe
             const height = object.height ?? 0;
 
             if (width > 0 && height > 0) {
-                rects.push({ x: object.x ?? 0, y: object.y ?? 0, width, height });
+                rects.push({ x: object.x ?? 0, y: object.y ?? 0, width, height, blocksProjectiles });
             }
         });
     });
 
     subtractCells(solidCells, holeCells);
-    return rects.concat(cellsToRects(solidCells, map.tileWidth, map.tileHeight));
+    subtractCells(passThroughCells, holeCells);
+
+    return rects.concat(
+        cellsToRects(solidCells, map.tileWidth, map.tileHeight),
+        cellsToRects(passThroughCells, map.tileWidth, map.tileHeight, false),
+    );
 }

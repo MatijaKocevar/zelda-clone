@@ -60,6 +60,7 @@ export class PlayerAttack {
         const currentTime = this.player.scene.time.now;
 
         if (this.player.playerDamage.isHurt || this.player.playerDamage.isDead) return;
+        if (this.player.playerRangedAttack.isCasting) return;
 
         if (inputState.isPressed(SPACE) && this.canAttack(currentTime)) {
             this.isSlashing = true;

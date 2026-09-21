@@ -1,4 +1,4 @@
-import { DOWN, Input, LEFT, RIGHT, SHIFT, SPACE, UP } from '../../../mechanics/input/input';
+import { DOWN, Input, LEFT, RANGED, RIGHT, SPACE, UP } from '../../../mechanics/input/input';
 import { GamepadInput } from '../../../mechanics/gamepad-input';
 import { Player } from '../player';
 
@@ -28,10 +28,9 @@ export class PlayerMovement {
         player.sprite.setVelocityX(0);
         player.sprite.setVelocityY(0);
 
-        if (!player.playerAttack.isSlashing) {
-            const isShiftPressed = inputState.isPressed(SHIFT);
-            const movingVelocity = isShiftPressed ? 150 : 250;
-            const diagonalVelocity = isShiftPressed ? 130 : 180;
+        if (!player.playerAttack.isSlashing && !player.playerRangedAttack.isCasting) {
+            const movingVelocity = 250;
+            const diagonalVelocity = 180;
 
             const horizontalKey = inputState.keysPressed.find((key) => key === LEFT || key === RIGHT);
             const verticalKey = inputState.keysPressed.find((key) => key === UP || key === DOWN);
@@ -58,10 +57,8 @@ export class PlayerMovement {
 
         if (player.playerDamage.isHurt || player.playerDamage.isDead) return;
 
-        if (!player.playerAttack.isSlashing) {
+        if (!player.playerAttack.isSlashing && !player.playerRangedAttack.isCasting) {
             const direction = inputState.keysPressed[0];
-            const isWalking = inputState.isPressed(SHIFT);
-            const animationPrefix = isWalking ? 'walk' : 'run';
 
             let animationDirection = '';
             if (direction === LEFT || direction === RIGHT) {
@@ -74,7 +71,7 @@ export class PlayerMovement {
             }
 
             if (animationDirection) {
-                player.sprite.anims.play(`${animationPrefix}${animationDirection}`, true);
+                player.sprite.anims.play(`run${animationDirection}`, true);
             }
 
             this.handleIdleAnimations();
@@ -88,7 +85,7 @@ export class PlayerMovement {
         const shouldPlayIdleAnimation =
             inputState.keysPressed.length === 0 ||
             (inputState.keysPressed.length === 1 &&
-                (inputState.keysPressed[0] === SPACE || inputState.keysPressed[0] === SHIFT) &&
+                (inputState.keysPressed[0] === SPACE || inputState.keysPressed[0] === RANGED) &&
                 !player.playerAttack.isSlashing);
 
         if (shouldPlayIdleAnimation) {

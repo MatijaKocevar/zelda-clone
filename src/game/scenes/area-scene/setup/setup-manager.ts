@@ -43,6 +43,9 @@ export class SetupManager {
         });
         this.collisions = setupCollisions(this.scene, this.player, this.enemies, getMapCollisionRects(this.map));
         setupDoors(this.scene, this.player, this.map);
-        setupHudCamera(this.scene, this.player.playerLifeBar);
+
+        const hudCamera = setupHudCamera(this.scene, this.player.playerLifeBar);
+        this.player.playerRangedAttack.setCollisions(this.collisions);
+        this.player.playerRangedAttack.setHudCamera(hudCamera);
     }
 }

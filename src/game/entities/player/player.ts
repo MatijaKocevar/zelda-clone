@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { PlayerMovement } from './components/player-movement';
 import { PlayerAttack } from './components/player-attack';
+import { PlayerRangedAttack } from './components/player-ranged-attack';
 import { PlayerStats } from './components/player-stats';
 import { PlayerLifeBar } from './components/player-life-bar';
 import { PlayerDamage } from './components/player-damage';
@@ -16,6 +17,7 @@ export class Player {
     sprite: Phaser.Physics.Arcade.Sprite;
     playerMovement: PlayerMovement;
     playerAttack: PlayerAttack;
+    playerRangedAttack: PlayerRangedAttack;
     playerStats: PlayerStats;
     playerLifeBar: PlayerLifeBar;
     playerDamage: PlayerDamage;
@@ -35,6 +37,7 @@ export class Player {
         this.playerMovement = new PlayerMovement(this);
         this.playerDamage = new PlayerDamage(this, enemies);
         this.playerAttack = new PlayerAttack(this, enemies);
+        this.playerRangedAttack = new PlayerRangedAttack(this, enemies);
 
         this.sprite.setCollideWorldBounds(true);
         this.sprite.body?.setSize(BODY_WIDTH, BODY_HEIGHT, true);
@@ -45,6 +48,7 @@ export class Player {
     update() {
         this.syncBodyOffset();
         this.playerAttack.update();
+        this.playerRangedAttack.update();
         this.playerMovement.update();
         this.playerDamage.update();
         this.playerLifeBar.update();

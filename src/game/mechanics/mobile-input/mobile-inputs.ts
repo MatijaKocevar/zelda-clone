@@ -1,5 +1,5 @@
 import { UP, DOWN, LEFT, RIGHT } from '../input/input';
-import { SPACE, SHIFT } from '../input/input';
+import { SPACE, RANGED } from '../input/input';
 import { InputState } from '../../input/input-state';
 
 export class MobileInput {
@@ -41,7 +41,7 @@ export class MobileInput {
 
     onTouchEndA = () => this.inputState.release(SPACE);
 
-    onTouchStartB = () => this.inputState.push(SHIFT);
+    onTouchStartB = () => this.inputState.push(RANGED);
 
-    onTouchEndB = () => this.inputState.release(SHIFT);
+    onTouchEndB = () => this.inputState.release(RANGED);
 }
