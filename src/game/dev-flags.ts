@@ -1,1 +1,1 @@
-export const ENEMIES_ENABLED = false;
+export const ENEMIES_ENABLED = true;
