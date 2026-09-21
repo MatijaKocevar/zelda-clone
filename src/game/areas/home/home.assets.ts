@@ -3,6 +3,7 @@ import tilesetWater from '../../../assets/OG/ninja-4x/TilesetWater.png';
 import tilesetField from '../../../assets/OG/ninja-4x/TilesetField.png';
 import tilesetNature from '../../../assets/OG/ninja-4x/TilesetNature.png';
 import { AreaDefinition, TilesetImageAsset } from '../area.types';
+import { homeEnemySpawns } from './home-enemies';
 
 const homeTilesetImages: TilesetImageAsset[] = [
     { name: 'TilesetWater', key: 'home-tileset-water', path: tilesetWater },
@@ -18,4 +19,5 @@ export const homeArea: AreaDefinition = {
     backgroundImages: [],
     foregroundImages: [],
     tilesetImages: homeTilesetImages,
+    enemySpawns: homeEnemySpawns,
 };
