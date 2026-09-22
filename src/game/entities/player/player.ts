@@ -10,7 +10,7 @@ import { IPlayer } from './player.types';
 
 const BODY_WIDTH = 20;
 const BODY_HEIGHT = 40;
-const BODY_OFFSET_X = 65;
+const BODY_OFFSET_X = (144 - BODY_WIDTH) / 2;
 const BODY_OFFSET_Y = 90;
 
 export class Player {
@@ -23,7 +23,6 @@ export class Player {
     playerLifeBar: PlayerLifeBar;
     playerManaBar: PlayerManaBar;
     playerDamage: PlayerDamage;
-    private flipX: boolean | undefined;
 
     constructor({ position, scene, enemies }: IPlayer) {
         this.scene = scene;
@@ -51,7 +50,6 @@ export class Player {
     }
 
     update() {
-        this.syncBodyOffset();
         this.playerAttack.update();
         this.playerRangedAttack.update();
         this.playerMovement.update();
@@ -66,18 +64,5 @@ export class Player {
         const body = this.sprite.body as Phaser.Physics.Arcade.Body | null;
 
         this.sprite.setDepth(body ? body.bottom : this.sprite.y);
-    }
-
-    private syncBodyOffset(): void {
-        const body = this.sprite.body as Phaser.Physics.Arcade.Body | null;
-
-        if (!body || this.flipX === this.sprite.flipX) {
-            return;
-        }
-
-        this.flipX = this.sprite.flipX;
-        const offsetX = this.flipX ? this.sprite.width - BODY_OFFSET_X - BODY_WIDTH : BODY_OFFSET_X;
-
-        body.setOffset(offsetX, BODY_OFFSET_Y);
     }
 }
