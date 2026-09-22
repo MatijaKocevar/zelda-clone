@@ -27,10 +27,18 @@ export interface AreaDoor {
     spawn?: AreaSpawn;
 }
 
+export interface AreaSignControl {
+    label?: string;
+    keyboard: string[];
+    gamepad: string[];
+}
+
 export interface AreaSign {
     text: string;
     x: number;
     y: number;
+    controls?: AreaSignControl[];
+    interactHint?: boolean;
 }
 
 export interface AreaDefinition {

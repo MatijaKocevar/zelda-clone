@@ -7,4 +7,5 @@ export interface Cursors {
     right: Phaser.Input.Keyboard.Key;
     space: Phaser.Input.Keyboard.Key;
     ranged: Phaser.Input.Keyboard.Key;
+    interact: Phaser.Input.Keyboard.Key;
 }
