@@ -9,91 +9,85 @@
 
 @media (max-width: 990px) {
     .mobile-controls {
-        display: flex;
-        justify-content: space-between;
+        display: block;
         position: absolute;
-        bottom: 30px;
-        left: 80px;
-        right: 20px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 0;
         pointer-events: none;
     }
 
     .mobile-controls .d-pad,
     .mobile-controls .action-buttons {
-        display: flex;
-        justify-content: center;
+        position: absolute;
+        bottom: 30px;
+        width: 184px;
+        height: 184px;
         pointer-events: auto;
     }
 
     .mobile-controls .d-pad {
-        flex-direction: row;
-        flex-wrap: wrap;
-        width: 100px;
-        justify-content: center;
-        align-items: center;
+        left: 30px;
 
-        .button-row {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-
-            .middle-button {
-                visibility: hidden;
-            }
-
-            .left,
-            .right {
-                padding: 0 30px;
-            }
+        .up {
+            top: 0;
+            left: 56px;
         }
 
-        button {
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            color: white;
-            padding: 25px;
-            margin: 2px;
-            border-radius: 50%;
-            width: 72px;
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .left {
+            top: 56px;
+            left: 0;
+        }
+
+        .right {
+            top: 56px;
+            right: 0;
+        }
+
+        .down {
+            bottom: 0;
+            left: 56px;
         }
     }
 
     .mobile-controls .action-buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 30px;
-        position: absolute;
-        bottom: 67px;
-        right: 10px;
+        right: 30px;
 
-        button {
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            color: white;
-            padding: 25px;
-            margin: 2px;
-            border-radius: 50%;
-            width: 72px;
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .y {
+            top: 0;
+            left: 56px;
+        }
+
+        .x {
+            top: 56px;
+            left: 0;
+        }
+
+        .b {
+            top: 56px;
+            right: 0;
+        }
+
+        .a {
+            bottom: 0;
+            left: 56px;
         }
     }
 
-    @media (max-width: 768px) {
-        .mobile-controls .action-buttons {
-            flex-direction: column;
-            bottom: 30px;
-            right: 10px;
-        }
+    .mobile-controls .d-pad button,
+    .mobile-controls .action-buttons button {
+        position: absolute;
+        width: 72px;
+        height: 72px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
