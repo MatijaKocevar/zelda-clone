@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="46">
+ <tileset firstgid="1" source="tiled/TilesetWallSimple.tsx"/>
+ <tileset firstgid="111" source="tiled/TilesetInteriorFloor.tsx"/>
+ <tileset firstgid="485" source="tiled/TilesetBed.tsx"/>
+ <tileset firstgid="653" source="tiled/TilesetCamp.tsx"/>
+ <tileset firstgid="860" source="tiled/TilesetElements.tsx"/>
+ <layer id="1" name="Floor" width="16" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,112,112,112,112,112,112,112,112,112,112,112,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="2" name="Buildings" width="16" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,1,4,4,4,4,4,4,4,4,4,5,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,11,0,0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,41,44,44,44,44,0,0,44,44,44,45,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="3" name="Decor" width="16" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,772,729,752,727,0,0,0,0,867,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,13,14,0,578,579,580,0,0,0,0,
+0,0,0,0,0,0,23,24,0,592,593,594,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,773,769,0,0,0,0,0,772,729,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="4" name="collisions">
+  <object id="1" name="wall" x="128" y="64" width="64" height="64"/>
+  <object id="2" name="collision-2" x="192" y="64" width="64" height="64"/>
+  <object id="3" name="collision-3" x="256" y="64" width="64" height="64"/>
+  <object id="4" name="collision-4" x="320" y="64" width="64" height="64"/>
+  <object id="5" name="collision-5" x="384" y="64" width="64" height="64"/>
+  <object id="6" name="collision-6" x="448" y="64" width="64" height="64"/>
+  <object id="7" name="collision-7" x="512" y="64" width="64" height="64"/>
+  <object id="8" name="collision-8" x="576" y="64" width="64" height="64"/>
+  <object id="9" name="collision-9" x="640" y="64" width="64" height="64"/>
+  <object id="10" name="collision-10" x="704" y="64" width="64" height="64"/>
+  <object id="11" name="collision-11" x="768" y="64" width="64" height="64"/>
+  <object id="12" name="collision-12" x="128" y="128" width="64" height="64"/>
+  <object id="13" name="collision-13" x="768" y="128" width="64" height="64"/>
+  <object id="14" name="collision-14" x="128" y="192" width="64" height="64"/>
+  <object id="15" name="collision-15" x="768" y="192" width="64" height="64"/>
+  <object id="16" name="collision-16" x="128" y="256" width="64" height="64"/>
+  <object id="17" name="collision-17" x="768" y="256" width="64" height="64"/>
+  <object id="18" name="collision-18" x="128" y="320" width="64" height="64"/>
+  <object id="19" name="collision-19" x="768" y="320" width="64" height="64"/>
+  <object id="20" name="collision-20" x="128" y="384" width="64" height="64"/>
+  <object id="21" name="collision-21" x="768" y="384" width="64" height="64"/>
+  <object id="22" name="collision-22" x="128" y="448" width="64" height="64"/>
+  <object id="23" name="collision-23" x="768" y="448" width="64" height="64"/>
+  <object id="24" name="collision-24" x="128" y="512" width="64" height="64"/>
+  <object id="25" name="collision-25" x="768" y="512" width="64" height="64"/>
+  <object id="26" name="collision-26" x="128" y="576" width="64" height="64"/>
+  <object id="27" name="collision-27" x="192" y="576" width="64" height="64"/>
+  <object id="28" name="collision-28" x="256" y="576" width="64" height="64"/>
+  <object id="29" name="collision-29" x="320" y="576" width="64" height="64"/>
+  <object id="30" name="collision-30" x="384" y="576" width="64" height="64"/>
+  <object id="31" name="collision-31" x="576" y="576" width="64" height="64"/>
+  <object id="32" name="collision-32" x="640" y="576" width="64" height="64"/>
+  <object id="33" name="collision-33" x="704" y="576" width="64" height="64"/>
+  <object id="34" name="collision-34" x="768" y="576" width="64" height="64"/>
+  <object id="35" name="collision-35" x="192" y="128" width="64" height="64"/>
+  <object id="36" name="collision-36" x="256" y="128" width="64" height="64"/>
+  <object id="37" name="collision-37" x="320" y="128" width="64" height="64"/>
+  <object id="38" name="collision-38" x="384" y="128" width="64" height="64"/>
+  <object id="39" name="collision-39" x="704" y="128" width="64" height="64"/>
+  <object id="40" name="collision-40" x="576" y="256" width="192" height="128"/>
+  <object id="41" name="collision-41" x="192" y="512" width="64" height="64"/>
+  <object id="42" name="collision-42" x="256" y="512" width="64" height="64"/>
+  <object id="43" name="collision-43" x="640" y="512" width="64" height="64"/>
+  <object id="44" name="collision-44" x="704" y="512" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="5" name="doors">
+  <object id="45" name="door-exit" x="448" y="640" width="128" height="64">
+   <properties>
+    <property name="target" value="home"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
