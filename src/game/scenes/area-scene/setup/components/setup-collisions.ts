@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
+import { SHOW_COLLISIONS } from '../../../../dev-flags';
 import { Collisions } from '../../../../entities/collisions/collisions';
 import { ICollisionRect } from '../../../../entities/collisions/collisions.types';
 import { Enemy } from '../../../../entities/enemy/enemy';
 import { Player } from '../../../../entities/player/player';
 
-const DEBUG_COLLISIONS = import.meta.env.DEV;
 const DEBUG_FILL_COLOR = 0xef4444;
 const DEBUG_FILL_ALPHA = 0.6;
 
@@ -24,7 +24,7 @@ export function setupCollisions(
     enemies: Enemy[],
     collisionRects: ICollisionRect[],
 ): Collisions {
-    if (DEBUG_COLLISIONS) {
+    if (SHOW_COLLISIONS) {
         scene.physics.world.createDebugGraphic();
         scene.physics.world.defaults.debugShowStaticBody = false;
         drawCollisionDebug(scene, collisionRects);
