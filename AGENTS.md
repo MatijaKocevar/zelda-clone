@@ -36,7 +36,7 @@ mkcert -key-file certs/localhost+3-key.pem -cert-file certs/localhost+3.pem loca
 
 ## Assets — Ninja Adventure pack
 
-- Source lives **only locally** in `src/assets/OG/Ninja Adventure - Asset Pack/` (path has spaces — quote it). It is gitignored and **must never be committed**; README explains where to download it. License: CC0 (Pixel-Boy / AAA), see the pack's `README.md`.
+- Source lives **only locally** under gitignored `src/assets/OG/` (**must never be committed**) in two folders: `Ninja Adventure - Asset Pack/` is the extracted download as-is from the pack (path has spaces — quote it; CC0 Pixel-Boy / AAA, see the pack's `README.md`), and `ninja-4x/` holds the upscaled copies the code and `.tsx` files reference. README says where to download the pack and where each folder goes when copying the project.
 - **Native grid is 16×16, the game world is 4×** (map tiles 64px, player frames 144px, custom enemies 96px). Upscale every asset you use with nearest-neighbour before referencing it, and keep the copies inside gitignored `src/assets/OG/ninja-4x/`:
   `magick "src/assets/OG/Ninja Adventure - Asset Pack/<file>.png" -filter point -resize 400% "src/assets/OG/ninja-4x/<file>.png"`
 - Code imports and Tiled `.tsx` files always point at the **4× copies**, never the raw pack (see `global-assets.ts`, `home.assets.ts`, and the old `Tilemap_color1.tsx` pattern).
