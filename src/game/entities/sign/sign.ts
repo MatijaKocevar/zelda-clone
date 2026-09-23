@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { areTouchControlsActive } from '../../input/mobile-controls-state';
 import { INTERACT } from '../../mechanics/input/input';
 import { AreaSignControl } from '../../areas/area.types';
 import { signControlKeys } from '../../assets/sign-assets';
@@ -41,6 +42,8 @@ export class Sign {
     private x: number;
     private y: number;
     private prompt: Phaser.GameObjects.Image | Phaser.GameObjects.Container;
+    private promptHand?: Phaser.GameObjects.Image;
+    private promptKey?: Phaser.GameObjects.Image;
     private popup?: Phaser.GameObjects.Container;
     private popupWidth = 0;
     private popupHeight = 0;
@@ -81,36 +84,52 @@ export class Sign {
         }
 
         const hand = this.scene.add.image(0, 0, 'sign-interact').setOrigin(0.5);
-        const keys = [signControlKeys.keyE].map((key) => {
-            const image = this.scene.add.image(0, 0, key).setOrigin(0.5);
-            const width = (image.width * PROMPT_ICON_SIZE) / image.height;
+        const key = this.scene.add.image(0, 0, this.getInteractKey()).setOrigin(0.5);
 
-            image.setDisplaySize(width, PROMPT_ICON_SIZE);
+        this.promptHand = hand;
+        this.promptKey = key;
+        this.layoutPrompt();
 
-            return { image, width };
-        });
+        return this.scene.add
+            .container(x, y - PROMPT_OFFSET, [hand, key])
+            .setDepth(PROMPT_DEPTH)
+            .setVisible(false);
+    }
 
-        const totalWidth = hand.width + keys.reduce((sum, { width }) => sum + PROMPT_ICON_GAP + width, 0);
+    private getInteractKey(): string {
+        return areTouchControlsActive() ? signControlKeys.buttonX : signControlKeys.keyE;
+    }
+
+    private layoutPrompt(): void {
+        const hand = this.promptHand;
+        const key = this.promptKey;
+
+        if (!hand || !key) {
+            return;
+        }
+
+        const keyWidth = (key.width * PROMPT_ICON_SIZE) / key.height;
+
+        key.setDisplaySize(keyWidth, PROMPT_ICON_SIZE);
+
+        const totalWidth = hand.width + PROMPT_ICON_GAP + keyWidth;
         let cursor = -totalWidth / 2;
 
         hand.setPosition(cursor + hand.width / 2, 0);
-        cursor += hand.width;
-
-        keys.forEach(({ image, width }) => {
-            cursor += PROMPT_ICON_GAP;
-            image.setPosition(cursor + width / 2, 0);
-            cursor += width;
-        });
-
-        return this.scene.add
-            .container(x, y - PROMPT_OFFSET, [hand, ...keys.map(({ image }) => image)])
-            .setDepth(PROMPT_DEPTH)
-            .setVisible(false);
+        cursor += hand.width + PROMPT_ICON_GAP;
+        key.setPosition(cursor + keyWidth / 2, 0);
     }
 
     update(): void {
         if (this.popup) {
             this.positionPopup();
+        }
+
+        const interactKey = this.getInteractKey();
+
+        if (this.promptKey && this.promptKey.texture.key !== interactKey) {
+            this.promptKey.setTexture(interactKey);
+            this.layoutPrompt();
         }
 
         const distance = Phaser.Math.Distance.Between(this.player.sprite.x, this.player.sprite.y, this.x, this.y);
