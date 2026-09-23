@@ -350,32 +350,32 @@
 </data>
  </layer>
  <objectgroup id="9" name="doors">
-  <object id="197" name="door-room" x="3520" y="1024" width="64" height="64">
+  <object id="197" name="door-cottage-a" x="3520" y="1024" width="64" height="64">
    <properties>
     <property name="spawnX" type="int" value="512"/>
     <property name="spawnY" type="int" value="500"/>
-    <property name="target" value="room"/>
+    <property name="target" value="cottage-a"/>
    </properties>
   </object>
-  <object id="198" name="door-room" x="3840" y="1024" width="64" height="64">
+  <object id="198" name="door-hall" x="3840" y="1024" width="64" height="64">
    <properties>
     <property name="spawnX" type="int" value="512"/>
     <property name="spawnY" type="int" value="500"/>
-    <property name="target" value="room"/>
+    <property name="target" value="hall"/>
    </properties>
   </object>
-  <object id="199" name="door-room" x="2944" y="1920" width="64" height="64">
+  <object id="199" name="door-cottage-b" x="2944" y="1920" width="64" height="64">
    <properties>
     <property name="spawnX" type="int" value="512"/>
     <property name="spawnY" type="int" value="500"/>
-    <property name="target" value="room"/>
+    <property name="target" value="cottage-b"/>
    </properties>
   </object>
-  <object id="200" name="door-room" x="1088" y="1216" width="64" height="64">
+  <object id="200" name="door-cave" x="1088" y="1216" width="64" height="64">
    <properties>
-    <property name="spawnX" type="int" value="512"/>
-    <property name="spawnY" type="int" value="500"/>
-    <property name="target" value="room"/>
+    <property name="spawnX" type="int" value="480"/>
+    <property name="spawnY" type="int" value="480"/>
+    <property name="target" value="cave"/>
    </properties>
   </object>
  </objectgroup>

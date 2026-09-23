@@ -72,12 +72,32 @@ function readProperties(body) {
     });
 }
 
+function readPoints(body, tagName) {
+    const match = body.match(new RegExp(`<${tagName}\\b[^>]*points="([^"]*)"`));
+
+    if (!match) {
+        return null;
+    }
+
+    return match[1]
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((pair) => {
+            const [x, y] = pair.split(',').map(Number);
+            return { x, y };
+        });
+}
+
 function readObjectLayer(tag, body) {
     const layer = readAttributes(tag);
 
     const objects = [...body.matchAll(/<object\b([^>]*?)(?:\/>|>([\s\S]*?)<\/object>)/g)].map(
         ([, objectTag, objectBody]) => {
             const object = readAttributes(objectTag);
+            const inner = objectBody ?? '';
+            const polygon = readPoints(inner, 'polygon');
+            const polyline = readPoints(inner, 'polyline');
 
             return {
                 id: Number(object.id),
@@ -89,7 +109,11 @@ function readObjectLayer(tag, body) {
                 height: Number(object.height ?? 0),
                 rotation: Number(object.rotation ?? 0),
                 visible: object.visible !== '0',
-                properties: readProperties(objectBody ?? ''),
+                ...(polygon ? { polygon } : {}),
+                ...(polyline ? { polyline } : {}),
+                ...(/<ellipse\b/.test(inner) ? { ellipse: true } : {}),
+                ...(/<point\b/.test(inner) ? { point: true } : {}),
+                properties: readProperties(inner),
             };
         },
     );

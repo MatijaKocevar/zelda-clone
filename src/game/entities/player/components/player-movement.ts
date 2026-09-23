@@ -1,4 +1,4 @@
-import { DOWN, Input, LEFT, RANGED, RIGHT, SPACE, UP } from '../../../mechanics/input/input';
+import { DOWN, Input, INTERACT, LEFT, RANGED, RIGHT, SPACE, UP } from '../../../mechanics/input/input';
 import { GamepadInput } from '../../../mechanics/gamepad-input';
 import { Player } from '../player';
 
@@ -85,7 +85,9 @@ export class PlayerMovement {
         const shouldPlayIdleAnimation =
             inputState.keysPressed.length === 0 ||
             (inputState.keysPressed.length === 1 &&
-                (inputState.keysPressed[0] === SPACE || inputState.keysPressed[0] === RANGED) &&
+                (inputState.keysPressed[0] === SPACE ||
+                    inputState.keysPressed[0] === RANGED ||
+                    inputState.keysPressed[0] === INTERACT) &&
                 !player.playerAttack.isSlashing);
 
         if (shouldPlayIdleAnimation) {

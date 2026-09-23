@@ -3,6 +3,7 @@ import tilesetWater from '../../../assets/OG/ninja-4x/TilesetWater.png';
 import tilesetField from '../../../assets/OG/ninja-4x/TilesetField.png';
 import tilesetNature from '../../../assets/OG/ninja-4x/TilesetNature.png';
 import tilesetHouse from '../../../assets/OG/ninja-4x/TilesetHouse.png';
+import { signControlKeys } from '../../assets/sign-assets';
 import { AreaDefinition, AreaSign, TilesetImageAsset } from '../area.types';
 import { homeEnemySpawns } from './home-enemies';
 
@@ -14,7 +15,21 @@ const homeTilesetImages: TilesetImageAsset[] = [
 ];
 
 const homeSigns: AreaSign[] = [
-    { text: 'KILL THEM. KILL THEM ALL.', x: 2560, y: 1360 },
+    {
+        text: 'KILL THEM ALL.',
+        x: 2560,
+        y: 1360,
+        interactHint: true,
+        controls: [
+            {
+                keyboard: [signControlKeys.keyW, signControlKeys.keyA, signControlKeys.keyS, signControlKeys.keyD],
+                gamepad: [signControlKeys.joystickLeft],
+            },
+            { keyboard: [signControlKeys.keySpace], gamepad: [signControlKeys.buttonA] },
+            { keyboard: [signControlKeys.keyShift], gamepad: [signControlKeys.buttonB] },
+            { label: 'INTERACT', keyboard: [signControlKeys.keyE], gamepad: [signControlKeys.buttonX] },
+        ],
+    },
     { text: 'They know you are coming. They always did.', x: 960, y: 1500 },
     { text: 'All of them. Every last monster. Then the voices stop.', x: 3900, y: 1500 },
     { text: 'Kill them all — even the cute pink ones. Especially the cute pink ones.', x: 2560, y: 2460 },

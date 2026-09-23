@@ -21,16 +21,20 @@ export class MobileControls {
         this.container.style.display = visible ? '' : 'none';
     }
 
-    private createButton(className: string, label: string, onStart: () => void, onEnd: () => void): HTMLButtonElement {
+    private createButton(className: string, label: string, onStart?: () => void, onEnd?: () => void): HTMLButtonElement {
         const button = document.createElement('button');
         button.className = className;
         button.textContent = label;
-        button.addEventListener('touchstart', (event) => {
-            event.preventDefault();
-            onStart();
-        });
-        button.addEventListener('touchend', onEnd);
-        button.addEventListener('touchcancel', onEnd);
+
+        if (onStart && onEnd) {
+            button.addEventListener('touchstart', (event) => {
+                event.preventDefault();
+                onStart();
+            });
+            button.addEventListener('touchend', onEnd);
+            button.addEventListener('touchcancel', onEnd);
+        }
+
         return button;
     }
 
@@ -38,24 +42,10 @@ export class MobileControls {
         const dPad = document.createElement('div');
         dPad.className = 'd-pad';
 
-        const upRow = document.createElement('div');
-        upRow.className = 'button-row';
-        upRow.appendChild(this.createButton('up', '↑', mobileInput.onTouchStartUp, mobileInput.onTouchEndUp));
-
-        const middleRow = document.createElement('div');
-        middleRow.className = 'button-row';
-        middleRow.appendChild(this.createButton('left', '←', mobileInput.onTouchStartLeft, mobileInput.onTouchEndLeft));
-        middleRow.appendChild(
-            this.createButton('right', '→', mobileInput.onTouchStartRight, mobileInput.onTouchEndRight),
-        );
-
-        const downRow = document.createElement('div');
-        downRow.className = 'button-row';
-        downRow.appendChild(this.createButton('down', '↓', mobileInput.onTouchStartDown, mobileInput.onTouchEndDown));
-
-        dPad.appendChild(upRow);
-        dPad.appendChild(middleRow);
-        dPad.appendChild(downRow);
+        dPad.appendChild(this.createButton('up', '↑', mobileInput.onTouchStartUp, mobileInput.onTouchEndUp));
+        dPad.appendChild(this.createButton('left', '←', mobileInput.onTouchStartLeft, mobileInput.onTouchEndLeft));
+        dPad.appendChild(this.createButton('right', '→', mobileInput.onTouchStartRight, mobileInput.onTouchEndRight));
+        dPad.appendChild(this.createButton('down', '↓', mobileInput.onTouchStartDown, mobileInput.onTouchEndDown));
 
         return dPad;
     }
@@ -66,6 +56,8 @@ export class MobileControls {
 
         actionButtons.appendChild(this.createButton('a', 'A', mobileInput.onTouchStartA, mobileInput.onTouchEndA));
         actionButtons.appendChild(this.createButton('b', 'B', mobileInput.onTouchStartB, mobileInput.onTouchEndB));
+        actionButtons.appendChild(this.createButton('x', 'X', mobileInput.onTouchStartX, mobileInput.onTouchEndX));
+        actionButtons.appendChild(this.createButton('y', 'Y'));
 
         return actionButtons;
     }

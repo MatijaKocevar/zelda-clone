@@ -9,6 +9,7 @@ export const UP = 'UP';
 export const DOWN = 'DOWN';
 export const SPACE = 'SPACE';
 export const RANGED = 'RANGED';
+export const INTERACT = 'INTERACT';
 
 export class Input {
     private scene: CustomScene;
@@ -40,6 +41,7 @@ export class Input {
                 right: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
                 space: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
                 ranged: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT),
+                interact: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
             };
 
             this.cursors = cursors;
@@ -95,6 +97,13 @@ export class Input {
         });
         cursors.ranged.on('up', () => {
             this.onKeyReleased(RANGED);
+        });
+
+        cursors.interact.on('down', () => {
+            this.inputState.push(INTERACT);
+        });
+        cursors.interact.on('up', () => {
+            this.onKeyReleased(INTERACT);
         });
     }
 
