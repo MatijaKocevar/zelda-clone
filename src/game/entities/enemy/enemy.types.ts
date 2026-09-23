@@ -27,6 +27,7 @@ export interface EnemyAttackConfig {
 export interface EnemyDefinition {
     spriteName: string;
     health: number;
+    xp: number;
     movement: EnemyMovementConfig;
     attack: EnemyAttackConfig;
 }

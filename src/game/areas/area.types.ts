@@ -16,15 +16,55 @@ export interface TilesetImageAsset extends ImageAsset {
     name: string;
 }
 
-export type EnemySpawn = Omit<IEnemy, 'scene' | 'initialDelay'>;
+export interface FlagConditions {
+    requiresFlags?: string[];
+    forbidsFlags?: string[];
+}
 
-export interface AreaDoor {
+export type EnemySpawn = Omit<IEnemy, 'scene' | 'initialDelay'> & FlagConditions;
+
+export interface AreaDoor extends FlagConditions {
     x: number;
     y: number;
     width: number;
     height: number;
     target?: string;
     spawn?: AreaSpawn;
+    lockedDialog?: string;
+}
+
+export type NpcDirection = 'down' | 'up' | 'left' | 'right';
+
+export interface AreaNpcDialog extends FlagConditions {
+    script: string;
+}
+
+export interface AreaNpc extends FlagConditions {
+    id: string;
+    x: number;
+    y: number;
+    spriteKey: string;
+    direction?: NpcDirection;
+    frame?: number;
+    solid?: boolean;
+    dialogs: AreaNpcDialog[];
+}
+
+export type AreaTriggerType = 'enter' | 'interact' | 'victory';
+
+export interface AreaTrigger extends FlagConditions {
+    id: string;
+    type: AreaTriggerType;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    radius?: number;
+    once?: boolean;
+    dialog?: string;
+    cinematic?: string;
+    setFlags?: string[];
+    suppressWin?: boolean;
 }
 
 export interface AreaSignControl {
@@ -51,4 +91,6 @@ export interface AreaDefinition {
     tilesetImages?: TilesetImageAsset[];
     enemySpawns?: EnemySpawn[];
     signs?: AreaSign[];
+    npcs?: AreaNpc[];
+    triggers?: AreaTrigger[];
 }

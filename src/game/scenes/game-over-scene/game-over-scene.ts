@@ -1,8 +1,19 @@
 import Phaser from 'phaser';
+import { revivePlayerState } from '../../state/player-state';
+
+interface GameOverSceneData {
+    area?: string;
+}
 
 export class GameOverScene extends Phaser.Scene {
+    private area = 'home';
+
     constructor() {
         super({ key: 'GameOverScene' });
+    }
+
+    init(data: GameOverSceneData) {
+        this.area = data.area ?? 'home';
     }
 
     create() {
@@ -39,8 +50,9 @@ export class GameOverScene extends Phaser.Scene {
     }
 
     private restart() {
+        revivePlayerState();
         this.scene.stop('GameScene');
-        this.scene.start('GameScene');
+        this.scene.start('GameScene', { area: this.area });
     }
 
     private goToMenu() {

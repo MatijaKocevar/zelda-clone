@@ -4,6 +4,7 @@ export const ENEMY_DEFINITIONS: Record<EnemyType, EnemyDefinition> = {
     pinkazoid: {
         spriteName: 'pinkazoid',
         health: 60,
+        xp: 25,
         movement: {
             moveSpeed: 120,
             chaseSpeed: 170,
@@ -21,6 +22,7 @@ export const ENEMY_DEFINITIONS: Record<EnemyType, EnemyDefinition> = {
     zomboi: {
         spriteName: 'zomboi',
         health: 140,
+        xp: 45,
         movement: {
             moveSpeed: 70,
             chaseSpeed: 110,

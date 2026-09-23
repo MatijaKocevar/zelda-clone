@@ -47,7 +47,9 @@ export class AreaScene {
             ...(this.area.tilesetImages ?? []),
         ]);
 
-        if (this.area.signs?.length) {
+        const hasInteractTriggers = this.area.triggers?.some((trigger) => trigger.type === 'interact');
+
+        if (this.area.signs?.length || this.area.npcs?.length || hasInteractTriggers) {
             AssetLoader.loadImages(this.scene, signImageAssets);
         }
     }
@@ -62,12 +64,15 @@ export class AreaScene {
             this.setupManager.player,
             this.setupManager.enemies,
             this.setupManager.signs,
+            this.setupManager.npcs,
+            this.setupManager.triggers,
         );
         this.enemyCount = this.setupManager.enemies.length;
     }
 
     update() {
         this.updateManager.update();
+        this.setupManager.objectiveDisplay.update();
         this.checkVictory();
     }
 
@@ -81,6 +86,11 @@ export class AreaScene {
         }
 
         this.hasWon = true;
+
+        if (this.setupManager.triggers.fireVictory()) {
+            return;
+        }
+
         this.scene.events.emit(ENEMIES_DEFEATED_EVENT);
     }
 

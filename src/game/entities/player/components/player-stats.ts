@@ -86,4 +86,12 @@ export class PlayerStats {
     setDamage(damage: number) {
         this.damage = damage;
     }
+
+    setMaxMana(maxMana: number) {
+        this.maxMana = maxMana;
+    }
+
+    setMana(mana: number) {
+        this.mana = mana;
+    }
 }
