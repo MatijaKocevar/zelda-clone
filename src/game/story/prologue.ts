@@ -12,7 +12,7 @@ export const prologueSlides: PrologueSlide[] = [
         tint: 0xb08a66,
     },
     {
-        text: 'Tomas was a farmer who could mend anything. They handed him a spear and a flag, and told him his hands belonged to the king now.',
+        text: 'Bran was a farmer who could mend anything. They handed him a spear and a flag, and told him his hands belonged to the king now.',
         background: 'prologue-camp',
         tint: 0x9a8a76,
     },
@@ -23,7 +23,7 @@ export const prologueSlides: PrologueSlide[] = [
         image: 'prologue-letter',
     },
     {
-        text: 'Maya raised their son alone. Aren grew up handy and kind, fixing what he could — and keeping the rest to himself.',
+        text: 'Elna raised their son alone. Tie grew up handy and kind, fixing what he could — and keeping the rest, storms included, to himself.',
         background: 'prologue-field',
         tint: 0xb0a080,
     },

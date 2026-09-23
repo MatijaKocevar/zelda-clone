@@ -44,6 +44,17 @@ const caveEnemySpawns: EnemySpawn[] = caveEnemyPositions.map((spawn): EnemySpawn
 
 const caveTriggers: AreaTrigger[] = [
     {
+        id: 'cave-arrival',
+        type: 'enter',
+        x: 128,
+        y: 128,
+        width: 768,
+        height: 288,
+        once: true,
+        requiresFlags: ['act1-revenge'],
+        cinematic: 'cave-arrival',
+    },
+    {
         id: 'training-post',
         type: 'interact',
         x: 640,

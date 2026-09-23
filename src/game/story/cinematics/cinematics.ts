@@ -21,6 +21,15 @@ const cinematics: Record<string, Cinematic> = {
             { type: 'letterbox', enabled: false },
         ],
     },
+    'cave-arrival': {
+        id: 'cave-arrival',
+        steps: [
+            { type: 'letterbox', enabled: true },
+            { type: 'wait', duration: 500 },
+            { type: 'dialog', script: 'cave-arrival' },
+            { type: 'letterbox', enabled: false },
+        ],
+    },
     'mom-death': {
         id: 'mom-death',
         steps: [

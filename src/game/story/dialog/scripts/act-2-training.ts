@@ -3,6 +3,13 @@ import { DialogScript } from '../dialog.types';
 export const HERMIT_FACE = 'face-oldman3';
 
 export const act2TrainingScripts: Record<string, DialogScript> = {
+    'cave-arrival': {
+        id: 'cave-arrival',
+        lines: [
+            { speaker: 'Tie', text: '(A fire, deep in the cave. Someone’s been living here.)' },
+            { speaker: 'Tie', text: '(An old man. He doesn’t look surprised to see me.)' },
+        ],
+    },
     'hermit-early': {
         id: 'hermit-early',
         lines: [
@@ -25,9 +32,9 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: 'That scarf. I’d know that stitch in my sleep. Tomas wore it the day they marched us east.',
+                text: 'That scarf. I’d know that stitch in my sleep. Bran wore it the day they marched us east.',
             },
-            { speaker: 'Aren', text: 'You knew my father.' },
+            { speaker: 'Tie', text: 'You knew my father.' },
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
@@ -41,12 +48,7 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: 'But I never could talk a Tomas out of anything. First, your arms.',
-            },
-            {
-                speaker: 'Hermit',
-                portrait: HERMIT_FACE,
-                text: 'There’s an old blade in the rock by the fire. Strike it until your hands remember what your heart already knows.',
+                text: 'But I never could talk a Bran out of anything. There’s an old blade in the rock by the fire — strike it until your hands remember what your heart already knows.',
             },
         ],
     },
@@ -63,7 +65,7 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
     'training-post': {
         id: 'training-post',
         lines: [
-            { speaker: 'Aren', text: '(The old blade rings like a bell. Again. Again. My palms split, and close.)' },
+            { speaker: 'Tie', text: '(The old blade rings like a bell. Again. Again. My palms split, and close.)' },
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
@@ -90,7 +92,7 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
         id: 'cave-trial',
         lines: [
             {
-                speaker: 'Aren',
+                speaker: 'Tie',
                 text: '(That’s the last of them. The cave is quiet. The old man watches from his fire.)',
             },
         ],
@@ -114,7 +116,7 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
                 portrait: HERMIT_FACE,
                 text: 'Hold out your hands. This will feel like winter.',
             },
-            { speaker: 'Aren', text: '(Fire. Small, and mine.)' },
+            { speaker: 'Tie', text: '(Fire. Small, and mine.)' },
         ],
     },
     'hermit-after': {
