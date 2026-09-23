@@ -1,6 +1,6 @@
 import { EnemySpawn } from '../area.types';
 
-export const homeEnemySpawns: EnemySpawn[] = [
+const spawnPoints: EnemySpawn[] = [
     {
         position: { x: 2624, y: 448 },
         type: 'pinkazoid',
@@ -151,4 +151,39 @@ export const homeEnemySpawns: EnemySpawn[] = [
             { direction: 'right', distance: 100 },
         ],
     },
+    {
+        position: { x: 2912, y: 2208 },
+        type: 'pinkazoid',
+        patrolPath: [
+            { direction: 'left', distance: 120 },
+            { direction: 'right', distance: 120 },
+            { direction: 'up', distance: 100 },
+            { direction: 'down', distance: 100 },
+        ],
+    },
+    {
+        position: { x: 2528, y: 2080 },
+        type: 'pinkazoid',
+        patrolPath: [
+            { direction: 'right', distance: 120 },
+            { direction: 'left', distance: 120 },
+            { direction: 'up', distance: 100 },
+            { direction: 'down', distance: 100 },
+        ],
+    },
+    {
+        position: { x: 2848, y: 2336 },
+        type: 'zomboi',
+        patrolPath: [
+            { direction: 'up', distance: 100 },
+            { direction: 'down', distance: 100 },
+            { direction: 'left', distance: 100 },
+            { direction: 'right', distance: 100 },
+        ],
+    },
 ];
+
+export const homeEnemySpawns: EnemySpawn[] = spawnPoints.map((spawn) => ({
+    requiresFlags: ['act1-attack'],
+    ...spawn,
+}));

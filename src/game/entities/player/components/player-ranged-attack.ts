@@ -3,6 +3,7 @@ import { DOWN, LEFT, RANGED, RIGHT, UP } from '../../../mechanics/input/input';
 import { Collisions } from '../../collisions/collisions';
 import { Enemy } from '../../enemy/enemy';
 import { Fireball } from '../../projectile/fireball';
+import { hasFlag } from '../../../story/story-flags';
 import { Player } from '../player';
 import { PlayerMovement } from './player-movement';
 
@@ -62,7 +63,8 @@ export class PlayerRangedAttack {
         const currentTime = this.player.scene.time.now;
 
         if (this.player.playerDamage.isHurt || this.player.playerDamage.isDead) return;
-        if (this.player.playerAttack.isSlashing) return;
+        if (this.player.controlsLocked || this.player.playerAttack.isSlashing) return;
+        if (!hasFlag('unlocked-magic')) return;
         if (!inputState.isPressed(RANGED) || !this.canCast(currentTime)) return;
         if (!this.player.playerStats.useMana(this.player.playerStats.maxMana * MANA_COST_FRACTION)) return;
 

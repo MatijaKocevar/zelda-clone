@@ -23,6 +23,7 @@ export class Player {
     playerLifeBar: PlayerLifeBar;
     playerManaBar: PlayerManaBar;
     playerDamage: PlayerDamage;
+    controlsLocked = false;
 
     constructor({ position, scene, enemies }: IPlayer) {
         this.scene = scene;

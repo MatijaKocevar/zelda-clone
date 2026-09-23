@@ -28,6 +28,8 @@ export class PlayerMovement {
         player.sprite.setVelocityX(0);
         player.sprite.setVelocityY(0);
 
+        if (player.controlsLocked) return;
+
         if (!player.playerAttack.isSlashing && !player.playerRangedAttack.isCasting) {
             const movingVelocity = 250;
             const diagonalVelocity = 180;
@@ -56,6 +58,11 @@ export class PlayerMovement {
         const { inputState } = this.input;
 
         if (player.playerDamage.isHurt || player.playerDamage.isDead) return;
+
+        if (player.controlsLocked) {
+            this.handleIdleAnimations();
+            return;
+        }
 
         if (!player.playerAttack.isSlashing && !player.playerRangedAttack.isCasting) {
             const direction = inputState.keysPressed[0];

@@ -5,7 +5,7 @@ import { houseTilesetImages } from './room-tilesets';
 export const cottageAArea: AreaDefinition = {
     key: 'cottage-a',
     mapUrl: cottageAMapUrl,
-    playerSpawn: { x: 512, y: 560 },
+    playerSpawn: { x: 512, y: 480 },
     backgroundColor: '#141b1b',
     backgroundImages: [],
     foregroundImages: [],

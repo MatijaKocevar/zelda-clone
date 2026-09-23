@@ -3,6 +3,8 @@ import pinkazoidSprite from '../../assets/characters/enemies/pinkazoid.png';
 import zomboiSprite from '../../assets/characters/enemies/zomboi.png';
 import heartSprite from '../../assets/lifebar/heart-animated-2.png';
 import fireballSprite from '../../assets/OG/ninja-4x/Fireball.png';
+import womanSprite from '../../assets/OG/ninja-4x/Woman.png';
+import oldMan3Sprite from '../../assets/OG/ninja-4x/OldMan3.png';
 import { SpriteSheetAsset } from '../utils/asset-loader/asset-loader.types';
 
 export const globalSpriteSheetAssets: SpriteSheetAsset[] = [
@@ -41,6 +43,22 @@ export const globalSpriteSheetAssets: SpriteSheetAsset[] = [
     {
         key: 'fireball',
         path: fireballSprite,
+        frameConfig: {
+            frameWidth: 64,
+            frameHeight: 64,
+        },
+    },
+    {
+        key: 'woman',
+        path: womanSprite,
+        frameConfig: {
+            frameWidth: 64,
+            frameHeight: 64,
+        },
+    },
+    {
+        key: 'oldman3',
+        path: oldMan3Sprite,
         frameConfig: {
             frameWidth: 64,
             frameHeight: 64,

@@ -1,8 +1,7 @@
 import Phaser from 'phaser';
-import { areTouchControlsActive } from '../../input/mobile-controls-state';
 import { INTERACT } from '../../mechanics/input/input';
 import { AreaSignControl } from '../../areas/area.types';
-import { signControlKeys } from '../../assets/sign-assets';
+import { InteractPrompt } from '../interact-prompt';
 import { ISign } from './sign.types';
 
 const INTERACT_RADIUS = 110;
@@ -14,8 +13,6 @@ const POPUP_FADE_DURATION = 400;
 const POPUP_FONT_SIZE = '18px';
 const CONTROL_LABEL_FONT_SIZE = '14px';
 const PROMPT_OFFSET = 88;
-const PROMPT_ICON_SIZE = 32;
-const PROMPT_ICON_GAP = 4;
 const SIGN_HEIGHT = 64;
 const POPUP_MARGIN = 12;
 const POPUP_PADDING_X = 28;
@@ -41,9 +38,7 @@ export class Sign {
     private controls: AreaSignControl[];
     private x: number;
     private y: number;
-    private prompt: Phaser.GameObjects.Image | Phaser.GameObjects.Container;
-    private promptHand?: Phaser.GameObjects.Image;
-    private promptKey?: Phaser.GameObjects.Image;
+    private prompt: InteractPrompt;
     private popup?: Phaser.GameObjects.Container;
     private popupWidth = 0;
     private popupHeight = 0;
@@ -63,61 +58,7 @@ export class Sign {
         (signpost.body as Phaser.Physics.Arcade.StaticBody).setSize(36, 28, true);
         scene.physics.add.collider(player.sprite, signpost);
 
-        this.prompt = this.createPrompt(x, y, interactHint);
-        scene.tweens.add({
-            targets: this.prompt,
-            y: this.prompt.y - 10,
-            duration: 600,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.inOut',
-        });
-    }
-
-    private createPrompt(
-        x: number,
-        y: number,
-        interactHint?: boolean,
-    ): Phaser.GameObjects.Image | Phaser.GameObjects.Container {
-        if (!interactHint) {
-            return this.scene.add.image(x, y - PROMPT_OFFSET, 'sign-interact').setDepth(PROMPT_DEPTH).setVisible(false);
-        }
-
-        const hand = this.scene.add.image(0, 0, 'sign-interact').setOrigin(0.5);
-        const key = this.scene.add.image(0, 0, this.getInteractKey()).setOrigin(0.5);
-
-        this.promptHand = hand;
-        this.promptKey = key;
-        this.layoutPrompt();
-
-        return this.scene.add
-            .container(x, y - PROMPT_OFFSET, [hand, key])
-            .setDepth(PROMPT_DEPTH)
-            .setVisible(false);
-    }
-
-    private getInteractKey(): string {
-        return areTouchControlsActive() ? signControlKeys.buttonX : signControlKeys.keyE;
-    }
-
-    private layoutPrompt(): void {
-        const hand = this.promptHand;
-        const key = this.promptKey;
-
-        if (!hand || !key) {
-            return;
-        }
-
-        const keyWidth = (key.width * PROMPT_ICON_SIZE) / key.height;
-
-        key.setDisplaySize(keyWidth, PROMPT_ICON_SIZE);
-
-        const totalWidth = hand.width + PROMPT_ICON_GAP + keyWidth;
-        let cursor = -totalWidth / 2;
-
-        hand.setPosition(cursor + hand.width / 2, 0);
-        cursor += hand.width + PROMPT_ICON_GAP;
-        key.setPosition(cursor + keyWidth / 2, 0);
+        this.prompt = new InteractPrompt(scene, x, y - PROMPT_OFFSET, PROMPT_DEPTH, interactHint ?? false);
     }
 
     update(): void {
@@ -125,12 +66,7 @@ export class Sign {
             this.positionPopup();
         }
 
-        const interactKey = this.getInteractKey();
-
-        if (this.promptKey && this.promptKey.texture.key !== interactKey) {
-            this.promptKey.setTexture(interactKey);
-            this.layoutPrompt();
-        }
+        this.prompt.update();
 
         const distance = Phaser.Math.Distance.Between(this.player.sprite.x, this.player.sprite.y, this.x, this.y);
         const inRange = distance <= INTERACT_RADIUS;

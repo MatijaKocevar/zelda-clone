@@ -5,6 +5,9 @@ import { GameScene } from './game/scenes/game-scene';
 import { PauseScene } from './game/scenes/pause-scene/pause-scene';
 import { GameOverScene } from './game/scenes/game-over-scene/game-over-scene';
 import { WinScene } from './game/scenes/win-scene/win-scene';
+import { PrologueScene } from './game/scenes/prologue-scene/prologue-scene';
+import { CinematicScene } from './game/scenes/cinematic-scene/cinematic-scene';
+import { DialogScene } from './game/scenes/dialog-scene/dialog-scene';
 import { InputState } from './game/input/input-state';
 import { MobileControls } from './ui/mobile-controls/mobile-controls';
 import { GamepadStatus } from './ui/gamepad-status/gamepad-status';
@@ -34,7 +37,16 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
             debug: false,
         },
     },
-    scene: [new MenuScene(), new GameScene(inputState), new PauseScene(), new GameOverScene(), new WinScene()],
+    scene: [
+        new MenuScene(),
+        new GameScene(inputState),
+        new PauseScene(),
+        new GameOverScene(),
+        new WinScene(),
+        new PrologueScene(),
+        new CinematicScene(),
+        new DialogScene(),
+    ],
 };
 
 const game = new Phaser.Game(gameConfig);

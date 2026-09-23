@@ -35,3 +35,8 @@ src/assets/OG/
 .playwright-mcp/
 .mcp.json
 .mcp.jsonc
+
+# Story planning docs (spoilers) — keep local, never commit
+docs/story*
+story.md
+STORY.md

@@ -7,6 +7,14 @@ import { defaultAreaKey, getArea } from '../areas/areas';
 import { AreaDoor, AreaSpawn } from '../areas/area.types';
 import { DOOR_ENTERED_EVENT, ENEMIES_DEFEATED_EVENT, TOGGLE_PAUSE_EVENT } from '../events';
 import { resetDefeatedEnemies } from '../state/defeated-enemies';
+import { capturePlayerState, resetPlayerState, syncPlayerState } from '../state/player-state';
+import { saveGame } from '../state/save';
+import { launchDialog } from '../story/dialog/dialog-service';
+import { CINEMATIC_SCENE_KEY } from './cinematic-scene/cinematic-scene';
+import { DIALOG_SCENE_KEY } from './dialog-scene/dialog-scene';
+import { passesFlagConditions, resetStoryFlags } from '../story/story-flags';
+
+const LOCKED_DOOR_SCRIPT = 'door-locked';
 
 interface GameSceneData {
     area?: string;
@@ -27,6 +35,8 @@ export class GameScene extends Phaser.Scene {
     init(data: GameSceneData) {
         if (!data.area) {
             resetDefeatedEnemies();
+            resetStoryFlags();
+            resetPlayerState();
         }
 
         this.areaKey = data.area ?? defaultAreaKey;
@@ -59,12 +69,19 @@ export class GameScene extends Phaser.Scene {
 
         this.events.once('player-died', () => {
             this.scene.pause();
-            this.scene.launch('GameOverScene');
+            this.scene.launch('GameOverScene', { area: this.areaKey });
         });
+
+        saveGame(this.areaKey);
     }
 
     update() {
         this.areaScene.update();
+
+        const player = this.areaScene.setupManager.player;
+
+        syncPlayerState(player);
+        capturePlayerState(player);
     }
 
     goToArea(key: string, spawn?: AreaSpawn) {
@@ -72,6 +89,11 @@ export class GameScene extends Phaser.Scene {
     }
 
     private handleDoorEntered = (door: AreaDoor) => {
+        if (!passesFlagConditions(door.requiresFlags, door.forbidsFlags)) {
+            launchDialog(this, door.lockedDialog ?? LOCKED_DOOR_SCRIPT, this.inputState);
+            return;
+        }
+
         if (!door.target) {
             return;
         }
@@ -96,7 +118,11 @@ export class GameScene extends Phaser.Scene {
     };
 
     private pauseGame = () => {
-        if (this.scene.isActive('PauseScene')) {
+        if (
+            this.scene.isActive('PauseScene') ||
+            this.scene.isActive(DIALOG_SCENE_KEY) ||
+            this.scene.isActive(CINEMATIC_SCENE_KEY)
+        ) {
             return;
         }
 
