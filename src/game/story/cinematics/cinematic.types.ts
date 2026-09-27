@@ -5,7 +5,15 @@ export interface Cinematic {
     steps: CinematicStep[];
 }
 
-export type CinematicStep = LetterboxStep | WaitStep | DialogStep | SetFlagsStep | ShakeStep | FadeStep | GoToAreaStep;
+export type CinematicStep =
+    | LetterboxStep
+    | WaitStep
+    | DialogStep
+    | SetFlagsStep
+    | ShakeStep
+    | FadeStep
+    | GoToAreaStep
+    | BloodStep;
 
 export interface LetterboxStep {
     type: 'letterbox';
@@ -43,4 +51,8 @@ export interface GoToAreaStep {
     type: 'goToArea';
     area: string;
     spawn?: AreaSpawn;
+}
+
+export interface BloodStep {
+    type: 'blood';
 }

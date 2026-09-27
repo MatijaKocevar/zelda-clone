@@ -37,6 +37,7 @@ const cinematics: Record<string, Cinematic> = {
             { type: 'wait', duration: 300 },
             { type: 'shake', duration: 500, intensity: 0.008 },
             { type: 'dialog', script: 'lira-taken' },
+            { type: 'blood' },
             { type: 'shake', duration: 700, intensity: 0.012 },
             { type: 'fade', direction: 'out', duration: 700 },
             { type: 'setFlags', flags: ['act1-lira-taken'] },

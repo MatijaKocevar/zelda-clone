@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import type { GameScene } from '../game-scene';
 import { AreaSpawn } from '../../areas/area.types';
 import { Player } from '../../entities/player/player';
+import { spawnBlood, spawnSplatter } from '../../mechanics/gore/gore';
 import { CinematicStep } from '../../story/cinematics/cinematic.types';
 import { getCinematic } from '../../story/cinematics/cinematics';
 import { launchDialog } from '../../story/dialog/dialog-service';
@@ -97,6 +98,8 @@ export class CinematicScene extends Phaser.Scene {
                 return this.fade(step.direction, step.duration);
             case 'goToArea':
                 return this.goToArea(step.area, step.spawn);
+            case 'blood':
+                return this.blood();
         }
     }
 
@@ -156,6 +159,18 @@ export class CinematicScene extends Phaser.Scene {
             gameScene.events.once(Phaser.Scenes.Events.CREATE, () => resolve());
             gameScene.goToArea(area, spawn);
         });
+    }
+
+    private blood(): Promise<void> {
+        const gameScene = this.getGameScene();
+        const player = this.getPlayer();
+        const body = player.sprite.body as Phaser.Physics.Arcade.Body | null;
+        const ground = body ? body.bottom : player.sprite.y + 24;
+
+        spawnBlood(gameScene.areaScene.scene, player.sprite.x, ground, 'medium');
+        spawnSplatter(gameScene.areaScene.scene, player.sprite.x, ground, 5);
+
+        return Promise.resolve();
     }
 
     private getGameScene(): GameScene {
