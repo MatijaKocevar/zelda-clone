@@ -1,6 +1,6 @@
 import { DialogScript } from '../dialog.types';
 
-export const MOTHER_FACE = 'face-woman';
+export const LIRA_FACE = 'face-woman';
 
 export const act1HomeScripts: Record<string, DialogScript> = {
     'intro-home': {
@@ -9,168 +9,197 @@ export const act1HomeScripts: Record<string, DialogScript> = {
         lines: [
             {
                 speaker: 'Tie',
-                text: 'Home again. Same gate, same quiet, same thin line of smoke from the chimney.',
+                text: 'Home again. Same gate, same quiet, same thin line of smoke from the mill.',
             },
             {
                 speaker: 'Tie',
-                text: 'Mom is probably inside. I should let her see me before she starts worrying.',
+                text: 'The woods have been spitting things out all season. The fences hold because I hold them.',
+            },
+            {
+                speaker: 'Tie',
+                text: 'Lira first. She’ll want to see I’m still in one piece.',
             },
         ],
     },
-    'mom-first': {
-        id: 'mom-first',
-        setFlags: ['met-mom', 'mom-asked'],
+    'lira-first': {
+        id: 'lira-first',
+        setFlags: ['met-lira', 'lira-asked'],
         lines: [
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'There you are! I was one deep breath away from sending the whole village after you.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'There you are! Half the village was ready to send a search party, and the other half wanted to sell your boots.',
             },
-            { speaker: 'Tie', text: 'I was only gone a little while.' },
+            { speaker: 'Tie', text: 'I was only gone the morning.' },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'A little while is how wars start, sweetheart. And keep your father’s scarf close — the wind has teeth today.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'A morning is how funerals start, Tie. Sit. Let me see that arm.',
+            },
+            { speaker: 'Tie', text: 'It’s a scratch.' },
+            {
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'It’s a scratch the way the lake is a puddle. Hold still.',
             },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'Since you’re up: the stump needs chopping, the garden is thirsty, and the herb bush behind the east field is ready.',
+                speaker: 'Tie',
+                text: '(Her hands are quick and certain. The sting goes out of the cut like it was never there.)',
+            },
+            {
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'There. Now — the list. Gran wants the stump split, Old Pella’s garden is dying of thirst, and the herb bush behind the east field is ready.',
             },
             { speaker: 'Tie', text: 'Wood, water, herbs. The usual.' },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'The usual. Your father used to say that too.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'The usual. The whole village keeps adding to my list, and I keep being the one scolded when it isn’t done. So. Make me look good.',
             },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'You’ve his storms in you — he spent his whole life learning where to point them. Mind you do the same. Go on, then.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'And Tie — the birds went south last week and didn’t come back. It’s too early for that. Be careful out there.',
             },
         ],
     },
-    'mom-reminder-wood': {
-        id: 'mom-reminder-wood',
+    'lira-reminder-wood': {
+        id: 'lira-reminder-wood',
         lines: [
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'The stump won’t chop itself, sweetheart. Your father used to make a whole afternoon of it, mind.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'The stump, Tie. Gran counts the firewood when she visits, and she only visits when she’s suspicious.',
             },
         ],
     },
-    'mom-reminder-water': {
-        id: 'mom-reminder-water',
+    'lira-reminder-water': {
+        id: 'lira-reminder-water',
         lines: [
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'The garden first, hm? The can’s down by the lake — that water won’t walk itself.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'Old Pella’s garden first, hm? The can’s down by the lake — that water won’t walk itself.',
             },
         ],
     },
-    'mom-reminder-herbs': {
-        id: 'mom-reminder-herbs',
+    'lira-reminder-herbs': {
+        id: 'lira-reminder-herbs',
         lines: [
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'The herb bush behind the east field — before the sun takes the good of it.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'The herb bush behind the east field — before the sun takes the good of it. You know how Gran’s knees get.',
             },
         ],
     },
-    'mom-chores-done': {
-        id: 'mom-chores-done',
+    'lira-chores-done': {
+        id: 'lira-chores-done',
         setFlags: ['act1-chores-done'],
         lines: [
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'Look at this place. Wood stacked, garden green, herbs in the window.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'Look at you. Wood stacked, garden green, herbs on the sill. The village will start expecting things from you.',
+            },
+            { speaker: 'Tie', text: 'Let them expect. I owe them all anyway.' },
+            {
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'You don’t owe anyone anything, you mule. That isn’t how family works.',
             },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'Your father’s hands. He would have told you it was all wrong, and then bragged about it to the whole village.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: '...You bled through the bandage. All afternoon, weren’t you. Sit.',
             },
-            { speaker: 'Tie', text: '(The scarf itches against my neck.)' },
+            { speaker: 'Tie', text: '(She ties it off tight. Her hands are steady. Mine, all of a sudden, aren’t.)' },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'And Tie — if the day ever turns ugly, you come home. Promise me.',
-            },
-            {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'Come inside when the light goes. I’ll have the stew on.',
+                speaker: 'Lira',
+                portrait: LIRA_FACE,
+                text: 'There. Come inside when the light goes. I’ll have stew on, and I will absolutely make you talk about something other than fences.',
             },
         ],
     },
     'chore-wood': {
         id: 'chore-wood',
         lines: [
-            { speaker: 'Tie', text: 'There. Enough firewood for a week of stews.' },
-            { speaker: 'Tie', text: 'The axe still smells of the workshop.' },
+            { speaker: 'Tie', text: 'There. Enough firewood for a week of stews — Gran’s stove included.' },
+            { speaker: 'Tie', text: 'The axe still smells of the workshop. Everything in this village smells of someone keeping me alive.' },
         ],
     },
     'chore-water': {
         id: 'chore-water',
-        lines: [{ speaker: 'Tie', text: 'Watered. The beans will live another day.' }],
+        lines: [{ speaker: 'Tie', text: 'Watered. Old Pella’s beans will live another day.' }],
     },
     'chore-herbs': {
         id: 'chore-herbs',
-        lines: [{ speaker: 'Tie', text: 'Enough herbs to make the whole house smell like spring.' }],
+        lines: [{ speaker: 'Tie', text: 'Enough herbs to make the whole village smell like spring.' }],
     },
     'attack-smoke': {
         id: 'attack-smoke',
         lines: [
             { speaker: 'Tie', text: '(Smoke. Black and thin, over the east field. Too much of it.)' },
             { speaker: 'Tie', text: '(The fence I fixed this morning. The gate. All of it, burning.)' },
-            { speaker: 'Tie', text: '(Not bandits. They move like soldiers.)' },
-            { speaker: 'Tie', text: 'Mom. I have to get to Mom.' },
+            {
+                speaker: 'Tie',
+                text: '(Not bandits. They move in ranks. There’s a mark on their shoulders — a grey sun, burnt at the edges.)',
+            },
+            { speaker: 'Tie', text: 'Lira. She’s at the cottage. I have to get to the cottage.' },
         ],
     },
     'wave-cleared': {
         id: 'wave-cleared',
         lines: [
             { speaker: 'Tie', text: '(The yard goes quiet. Quiet is worse than the screaming.)' },
-            { speaker: 'Tie', text: "(Hold on, Mom. I'm coming.)" },
+            { speaker: 'Tie', text: '(Bodies in the lane. Neighbors. Some of them still—)' },
+            { speaker: 'Tie', text: '(Don’t look. Stand up. Lira. Find Lira.)' },
         ],
     },
-    'mom-death': {
-        id: 'mom-death',
+    'lira-taken': {
+        id: 'lira-taken',
         lines: [
-            { speaker: 'Tie', text: 'Mom? ...Mom!' },
+            { speaker: 'Tie', text: 'Lira? Lira!' },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'There you are. I told you... the wind had teeth.',
+                speaker: 'Tie',
+                text: '(The door hangs broken. The table’s on its side. There’s blood on the boards — spattered, boot-trodden. Not hers. Please. Not hers.)',
             },
-            { speaker: 'Tie', text: "Don't talk. I'll get bandages, I'll—" },
+            { speaker: 'Tie', text: 'Let her GO—' },
+            { speaker: 'Lira', text: 'Tie, don’t—!' },
             {
-                speaker: 'Mom',
-                portrait: MOTHER_FACE,
-                text: 'You have his hands. And his storms. Both of them trouble.',
+                speaker: 'Tie',
+                text: '(The big one takes my legs out at the knees. Another puts a boot on my chest and leans until the room goes white at the edges.)',
             },
-            { speaker: 'Mom', portrait: MOTHER_FACE, text: 'Don’t let it turn you into—' },
-            { speaker: 'Tie', text: 'Mom. Mom!' },
+            {
+                speaker: 'Raider',
+                text: 'That the one she keeps talking about? Leave him. The healer is what the captain wants.',
+            },
+            {
+                speaker: 'Tie',
+                text: '(They drag her through the door. She claws at the frame and they just— take her. I crawl through my own blood and I am not fast enough. I am never fast enough.)',
+            },
+            { speaker: 'Lira', text: 'TIE—' },
+            {
+                speaker: 'Tie',
+                text: '(Her voice goes far away. The door knocks against the wall, over and over, in a wind that smells like the village burning.)',
+            },
         ],
     },
-    'mom-vow': {
-        id: 'mom-vow',
+    'lira-vow': {
+        id: 'lira-vow',
         setFlags: ['act1-revenge'],
         lines: [
-            { speaker: 'Tie', text: '(They left her. They just... left her.)' },
+            { speaker: 'Tie', text: '(They left me my life. I don’t think it was mercy. I think it was weight.)' },
             {
                 speaker: 'Tie',
-                text: '(My hands won’t stop shaking. The scarf is still warm where she held it.)',
+                text: '(Her ribbon in the doorway. The one she never ties straight. It’s all I get to keep.)',
             },
             {
                 speaker: 'Tie',
-                text: '(Father spoke once of an old soldier who lives in the cave south of the fields. If anyone knows how to fight this war, it’s him.)',
+                text: '(Father spoke once of an old soldier who lives in the cave south of the fields. Father’s war. The same grey sun. If anyone knows that mark, it’s him.)',
             },
-            { speaker: 'Tie', text: 'I will find them. Every last one. I swear it on this scarf.' },
+            { speaker: 'Tie', text: 'I will bring her home. And every one of them will answer for what they did here.' },
             {
                 speaker: 'Tie',
                 text: '(Something goes quiet inside me. It doesn’t feel like grief. It feels like permission.)',

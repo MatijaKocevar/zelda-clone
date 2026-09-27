@@ -183,7 +183,8 @@ const spawnPoints: EnemySpawn[] = [
     },
 ];
 
-export const homeEnemySpawns: EnemySpawn[] = spawnPoints.map((spawn) => ({
-    requiresFlags: ['act1-attack'],
-    ...spawn,
-}));
+const ENEMIES_AT_LARGE = 4;
+
+export const homeEnemySpawns: EnemySpawn[] = spawnPoints.map((spawn, index) =>
+    index < ENEMIES_AT_LARGE ? spawn : { ...spawn, requiresFlags: ['act1-attack'] },
+);

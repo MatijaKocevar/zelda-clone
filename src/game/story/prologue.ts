@@ -7,28 +7,33 @@ export interface PrologueSlide {
 
 export const prologueSlides: PrologueSlide[] = [
     {
-        text: 'Twenty years ago, the war in the east swallowed a generation whole.',
-        background: 'prologue-desert',
+        text: 'Elna died bringing him into the world. Bran buried her under the apple tree, and learned to be two parents badly, and gently.',
+        background: 'prologue-field',
         tint: 0xb08a66,
     },
     {
-        text: 'Bran was a farmer who could mend anything. They handed him a spear and a flag, and told him his hands belonged to the king now.',
+        text: 'He was a farmer who could mend anything — fences, roofs, broken things. He never learned to mend the quiet in that house.',
+        background: 'prologue-interior',
+        tint: 0xa39280,
+    },
+    {
+        text: 'When the east called, the king’s men handed him a spear and a flag — same as every farmer with strong hands and nothing left to lose.',
         background: 'prologue-camp',
         tint: 0x9a8a76,
     },
     {
-        text: 'What came home was a letter, a medal, and a quiet that never quite left the house.',
+        text: 'What came home was a letter, a medal, and a scarf. Tie was six years old.',
         background: 'prologue-interior',
-        tint: 0xa39280,
+        tint: 0x8a7a6a,
         image: 'prologue-letter',
     },
     {
-        text: 'Elna raised their son alone. Tie grew up handy and kind, fixing what he could — and keeping the rest, storms included, to himself.',
+        text: 'The village raised him. Every door was his, every table set one extra place. He owed everyone. Everyone pretended he didn’t.',
         background: 'prologue-field',
         tint: 0xb0a080,
     },
     {
-        text: 'He wears his father’s old scarf. It is the only thing the war did not take.',
+        text: 'He grew up fixing what he could and hunting what crept too close to the fences. Lira mended him after every hunt, and scolded him better than any grandmother.',
         background: 'prologue-nature',
         tint: 0x93a894,
     },

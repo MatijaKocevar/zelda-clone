@@ -5,10 +5,9 @@ import { ENEMY_DEFINITIONS } from './data/enemy-definitions';
 import { createAttackBehavior, createMovementBehavior } from './components/behavior-factory';
 import { AttackBehavior } from './components/attack/attack-behavior';
 import { MovementBehavior } from './components/movement/movement-behavior';
+import { bloodBurst, deathGore } from '../../mechanics/gore/gore';
 
 const DEATH_FALL_DURATION = 450;
-const CORPSE_LINGER_DURATION = 30000;
-const CORPSE_FADE_DURATION = 1500;
 
 export class Enemy {
     scene: Phaser.Scene;
@@ -83,6 +82,7 @@ export class Enemy {
 
         this.health -= damage;
 
+        bloodBurst(this.scene, this.sprite, damage, attackDirection);
         this.flicker();
         this.applyKnockback(attackDirection, closeContact);
     }
@@ -91,6 +91,8 @@ export class Enemy {
         this.isDying = true;
         this.isKnockedBack = false;
         this.onDeath?.();
+
+        deathGore(this.scene, this.sprite, attackDirection);
 
         this.scene.tweens.killTweensOf(this.sprite);
         this.sprite.setData('isFlickering', false);
@@ -123,19 +125,6 @@ export class Enemy {
     private becomeCorpse() {
         this.isDying = false;
         this.isDead = true;
-
-        this.scene.time.delayedCall(CORPSE_LINGER_DURATION, () => this.fadeCorpse());
-    }
-
-    private fadeCorpse() {
-        if (this.isDestroyed) return;
-
-        this.scene.tweens.add({
-            targets: this.sprite,
-            alpha: 0,
-            duration: CORPSE_FADE_DURATION,
-            onComplete: () => this.destroy(),
-        });
     }
 
     private flicker() {
