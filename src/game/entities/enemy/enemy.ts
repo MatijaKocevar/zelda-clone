@@ -5,7 +5,6 @@ import { ENEMY_DEFINITIONS } from './data/enemy-definitions';
 import { createAttackBehavior, createMovementBehavior } from './components/behavior-factory';
 import { AttackBehavior } from './components/attack/attack-behavior';
 import { MovementBehavior } from './components/movement/movement-behavior';
-import { bloodBurst, deathGore } from '../../mechanics/gore/gore';
 
 const DEATH_FALL_DURATION = 450;
 
@@ -82,7 +81,6 @@ export class Enemy {
 
         this.health -= damage;
 
-        bloodBurst(this.scene, this.sprite, damage, attackDirection);
         this.flicker();
         this.applyKnockback(attackDirection, closeContact);
     }
@@ -91,8 +89,6 @@ export class Enemy {
         this.isDying = true;
         this.isKnockedBack = false;
         this.onDeath?.();
-
-        deathGore(this.scene, this.sprite, attackDirection);
 
         this.scene.tweens.killTweensOf(this.sprite);
         this.sprite.setData('isFlickering', false);

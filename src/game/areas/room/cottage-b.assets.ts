@@ -18,6 +18,28 @@ const cottageBNpcs: AreaNpc[] = [
             { script: 'lira-reminder-herbs', forbidsFlags: ['chore-herbs'] },
         ],
     },
+    {
+        id: 'villager-dead-1',
+        x: 400,
+        y: 500,
+        spriteKey: 'villager3',
+        frame: 24,
+        solid: false,
+        corpse: true,
+        requiresFlags: ['act1-lira-taken'],
+        dialogs: [],
+    },
+    {
+        id: 'villager-dead-2',
+        x: 620,
+        y: 470,
+        spriteKey: 'village6',
+        frame: 24,
+        solid: false,
+        corpse: true,
+        requiresFlags: ['act1-lira-taken'],
+        dialogs: [],
+    },
 ];
 
 const cottageBTriggers: AreaTrigger[] = [

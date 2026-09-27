@@ -5,6 +5,8 @@ import heartSprite from '../../assets/lifebar/heart-animated-2.png';
 import fireballSprite from '../../assets/OG/ninja-4x/Fireball.png';
 import womanSprite from '../../assets/OG/ninja-4x/Woman.png';
 import oldMan3Sprite from '../../assets/OG/ninja-4x/OldMan3.png';
+import villager3Sprite from '../../assets/OG/ninja-4x/Villager3.png';
+import village6Sprite from '../../assets/OG/ninja-4x/Village6.png';
 import { SpriteSheetAsset } from '../utils/asset-loader/asset-loader.types';
 
 export const globalSpriteSheetAssets: SpriteSheetAsset[] = [
@@ -59,6 +61,22 @@ export const globalSpriteSheetAssets: SpriteSheetAsset[] = [
     {
         key: 'oldman3',
         path: oldMan3Sprite,
+        frameConfig: {
+            frameWidth: 64,
+            frameHeight: 64,
+        },
+    },
+    {
+        key: 'villager3',
+        path: villager3Sprite,
+        frameConfig: {
+            frameWidth: 64,
+            frameHeight: 64,
+        },
+    },
+    {
+        key: 'village6',
+        path: village6Sprite,
         frameConfig: {
             frameWidth: 64,
             frameHeight: 64,

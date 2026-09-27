@@ -47,6 +47,7 @@ export interface AreaNpc extends FlagConditions {
     direction?: NpcDirection;
     frame?: number;
     solid?: boolean;
+    corpse?: boolean;
     dialogs: AreaNpcDialog[];
 }
 
