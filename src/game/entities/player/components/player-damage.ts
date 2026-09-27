@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { Enemy } from '../../enemy/enemy';
+import { bloodBurst, deathGore } from '../../../mechanics/gore/gore';
 import { Player } from '../player';
 
 const INVULNERABILITY_DURATION = 1000;
@@ -90,6 +91,9 @@ export class PlayerDamage {
         this.invulnerabilityTimer = INVULNERABILITY_DURATION;
 
         this.player.sprite.anims.play('hurt', true);
+        bloodBurst(this.player.scene, this.player.sprite, damage);
+        this.player.scene.cameras.main.flash(120, 90, 0, 0);
+        this.player.scene.cameras.main.shake(120, 0.004);
         this.applyKnockback(knockbackDirectionX, knockbackDirectionY);
         this.flicker();
     }
@@ -104,6 +108,7 @@ export class PlayerDamage {
         this.stopFlicker();
         this.player.sprite.setVelocity(0, 0);
         this.player.sprite.anims.play('death', true);
+        deathGore(this.player.scene, this.player.sprite);
 
         this.player.scene.time.delayedCall(GAME_OVER_DELAY, () => {
             this.player.scene.events.emit('player-died');

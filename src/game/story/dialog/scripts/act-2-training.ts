@@ -6,8 +6,11 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
     'cave-arrival': {
         id: 'cave-arrival',
         lines: [
-            { speaker: 'Tie', text: '(A fire, deep in the cave. Someone’s been living here.)' },
-            { speaker: 'Tie', text: '(An old man. He doesn’t look surprised to see me.)' },
+            { speaker: 'Tie', text: '(A fire, deep in the cave. Someone has been living here a long time.)' },
+            {
+                speaker: 'Tie',
+                text: '(An old man. He looks at the scarf around my neck, and something in his face closes like a door.)',
+            },
         ],
     },
     'hermit-early': {
@@ -16,7 +19,7 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: 'Hm. You’ve the look of a boy who doesn’t yet know what he’s about to lose.',
+                text: 'Hm. You’ve the look of a boy carrying something heavier than his own name.',
             },
             {
                 speaker: 'Hermit',
@@ -43,12 +46,31 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: '...I see. Vengeance is a blade with no hilt, boy. Swing it hard enough and it takes your hands with it.',
+                text: '(The old man goes very still. He turns a patch on his pack toward the fire — a grey sun, burnt at the edges.)',
+            },
+            { speaker: 'Tie', text: 'That mark. It was on their shoulders. They took her.' },
+            {
+                speaker: 'Hermit',
+                portrait: HERMIT_FACE,
+                text: 'The eastern legion. Your father and I wore that sun. When the war ended, nobody told the war. What’s left of it went feral — takes what’s useful, burns the rest.',
             },
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: 'But I never could talk a Bran out of anything. There’s an old blade in the rock by the fire — strike it until your hands remember what your heart already knows.',
+                text: 'A healer is worth more than a village to a dying army, boy. They’ll keep her breathing. They’ll keep her close.',
+            },
+            {
+                speaker: 'Hermit',
+                portrait: HERMIT_FACE,
+                text: 'Vengeance is a blade with no hilt. Swing it hard enough and it takes your hands with it.',
+            },
+            { speaker: 'Tie', text: 'I’m not here for vengeance.' },
+            { speaker: 'Hermit', portrait: HERMIT_FACE, text: 'No? Then what are you here for?' },
+            { speaker: 'Tie', text: 'To bring her home.' },
+            {
+                speaker: 'Hermit',
+                portrait: HERMIT_FACE,
+                text: '...Good. Hold onto that. It cuts cleaner. There’s an old blade in the rock by the fire — strike it until your hands remember what your heart already knows.',
             },
         ],
     },
@@ -117,6 +139,11 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
                 text: 'Hold out your hands. This will feel like winter.',
             },
             { speaker: 'Tie', text: '(Fire. Small, and mine.)' },
+            {
+                speaker: 'Hermit',
+                portrait: HERMIT_FACE,
+                text: 'They went east, boy — that’s where the legion keeps its kennels. Ash shows the way. Feed the fire with breath, not rage.',
+            },
         ],
     },
     'hermit-after': {
@@ -125,12 +152,12 @@ export const act2TrainingScripts: Record<string, DialogScript> = {
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: 'Feed the fire with breath, not rage. Rage burns the one holding it.',
+                text: 'Rage burns the one holding it. When you can hold the fire without shaking, you’ll be ready to walk east.',
             },
             {
                 speaker: 'Hermit',
                 portrait: HERMIT_FACE,
-                text: 'When you can hold it without shaking, the hunt begins. Rest tonight.',
+                text: 'Rest tonight. Tomorrow you bring her home.',
             },
         ],
     },

@@ -4,7 +4,7 @@ import { getDefeatedEnemies, setDefeatedEnemies } from './defeated-enemies';
 import { getPlayerStateSnapshot, PlayerStateSnapshot, restorePlayerStateSnapshot } from './player-state';
 
 const STORAGE_KEY = 'a-tie-to-the-past-save';
-const SAVE_VERSION = 1;
+const SAVE_VERSION = 2;
 
 export interface SaveData {
     version: number;

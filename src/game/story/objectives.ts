@@ -10,18 +10,18 @@ const CHORES = ['chore-wood', 'chore-water', 'chore-herbs'];
 
 const objectives: StoryObjective[] = [
     {
-        id: 'meet-mom',
-        text: 'Find Mom inside the house.',
-        isActive: () => !hasFlag('met-mom'),
+        id: 'meet-lira',
+        text: 'Check in with Lira at her cottage.',
+        isActive: () => !hasFlag('met-lira'),
     },
     {
         id: 'chores',
-        text: 'Do your chores: chop wood, water the garden, gather herbs.',
-        isActive: () => hasFlag('mom-asked') && !hasAllFlags(CHORES),
+        text: 'Do the village list: chop wood, water the garden, gather herbs.',
+        isActive: () => hasFlag('lira-asked') && !hasAllFlags(CHORES),
     },
     {
         id: 'report',
-        text: 'Tell Mom the work is done.',
+        text: 'Bring Lira the list — finished.',
         isActive: () => hasAllFlags(CHORES) && !hasFlag('act1-chores-done'),
     },
     {
@@ -30,13 +30,13 @@ const objectives: StoryObjective[] = [
         isActive: () => hasFlag('act1-chores-done') && !hasFlag('act1-attack'),
     },
     {
-        id: 'find-mom',
-        text: 'Find Mom. Now.',
-        isActive: () => hasFlag('act1-attack') && !hasFlag('act1-mom-dead'),
+        id: 'find-lira',
+        text: 'Lira’s cottage. Now.',
+        isActive: () => hasFlag('act1-attack') && !hasFlag('act1-lira-taken'),
     },
     {
         id: 'hermit',
-        text: 'Find the old hermit in the cave.',
+        text: 'Find the old soldier in the cave south of the fields.',
         isActive: () => hasFlag('act1-revenge') && !hasFlag('act2-hermit-met'),
     },
     {
@@ -56,7 +56,7 @@ const objectives: StoryObjective[] = [
     },
     {
         id: 'hunt-begins',
-        text: 'The hunt begins at first light.',
+        text: 'Follow the ash-mark east. Bring her home.',
         isActive: () => hasFlag('unlocked-magic'),
     },
 ];
