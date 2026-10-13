@@ -2,8 +2,12 @@ import './install-prompt.scss';
 
 const DISMISSED_AT_KEY = 'install-prompt-dismissed-at';
 const INSTALLED_KEY = 'install-prompt-installed';
-const DISMISS_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
-const IOS_HINT_DELAY_MS = 5000;
+const DISMISS_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+const SHOW_DELAY_MS = 4000;
+
+const INSTALL_MESSAGE = 'Install this game for the best experience';
+const IOS_MESSAGE = 'To install, tap Share, then "Add to Home Screen"';
+const BROWSER_MENU_MESSAGE = 'To install, open the browser menu and tap "Add to Home screen"';
 
 interface BeforeInstallPromptEvent extends Event {
     prompt(): Promise<void>;
@@ -51,7 +55,7 @@ export class InstallPrompt {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
             this.deferredPrompt = event as BeforeInstallPromptEvent;
-            this.show('Install this game for the best experience');
+            this.showInstallAction();
         });
 
         window.addEventListener('appinstalled', () => {
@@ -67,17 +71,23 @@ export class InstallPrompt {
             }
         });
 
-        // iOS never fires beforeinstallprompt, so the only option is pointing at the share sheet.
-        if (this.isIos() && !this.isDismissed()) {
-            window.setTimeout(() => {
-                if (this.deferredPrompt) {
-                    return;
-                }
+        // Chromium only fires beforeinstallprompt once its engagement heuristics are met and iOS never
+        // fires it at all, so the banner is shown on a timer and upgraded if the event arrives later.
+        window.setTimeout(() => this.showFallbackInstructions(), SHOW_DELAY_MS);
+    }
 
-                this.installButton.hidden = true;
-                this.show('To install, tap Share, then "Add to Home Screen"');
-            }, IOS_HINT_DELAY_MS);
+    private showFallbackInstructions() {
+        if (this.visible || this.deferredPrompt || !this.isMobile()) {
+            return;
         }
+
+        this.installButton.hidden = true;
+        this.show(this.isIos() ? IOS_MESSAGE : BROWSER_MENU_MESSAGE);
+    }
+
+    private showInstallAction() {
+        this.installButton.hidden = false;
+        this.show(INSTALL_MESSAGE);
     }
 
     private async install() {
@@ -112,13 +122,16 @@ export class InstallPrompt {
     }
 
     private show(message: string) {
-        if (this.visible || this.isInstalled() || this.isDismissed()) {
+        if (this.isInstalled() || this.isDismissed()) {
             return;
         }
 
         this.message.textContent = message;
-        this.visible = true;
-        this.banner.classList.add('install-prompt-visible');
+
+        if (!this.visible) {
+            this.visible = true;
+            this.banner.classList.add('install-prompt-visible');
+        }
     }
 
     private hide() {
@@ -140,6 +153,13 @@ export class InstallPrompt {
             window.matchMedia('(display-mode: fullscreen)').matches;
 
         return standalone || displayMode || this.read(INSTALLED_KEY) === '1';
+    }
+
+    private isMobile(): boolean {
+        return (
+            window.matchMedia('(pointer: coarse)').matches ||
+            /Android|iPhone|iPad|iPod/i.test(window.navigator.userAgent)
+        );
     }
 
     private isIos(): boolean {
