@@ -12,6 +12,7 @@ import { InputState } from './game/input/input-state';
 import { MobileControls } from './ui/mobile-controls/mobile-controls';
 import { GamepadStatus } from './ui/gamepad-status/gamepad-status';
 import { RotateOverlay } from './ui/rotate-overlay/rotate-overlay';
+import { InstallPrompt } from './ui/install-prompt/install-prompt';
 import { PauseControl } from './ui/pause-control/pause-control';
 import { FpsCounter } from './ui/fps-counter/fps-counter';
 import { getMobileControlsVisible, onMobileControlsVisibilityChange } from './game/input/mobile-controls-state';
@@ -74,6 +75,7 @@ new GamepadStatus({
     },
 });
 new RotateOverlay();
+new InstallPrompt();
 
 if (import.meta.env.DEV) {
     new FpsCounter(game);
