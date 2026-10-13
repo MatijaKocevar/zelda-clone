@@ -5,21 +5,12 @@ const INSTALLED_KEY = 'install-prompt-installed';
 const DISMISS_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 const SHOW_DELAY_MS = 4000;
 
-const INSTALL_MESSAGE = 'Install this game for the best experience';
 const IOS_MESSAGE = 'To install, tap Share, then "Add to Home Screen"';
 const BROWSER_MENU_MESSAGE = 'To install, open the browser menu and tap "Add to Home screen"';
-
-interface BeforeInstallPromptEvent extends Event {
-    prompt(): Promise<void>;
-    readonly userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
 
 export class InstallPrompt {
     private banner: HTMLDivElement;
     private message: HTMLParagraphElement;
-    private installButton: HTMLButtonElement;
-    private deferredPrompt: BeforeInstallPromptEvent | null = null;
-    private visible = false;
 
     constructor() {
         this.banner = document.createElement('div');
@@ -28,12 +19,6 @@ export class InstallPrompt {
         this.message = document.createElement('p');
         this.message.className = 'install-prompt-message';
 
-        this.installButton = document.createElement('button');
-        this.installButton.className = 'install-prompt-install';
-        this.installButton.type = 'button';
-        this.installButton.textContent = 'Install';
-        this.installButton.addEventListener('click', () => void this.install());
-
         const dismissButton = document.createElement('button');
         dismissButton.className = 'install-prompt-dismiss';
         dismissButton.type = 'button';
@@ -41,22 +26,16 @@ export class InstallPrompt {
         dismissButton.setAttribute('aria-label', 'Dismiss install suggestion');
         dismissButton.addEventListener('click', () => this.dismiss());
 
-        this.banner.append(this.message, this.installButton, dismissButton);
+        this.banner.append(this.message, dismissButton);
         document.body.appendChild(this.banner);
 
         this.init();
     }
 
     private init() {
-        if (this.isInstalled()) {
+        if (this.isInstalled() || !this.isMobile()) {
             return;
         }
-
-        window.addEventListener('beforeinstallprompt', (event) => {
-            event.preventDefault();
-            this.deferredPrompt = event as BeforeInstallPromptEvent;
-            this.showInstallAction();
-        });
 
         window.addEventListener('appinstalled', () => {
             this.store(INSTALLED_KEY, '1');
@@ -71,71 +50,24 @@ export class InstallPrompt {
             }
         });
 
-        // Chromium only fires beforeinstallprompt once its engagement heuristics are met and iOS never
-        // fires it at all, so the banner is shown on a timer and upgraded if the event arrives later.
-        window.setTimeout(() => this.showFallbackInstructions(), SHOW_DELAY_MS);
-    }
-
-    private showFallbackInstructions() {
-        if (this.visible || this.deferredPrompt || !this.isMobile()) {
-            return;
-        }
-
-        this.installButton.hidden = true;
-        this.show(this.isIos() ? IOS_MESSAGE : BROWSER_MENU_MESSAGE);
-    }
-
-    private showInstallAction() {
-        this.installButton.hidden = false;
-        this.show(INSTALL_MESSAGE);
-    }
-
-    private async install() {
-        const prompt = this.deferredPrompt;
-
-        if (!prompt) {
-            return;
-        }
-
-        this.deferredPrompt = null;
-        this.hide();
-
-        try {
-            await prompt.prompt();
-            const { outcome } = await prompt.userChoice;
-
-            if (outcome !== 'accepted') {
-                this.rememberDismissal();
-            }
-        } catch {
-            this.rememberDismissal();
-        }
+        window.setTimeout(() => this.show(), SHOW_DELAY_MS);
     }
 
     private dismiss() {
-        this.rememberDismissal();
+        this.store(DISMISSED_AT_KEY, String(Date.now()));
         this.hide();
     }
 
-    private rememberDismissal() {
-        this.store(DISMISSED_AT_KEY, String(Date.now()));
-    }
-
-    private show(message: string) {
+    private show() {
         if (this.isInstalled() || this.isDismissed()) {
             return;
         }
 
-        this.message.textContent = message;
-
-        if (!this.visible) {
-            this.visible = true;
-            this.banner.classList.add('install-prompt-visible');
-        }
+        this.message.textContent = this.isIos() ? IOS_MESSAGE : BROWSER_MENU_MESSAGE;
+        this.banner.classList.add('install-prompt-visible');
     }
 
     private hide() {
-        this.visible = false;
         this.banner.classList.remove('install-prompt-visible');
     }
 
